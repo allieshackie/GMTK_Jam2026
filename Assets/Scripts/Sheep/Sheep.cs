@@ -21,13 +21,22 @@ public class Sheep : MonoBehaviour
     [SerializeField] private float _wanderRadius = 2;
     private bool _waitingForNewTarget = true;
 
+    // Animations
+    private Animator _sheepAnimator;
+
     public void Init(FlockManager flockManager)
     {
         _flockManager = flockManager;
     }
 
+    void Awake()
+    {
+    }
+
     void Start()
     {
+
+        _sheepAnimator = GetComponent<Animator>();
         _state = SheepState.Wander;
         GetWanderTarget();
     }
@@ -40,11 +49,14 @@ public class Sheep : MonoBehaviour
             {
                 return;
             }
+
+
             Vector3 distanceFromTarget = _currentWanderTarget - transform.position;
             if (distanceFromTarget.magnitude <= 0.1f)
             {
                 // Reached wander target, pick another
                 _waitingForNewTarget = true;
+                _sheepAnimator.SetBool("IsMoving", false);
                 Invoke(nameof(GetWanderTarget), Random.Range(1,5));
                 return;
             }
@@ -58,6 +70,7 @@ public class Sheep : MonoBehaviour
     private void GetWanderTarget()
     {
         _waitingForNewTarget = false;
+        _sheepAnimator.SetBool("IsMoving", true);
         Vector3 currentHomingTarget = _flockManager.GetTargetPoint();
         Vector2 randomOffset = Random.insideUnitCircle * _wanderRadius;
         _currentWanderTarget = currentHomingTarget + new Vector3(randomOffset.x, 0f, randomOffset.y);

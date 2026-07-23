@@ -3,7 +3,27 @@ guid: 5469cb007df656b428f84e560cc2ed9a
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat_Body
+    second: {fileID: 2100000, guid: 7a7807a0af6a27e48aecd90c4bf05834, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat_Ear
+    second: {fileID: 2100000, guid: 41c10acc916bb2949b91a7320a397f22, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat_Front_Leg
+    second: {fileID: 2100000, guid: 41c10acc916bb2949b91a7320a397f22, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat_Rear_Leg
+    second: {fileID: 2100000, guid: 41c10acc916bb2949b91a7320a397f22, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
