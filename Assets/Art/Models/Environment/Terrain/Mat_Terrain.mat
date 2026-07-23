@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AreaOne_Tex:
-        m_Texture: {fileID: 2800000, guid: edd3b1866f143ac4a91260c9cf56308e, type: 3}
+        m_Texture: {fileID: 2800000, guid: a20256d6de7228a418a5e08884c5222c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AreaThree_Tex:
@@ -101,7 +101,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _AreaOne_NoiseScale: 4.5
+    - _AreaOne_NoiseScale: 1.93
     - _AreaThree_NoiseScale: 4.12
     - _AreaTwo_NoiseScale: 4.35
     - _Blend: 0
@@ -136,6 +136,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AreaOne_Tiling: {r: 25, g: 25, b: 0, a: 0}
+    - _AreaOne_Tint: {r: 0.48220006, g: 0.7924528, b: 0.5242682, a: 1}
     - _AreaThree_Tiling: {r: 25, g: 25, b: 0, a: 0}
     - _AreaTwo_Tiling: {r: 25, g: 25, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
