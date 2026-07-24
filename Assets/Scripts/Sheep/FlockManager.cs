@@ -8,11 +8,13 @@ public class FlockManager : MonoBehaviour
 
     [SerializeField] private float _spawnCount = 10;
 
-    [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private Transform _spawnPoint; // Home point to center on
 
     [SerializeField] private float _spawnRadius = 5;
 
     private List<Sheep> _flock = new List<Sheep>();
+
+    private List<Lure> _lures = new List<Lure>();
 
     void Start()
     {
@@ -37,6 +39,23 @@ public class FlockManager : MonoBehaviour
     public Vector3 GetTargetPoint()
     {
         return _spawnPoint.position;
+    }
+
+    public void AddLure(Lure lure)
+    {
+        Debug.Log("Lure Added");
+        _lures.Add(lure);
+    }
+
+    public void RemoveLure(Lure lure)
+    {
+        Debug.Log("Lure Removed");
+        _lures.Remove(lure);
+    }
+
+    public List<Lure> GetCurrentLures()
+    {
+        return _lures;
     }
 
 }

@@ -8,12 +8,16 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float _sprintModifier = 1.75f; // 1.6 * 1.75 = 2.8 and 2.8 movement speed feels good
 
+    [SerializeField] private Lure _lurePrefab;
+
     private bool _isSprinting = false;
 
     private Player_Controls _playerControls;
     private Transform _cameraTransform;
     private Rigidbody _rb;
     private Vector2 _inputVector;
+
+    private Lure _bellLure;
 
     private void Awake()
     {
@@ -32,6 +36,10 @@ public class PlayerMovement : MonoBehaviour
         _playerControls.Player.Sprint.canceled += OnSprint;
                                                             
         _playerControls.Player.Enable();
+
+        // Test version of lure
+        //_bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
+        //_bellLure.Initialize(40f, 2f);
     }
 
     private void OnDisable()
