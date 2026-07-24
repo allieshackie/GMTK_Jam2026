@@ -80,7 +80,6 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
         float currentMoveSpeed = _isSprinting ? _moveSpeed * _sprintModifier : _moveSpeed;
-
         Vector3 targetVelocity = moveDirection * currentMoveSpeed;
         targetVelocity.y = _rb.linearVelocity.y;
 
