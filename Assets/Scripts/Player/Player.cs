@@ -1,14 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 1.6f;
     [SerializeField] private float _acceleration = 12f;
 
-    [SerializeField] private float _sprintModifier = 1.75f; // 1.6 * 1.75 = 2.8 and 2.8 movement speed feels good
+    [SerializeField] private float _sprintModifier = 1.75f;
 
     [SerializeField] private Lure _lurePrefab;
+
+    [SerializeField] private float _attackCooldown = 0.05f;
+
+    private bool _isAttacking = false;
+    private bool _canAttack = true;
+    private float _currentAttackCooldown = 0f;
 
     private bool _isSprinting = false;
 
@@ -18,6 +24,36 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _inputVector;
 
     private Lure _bellLure;
+
+    #region Input Subscription
+    private void SubscribeInputs() 
+    {
+        _playerControls.Player.Movement.performed += OnMove;
+        _playerControls.Player.Movement.canceled += OnMove;
+
+        _playerControls.Player.Sprint.performed += OnSprint;
+        _playerControls.Player.Sprint.canceled += OnSprint;
+
+        _playerControls.Player.Attack.performed += OnAttack;
+        _playerControls.Player.Attack.canceled += OnAttack;
+
+        _playerControls.Player.Enable();
+    }
+
+    private void UnsubscribeInputs()
+    {
+        _playerControls.Player.Movement.performed -= OnMove;
+        _playerControls.Player.Movement.canceled -= OnMove;
+
+        _playerControls.Player.Sprint.performed -= OnSprint;
+        _playerControls.Player.Sprint.canceled -= OnSprint;
+
+        _playerControls.Player.Attack.performed -= OnAttack;
+        _playerControls.Player.Attack.canceled -= OnAttack;
+
+        _playerControls.Player.Disable();
+    }
+    #endregion
 
     private void Awake()
     {
@@ -29,13 +65,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
 
-        _playerControls.Player.Movement.performed += OnMove;
-        _playerControls.Player.Movement.canceled += OnMove;
-
-        _playerControls.Player.Sprint.performed += OnSprint;
-        _playerControls.Player.Sprint.canceled += OnSprint;
-                                                            
-        _playerControls.Player.Enable();
+        SubscribeInputs();
 
         // Test version of lure
         //_bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
@@ -44,13 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerControls.Player.Movement.performed -= OnMove;
-        _playerControls.Player.Movement.canceled -= OnMove;
-
-        _playerControls.Player.Sprint.performed -= OnSprint;
-        _playerControls.Player.Sprint.canceled -= OnSprint;
-
-        _playerControls.Player.Disable();
+        UnsubscribeInputs();
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -61,6 +85,29 @@ public class PlayerMovement : MonoBehaviour
     private void OnSprint(InputAction.CallbackContext context)
     {
         _isSprinting = context.ReadValueAsButton();
+    }
+
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        _isAttacking = context.ReadValueAsButton();
+        print("Player Attack");
+    }
+
+    private void Update()
+    {
+        if (_isAttacking && _canAttack)
+        {
+            _currentAttackCooldown = _attackCooldown;
+            _canAttack = false;
+        
+            // Play Attack Anim
+        }
+
+        if (!_canAttack)
+        {
+            _currentAttackCooldown -= Time.deltaTime;
+            _canAttack = _currentAttackCooldown <= 0f ? true : false;
+        }
     }
 
     private void FixedUpdate()
