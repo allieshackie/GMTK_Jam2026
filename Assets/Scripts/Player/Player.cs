@@ -12,18 +12,22 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _attackCooldown = 0.05f;
 
+    [SerializeField] private float _lureCooldown = 0.05f;
+
     private bool _isAttacking = false;
     private bool _canAttack = true;
     private float _currentAttackCooldown = 0f;
 
     private bool _isSprinting = false;
 
+    private bool _canLure = false;
+
+     private float _currentLureCooldown = 0f;
+
     private Player_Controls _playerControls;
     private Transform _cameraTransform;
     private Rigidbody _rb;
     private Vector2 _inputVector;
-
-    private Lure _bellLure;
 
     #region Input Subscription
     private void SubscribeInputs() 
@@ -36,6 +40,9 @@ public class Player : MonoBehaviour
 
         _playerControls.Player.Attack.performed += OnAttack;
         _playerControls.Player.Attack.canceled += OnAttack;
+
+        _playerControls.Player.BellLure.performed += OnBellLure;
+        _playerControls.Player.BellLure.canceled += OnBellLure;
 
         _playerControls.Player.Enable();
     }
@@ -50,6 +57,9 @@ public class Player : MonoBehaviour
 
         _playerControls.Player.Attack.performed -= OnAttack;
         _playerControls.Player.Attack.canceled -= OnAttack;
+
+        _playerControls.Player.BellLure.performed -= OnBellLure;
+        _playerControls.Player.BellLure.canceled -= OnBellLure;
 
         _playerControls.Player.Disable();
     }
@@ -67,9 +77,6 @@ public class Player : MonoBehaviour
 
         SubscribeInputs();
 
-        // Test version of lure
-        //_bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
-        //_bellLure.Initialize(40f, 2f);
     }
 
     private void OnDisable()
@@ -93,6 +100,20 @@ public class Player : MonoBehaviour
         print("Player Attack");
     }
 
+    private void OnBellLure(InputAction.CallbackContext context)
+    {
+        bool isLuring = context.ReadValueAsButton();
+        if(isLuring && _canLure)
+        {
+            _currentLureCooldown = _lureCooldown;
+            _canLure = false;
+            Lure _bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
+            _bellLure.Initialize(40f, 15f);
+
+            Destroy(_bellLure.gameObject, 3f);
+        }
+    }
+
     private void Update()
     {
         if (_isAttacking && _canAttack)
@@ -107,6 +128,12 @@ public class Player : MonoBehaviour
         {
             _currentAttackCooldown -= Time.deltaTime;
             _canAttack = _currentAttackCooldown <= 0f ? true : false;
+        }
+
+        if (!_canLure)
+        {
+            _currentLureCooldown -= Time.deltaTime;
+            _canLure = _currentLureCooldown <= 0f ? true : false;
         }
     }
 

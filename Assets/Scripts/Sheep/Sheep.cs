@@ -119,17 +119,30 @@ public class Sheep : MonoBehaviour
 
     private void CheckLureInfluence()
     {
-        foreach(Lure lure in _flockManager.GetCurrentLures())
+        Lure strongestLure = null;
+        float strongestInfluence = 0f;
+
+        foreach (Lure lure in _flockManager.GetCurrentLures())
         {
-            Vector3 distanceFromTarget = lure.transform.position - transform.position;
-            float influence = lure.LureStrength * (1 - distanceFromTarget.magnitude / lure.Radius);
-            if (influence >= _lureThreshold)
+            Vector3 offset = lure.transform.position - transform.position;
+            float influence = lure.LureStrength * (1 - offset.magnitude / lure.Radius);
+
+            if (influence > strongestInfluence)
             {
-                _currentTarget = lure.transform.position;
-                SetState(SheepState.Lure);
-                break;
-            } 
-        } 
+                strongestInfluence = influence;
+                strongestLure = lure;
+            }
+        }
+
+        if (strongestLure != null && strongestInfluence >= _lureThreshold)
+        {
+            _currentTarget = strongestLure.transform.position;
+            SetState(SheepState.Lure);
+        }
+        else if (_state == SheepState.Lure)
+        {
+            _currentTarget = _flockManager.GetTargetPoint();
+        }
     }
 
     private Vector3 Lure()
@@ -204,9 +217,6 @@ public class Sheep : MonoBehaviour
         Move(sheepSteer);
         UpdateGroundPosition();
 
-        if (_state != SheepState.Lure)
-        {
-            CheckLureInfluence();
-        }
+        CheckLureInfluence();
     }
 }
