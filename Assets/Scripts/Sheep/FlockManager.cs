@@ -58,4 +58,9 @@ public class FlockManager : MonoBehaviour
         return _lures;
     }
 
+    public List<Sheep> GetCurrentFlock()
+    {
+        return _flock;
+    }
+
 }
