@@ -304,20 +304,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "192becd21d4b4278b2512460e2b8b415"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "c31ccd887ecb45d1ae3ddbc77d673423"
-                },
-                "m_SlotId": 2
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "192f6c9dafd6457e880070888d3cf172"
                 },
                 "m_SlotId": 0
@@ -968,7 +954,7 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "c31ccd887ecb45d1ae3ddbc77d673423"
+                    "m_Id": "537c4407d8394d12902d8e857bcd2d76"
                 },
                 "m_SlotId": 0
             }
@@ -1277,20 +1263,6 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "192becd21d4b4278b2512460e2b8b415"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "c31ccd887ecb45d1ae3ddbc77d673423"
-                },
-                "m_SlotId": 3
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "537c4407d8394d12902d8e857bcd2d76"
                 },
                 "m_SlotId": 0
             }
@@ -2710,7 +2682,7 @@
     "m_Title": "Normal Outlines. Need to revise this.",
     "m_Position": {
         "x": -2539.0,
-        "y": 2348.999755859375
+        "y": 2349.0
     }
 }
 
