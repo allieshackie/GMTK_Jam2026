@@ -353,10 +353,11 @@ MonoBehaviour:
   _moveSpeed: 2
   _acceleration: 1
   _turnSpeed: 8
+  _reachedDestRadius: 1.5
   _lureThreshold: 0
   _wanderRadius: 10
   _wanderForce: 0.3
-  _separationRadius: 5
+  _separationRadius: 3
   _separationForce: 0.5
   _groundLayer:
     serializedVersion: 2

@@ -53,7 +53,7 @@ public class Sheep : MonoBehaviour
     void Start()
     {
         _sheepAnimator = GetComponent<Animator>();
-        SetState(SheepState.Wander);
+        SetState(SheepState.Idle);
     }
 
     public void SetState(SheepState newState)
@@ -150,7 +150,7 @@ public class Sheep : MonoBehaviour
 
         _velocity = Vector3.Lerp(_velocity, sheepSteering.normalized * _moveSpeed, Time.deltaTime * _acceleration);
 
-        if (_velocity.sqrMagnitude < 0.01f)
+        if (_velocity.sqrMagnitude < 0.03f)
         {
             _velocity = Vector3.zero;
             _sheepAnimator.SetBool("IsMoving", false);
