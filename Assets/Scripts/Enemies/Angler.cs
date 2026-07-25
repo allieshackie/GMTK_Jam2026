@@ -48,6 +48,9 @@ public class Angler : MonoBehaviour
     [SerializeField] private float _sheepCapturedTime;
     [SerializeField] private float _capturedSheepMoveSpeed = 1f;
 
+    //Animation
+    [SerializeField] private Animator _anglerAnimator;
+
     private Sheep _grabbedSheep;
     private float _captureTimer;
 
@@ -120,6 +123,7 @@ public class Angler : MonoBehaviour
             return;
         }
 
+        _anglerAnimator.SetFloat("Velocity", _velocity.sqrMagnitude);
         transform.position += _velocity * Time.deltaTime;
 
         if (_velocity.sqrMagnitude > 0.01f)
@@ -216,6 +220,7 @@ public class Angler : MonoBehaviour
     {
         if (_currentLure == null)
         {
+            _anglerAnimator.SetBool("IsLuring", true);
             _currentLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
             _flockManager.GetClosestSheep(transform.position, out float lureRadius);
             lureRadius = Math.Max(lureRadius + 3, 15f);
@@ -225,6 +230,7 @@ public class Angler : MonoBehaviour
 
     private void GrabSheep(Sheep sheep)
     {
+        _anglerAnimator.SetBool("IsLuring", false);
         _grabbedSheep = sheep;
         sheep.Grab(transform);
 
