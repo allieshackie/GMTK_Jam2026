@@ -26,6 +26,7 @@ public class Wrymm : MonoBehaviour
     [Header("Attacking")]
     [SerializeField] private float _attackDuration = 2f; // TODO: Make this match the length of the Attack Animation
     [SerializeField] private float _playerTargetCooldown = 2f;
+    [SerializeField] private Animator _wyrmmAnimator;
 
     private FlockManager _flockManager;
     private Player _player;
@@ -93,11 +94,15 @@ public class Wrymm : MonoBehaviour
     {
         Vector3 direction = (target.position - transform.position).normalized;
 
+        _wyrmmAnimator.SetFloat("Velocity", _moveSpeed);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
         transform.position += _moveSpeed * Time.deltaTime * direction;
     }
 
     private void Retreat()
     {
+        _wyrmmAnimator.SetFloat("Velocity", _retreatSpeed);
         transform.position -= _retreatSpeed * Time.deltaTime * transform.forward;
     }
 
@@ -207,11 +212,15 @@ public class Wrymm : MonoBehaviour
     {
         float attackTimer = 0f;
 
+        _wyrmmAnimator.SetTrigger("IsAttacking"); // Moved it out of th while loop, as the attack anim is only a trigger, feel free to move this noah, this just fires a single request to attack to the animation controller.
+        //_wyrmmAnimator.SetTrigger("IsAttacked"); // Not sure where the on wyrmm hit stuff is, so feel free to move this where that exists.
+        
         while (attackTimer < _attackDuration)
         {
             attackTimer += Time.deltaTime;
 
             // TODO: Add attack animation here
+
 
             yield return null;
         }
@@ -239,6 +248,7 @@ public class Wrymm : MonoBehaviour
     {
         float attackTimer = 0f;
 
+        _wyrmmAnimator.SetTrigger("IsAttacking");
         while (attackTimer < _attackDuration)
         {
             attackTimer += Time.deltaTime;
@@ -282,6 +292,8 @@ public class Wrymm : MonoBehaviour
     private IEnumerator AttackFence()
     {
         float attackTimer = 0f;
+
+        _wyrmmAnimator.SetTrigger("IsAttacking");
 
         while (attackTimer < _attackDuration)
         {
