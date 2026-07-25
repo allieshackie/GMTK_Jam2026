@@ -43,6 +43,14 @@ public class Angler : MonoBehaviour
 
     private Lure _currentLure;
 
+    // Grabbing
+    [SerializeField] private float _grabbingDistance;
+    [SerializeField] private float _sheepCapturedTime;
+    [SerializeField] private float _capturedSheepMoveSpeed = 1f;
+
+    private Sheep _grabbedSheep;
+    private float _captureTimer;
+
     private AnglerState _state;
 
     private Vector3 _velocity;
@@ -63,6 +71,11 @@ public class Angler : MonoBehaviour
     public void SetState(AnglerState newState)
     {
         _state = newState;
+
+        if (_state == AnglerState.Hunt)
+        {
+            _findNewHuntingSpot = true;
+        }
     }
 
 
@@ -87,12 +100,13 @@ public class Angler : MonoBehaviour
 
         if (distance > _minPlayerDistance)
         {
-            return Vector3.zero;    
+            return Vector3.zero;
         }
 
         Vector3 away = -toPlayer.normalized;
 
-        float strength = 1f - (distance / _avoidDistance);
+        float strength = 1f - (distance / _minPlayerDistance);
+
         return away * strength;
     }
 
@@ -138,9 +152,15 @@ public class Angler : MonoBehaviour
         rank -= Mathf.Abs(herdDistance - _preferredFlockDistance);
 
         // Prefer being farther from player
-        float playerDistance = Vector3.Distance(position, _player.transform.position) * _avoidPlayerForce;
-        rank += Mathf.Clamp(playerDistance, 0, _minPlayerDistance);
+        float playerDistance = Vector3.Distance(position, _player.transform.position);
+        rank += Mathf.Clamp(playerDistance * _avoidPlayerForce, 0, 20);
         return rank;
+    }
+
+    private bool IsHuntingSpotValid()
+    {
+        float playerDistance = Vector3.Distance(_huntingSpot, _player.transform.position);
+        return playerDistance >= _minPlayerDistance;
     }
 
     private Vector3 FindHuntingSpot()
@@ -168,7 +188,7 @@ public class Angler : MonoBehaviour
 
     Vector3 Hunting()
     {
-        if (_findNewHuntingSpot)
+        if (_findNewHuntingSpot || !IsHuntingSpotValid())
         {
             _findNewHuntingSpot = false;
             _huntingSpot = FindHuntingSpot();
@@ -177,7 +197,7 @@ public class Angler : MonoBehaviour
         Vector3 distanceFromTarget = _huntingSpot - transform.position;
         float distance = distanceFromTarget.magnitude;
 
-        if (distance <= 0.5f)
+        if (distance <= 1.5f)
         {
             _velocity = Vector3.zero;
             SetState(AnglerState.Lure);
@@ -205,6 +225,43 @@ public class Angler : MonoBehaviour
         }
     }
 
+    private void GrabSheep(Sheep sheep)
+    {
+        _grabbedSheep = sheep;
+        sheep.Grab(transform);
+
+        _captureTimer = _sheepCapturedTime;
+        SetState(AnglerState.Grab);
+    }
+    
+    private void CheckForSheepToGrab()
+    {
+        if (_state != AnglerState.Grab)
+        {
+            Sheep closest = _flockManager.GetClosestSheep(transform.position, out float distance);
+            if (closest != null && distance <= _grabbingDistance)
+            {
+                GrabSheep(closest);
+                if (_currentLure)
+                {
+                    Destroy(_currentLure);
+                }
+            }
+        }
+    }
+
+    private Vector3 CaptureSheep()
+    {
+        _captureTimer -= Time.deltaTime;
+        if (_captureTimer <= 0)
+        {
+            _grabbedSheep.Kill();
+            _grabbedSheep = null;
+            SetState(AnglerState.Hunt);
+        }
+        return (transform.position - _flockManager.GetHerdHomePoint()).normalized * _capturedSheepMoveSpeed;
+    }
+
     void Update()
     {
         Vector3 steer = Vector3.zero;
@@ -215,7 +272,11 @@ public class Angler : MonoBehaviour
                 steer += Hunting();
                 break;
             case AnglerState.Lure:
+                CheckForSheepToGrab();
                 Lure();
+                break;
+            case AnglerState.Grab:
+                steer += CaptureSheep();
                 break;
             default:
                 break;

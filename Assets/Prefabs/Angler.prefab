@@ -134,7 +134,7 @@ MonoBehaviour:
   _avoidDistance: 10
   _avoidRadius: 5
   _avoidForce: 2
-  _avoidPlayerForce: -15
+  _avoidPlayerForce: 15
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -144,3 +144,6 @@ MonoBehaviour:
   _huntRadius: 35
   _minPlayerDistance: 25
   _lurePrefab: {fileID: -5051844452188655869, guid: b4dfa334301cf114ebf246f5b6048d66, type: 3}
+  _grabbingDistance: 5
+  _sheepCapturedTime: 3
+  _capturedSheepMoveSpeed: 1
