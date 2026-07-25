@@ -19,6 +19,7 @@ public class Sheep : MonoBehaviour
 
     [Tooltip("The amount of influence needed for a sheep to be attracted by a lure")]
     [SerializeField] private float _lureThreshold = 2f;
+    [SerializeField] private float _returnHomeDistance = 2f;
     // Wander 
     [SerializeField] private float _wanderRadius = 2;
     [SerializeField] private float _wanderForce = 0.3f;
@@ -39,6 +40,14 @@ public class Sheep : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _groundRayDistance = 5f;
     [SerializeField] private float _groundOffset = 0.05f;
+
+    // Flee 
+    [SerializeField] private float _panicRadius = 8f;
+    [SerializeField] private float _fleeForce = 2.0f;
+    [SerializeField] private float _fleeTime = 2.0f;
+    [SerializeField] private float _fleeSpeed = 2.0f;
+    private Vector3 _fleeDirection;
+    private float _fleeTimer;
 
     private Vector3 _currentTarget;
     private Vector3 _velocity;
@@ -71,6 +80,24 @@ public class Sheep : MonoBehaviour
             float delay = Random.Range(6f, 25f) + _randomLogicOffset;
             Invoke(nameof(GetWanderTarget), delay);
         }
+
+        if (_state == SheepState.Flee)
+        {
+            Angler angler = GetClosestAngler();
+            if (angler)
+            {
+                Vector3 away = transform.position - angler.transform.position;
+                Vector3 random = Random.insideUnitSphere;
+                random.y = 0;
+                _fleeDirection = (away.normalized + random * 0.5f).normalized;
+                _fleeTimer = _fleeTime;
+            }
+        }
+    }
+
+    public SheepState GetState()
+    {
+        return _state;
     }
 
     public void Grab(Transform monsterTransform)
@@ -201,6 +228,15 @@ public class Sheep : MonoBehaviour
             _currentTarget = strongestLure.transform.position;
             SetState(SheepState.Lure);
         }
+
+        // If no lures, and not currently targeting home
+        if (strongestLure == null && _currentTarget != _flockManager.GetHerdHomePoint())
+        {
+            if (Vector3.Distance(transform.position, _flockManager.GetHerdHomePoint()) <= _returnHomeDistance)
+            {
+                _currentTarget = _flockManager.GetHerdHomePoint();
+            }
+        }
     }
 
     private Vector3 Lure()
@@ -219,7 +255,15 @@ public class Sheep : MonoBehaviour
     {
         sheepSteering.y = 0;
 
-        float speed = _state == SheepState.Wander ? _wanderSpeed : _moveSpeed;
+        float speed = _moveSpeed;
+        if (_state == SheepState.Wander)
+        {
+            speed = _wanderSpeed;
+        }
+        else if (_state == SheepState.Flee)
+        {
+            speed = _fleeSpeed;
+        }
 
         Vector3 desiredVelocity = sheepSteering.normalized * speed;
         _velocity = Vector3.Lerp(_velocity, sheepSteering.normalized * speed, Time.deltaTime * _acceleration);
@@ -254,6 +298,63 @@ public class Sheep : MonoBehaviour
         }
     }
 
+    private void CheckForPanicState()
+    {
+        if (_state == SheepState.Flee)
+        {
+            return;
+        }
+        foreach (Sheep sheep in _flockManager.GetCurrentFlock())
+        {
+            if (sheep == this)
+            {
+                continue;
+            }
+
+            if (sheep.GetState() == SheepState.Grabbed)
+            {
+                float distance = Vector3.Distance(transform.position, sheep.transform.position);
+                if (distance <= _panicRadius)
+                {
+                    SetState(SheepState.Flee);
+                    return;
+                }
+            }
+        }
+    }
+
+    public Angler GetClosestAngler()
+    {
+        Angler[] allAnglers = FindObjectsByType<Angler>();
+        Angler closest = null;
+        float distance = float.MaxValue;
+
+        foreach (Angler angler in allAnglers)
+        {
+            float currentDistance = Vector3.Distance(transform.position, angler.transform.position);
+            if (currentDistance < distance)
+            {
+                closest = angler;
+            }
+        }
+
+        return closest;
+    }
+
+    private Vector3 Flee()
+    {
+        return _fleeDirection;
+    }
+
+    private void CountdownFleeState()
+    {
+        _fleeTimer -= Time.deltaTime;
+        if (_fleeTimer <= 0)
+        {
+            SetState(SheepState.Idle);
+        }
+    }
+
     void Update()
     {
         Vector3 sheepSteer = Vector3.zero;
@@ -272,6 +373,10 @@ public class Sheep : MonoBehaviour
             case SheepState.Grabbed:
                 // Disable all movement
                 return;
+            case SheepState.Flee:
+                sheepSteer += Flee() * _fleeForce;
+                CountdownFleeState();
+                break;
             default:
                 break;
         }
@@ -283,5 +388,6 @@ public class Sheep : MonoBehaviour
         UpdateGroundPosition();
 
         CheckLureInfluence();
+        CheckForPanicState();
     }
 }

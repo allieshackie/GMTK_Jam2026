@@ -51,6 +51,7 @@ MonoBehaviour:
   _acceleration: 1
   _turnSpeed: 8
   _lureThreshold: 1
+  _returnHomeDistance: 2
   _wanderRadius: 6
   _wanderForce: 0.3
   _wanderSpeed: 1
@@ -67,6 +68,10 @@ MonoBehaviour:
     m_Bits: 64
   _groundRayDistance: 5
   _groundOffset: 0.05
+  _panicRadius: 8
+  _fleeForce: 2
+  _fleeTime: 2
+  _fleeSpeed: 5
   _sheepAnimator: {fileID: 5859404988687419911}
 --- !u!54 &1801338045441825949
 Rigidbody:
