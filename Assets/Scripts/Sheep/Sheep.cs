@@ -58,6 +58,7 @@ public class Sheep : MonoBehaviour
     {
         _sheepAnimator = GetComponent<Animator>();
         SetState(SheepState.Idle);
+        _currentTarget = _flockManager.GetHerdHomePoint();
     }
 
     public void SetState(SheepState newState)
@@ -126,7 +127,14 @@ public class Sheep : MonoBehaviour
 
     private void Idle()
     {
-        
+        if (_currentTarget == _flockManager.GetHerdHomePoint())
+        {   
+            if (Vector3.Distance(_currentTarget, transform.position) <= _wanderRadius)
+            {
+                // Queue wander after some time
+                SetState(SheepState.Wander);
+            }
+        }
     }
 
     private Vector3 Wander()
@@ -245,6 +253,7 @@ public class Sheep : MonoBehaviour
         switch(_state)
         {
             case SheepState.Idle: 
+                Idle();
                 break;
             case SheepState.Wander: 
                 sheepSteer += Wander() * _wanderForce;
