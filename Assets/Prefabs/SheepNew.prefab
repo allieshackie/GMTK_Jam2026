@@ -59,10 +59,10 @@ MonoBehaviour:
   _separationForce: 0.4
   _obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
-  _avoidDistance: 2
-  _avoidRadius: 0.4
-  _avoidForce: 2
+    m_Bits: 128
+  _avoidDistance: 3
+  _avoidRadius: 1
+  _avoidForce: 5
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64

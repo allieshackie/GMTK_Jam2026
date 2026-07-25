@@ -12,6 +12,8 @@ public class FlockManager : MonoBehaviour
 
     [SerializeField] private float _spawnRadius = 5;
 
+    [SerializeField] private LayerMask _obstacleLayer;
+
     private List<Sheep> _flock = new List<Sheep>();
 
     private List<Lure> _lures = new List<Lure>();
@@ -20,9 +22,7 @@ public class FlockManager : MonoBehaviour
     {
         for (int i = 0; i < _spawnCount; i++)
         {
-            Vector2 randomOffset = Random.insideUnitCircle * _spawnRadius;
-
-            Vector3 position = _spawnPoint.position + new Vector3(randomOffset.x, 0f, randomOffset.y);
+            Vector3 position = FindValidSpawnPosition();
             Sheep newSheep = Instantiate(_sheepPrefab, position, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
 
             newSheep.Init(this);
@@ -37,6 +37,25 @@ public class FlockManager : MonoBehaviour
     {
         
     }
+
+    private Vector3 FindValidSpawnPosition()
+{
+    const int maxAttempts = 50;
+
+    for (int attempt = 0; attempt < maxAttempts; attempt++)
+    {
+        Vector2 randomOffset = Random.insideUnitCircle * _spawnRadius;
+        Vector3 position = _spawnPoint.position + new Vector3(randomOffset.x, 0f, randomOffset.y);
+
+        // Check if this position is inside an obstacle
+        if (!Physics.CheckSphere(position, 0.5f, _obstacleLayer))
+        {
+            return position;
+        }
+    }
+
+    return _spawnPoint.position;
+}
 
     public Vector3 GetHerdHomePoint()
     {
