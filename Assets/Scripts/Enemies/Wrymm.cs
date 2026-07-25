@@ -76,6 +76,17 @@ public class Wrymm : MonoBehaviour
         }
     }
 
+    private void OnHit()
+    {
+        if (_targetSheep != null)
+        {
+            _targetSheep.Release();
+            _targetSheep = null;
+
+            //SetState(AnglerState.Stun);
+        }
+    }
+
     private void Hunt()
     {
         FindNewTarget();
