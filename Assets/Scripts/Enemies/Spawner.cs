@@ -33,7 +33,6 @@ public class Spawner : MonoBehaviour
     {
         while (true)
         {
-            print($"Spawning {_enemyToSpawnPrefab.name}");
             Instantiate(_enemyToSpawnPrefab, transform.position, transform.rotation);
             yield return new WaitForSeconds(_spawnInterval);
         }
