@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     private void SetState(GameState newState)
     {
         _state = newState;
-        OnGameStateChanged(_state);
+        OnGameStateChanged?.Invoke(_state);
     }
 
     public void StartLevel()
@@ -60,6 +60,11 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public float GetCountdown()
+    {
+        return _gameTimer;
     }
 
     void UpdatePlaying()
