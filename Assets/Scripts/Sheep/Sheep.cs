@@ -218,11 +218,8 @@ public class Sheep : MonoBehaviour
         if (desiredVelocity.sqrMagnitude < 0.001f && _velocity.sqrMagnitude < 0.03f)
         {
             _velocity = Vector3.zero;
-            _sheepAnimator.SetBool("IsMoving", false);
             return;
         }
-
-        _sheepAnimator.SetBool("IsMoving", true);
 
         transform.position += _velocity * Time.deltaTime;
 
@@ -231,6 +228,8 @@ public class Sheep : MonoBehaviour
             Vector3 direction = _velocity.normalized;
             transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * _turnSpeed);
         }
+
+        _sheepAnimator.SetFloat("Velocity", _velocity.magnitude);
     }
 
     private void UpdateGroundPosition()
