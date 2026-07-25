@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public enum GameState
     {
+        MainMenu,
         LevelStart,
         Playing,
         LevelComplete,
@@ -30,6 +31,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        SetState(GameState.MainMenu);
+    }
+
     private void Update()
     {
         switch (_state)
@@ -45,7 +51,7 @@ public class GameManager : MonoBehaviour
     private void SetState(GameState newState)
     {
         _state = newState;
-        OnGameStateChanged(_state);
+        OnGameStateChanged?.Invoke(_state);
     }
 
     public void StartLevel()
@@ -60,6 +66,11 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public float GetCountdown()
+    {
+        return _gameTimer;
     }
 
     void UpdatePlaying()
