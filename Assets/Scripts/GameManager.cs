@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public enum GameState
     {
+        MainMenu,
         LevelStart,
         Playing,
         LevelComplete,
@@ -28,6 +29,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        SetState(GameState.MainMenu);
     }
 
     private void Update()
