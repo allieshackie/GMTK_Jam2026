@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,14 +6,12 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 1.6f;
     [SerializeField] private float _acceleration = 12f;
-
     [SerializeField] private float _sprintModifier = 1.75f;
-
     [SerializeField] private Lure _lurePrefab;
-
     [SerializeField] private float _attackCooldown = 0.05f;
-
     [SerializeField] private float _lureCooldown = 0.05f;
+    [SerializeField] private Transform _playerMesh;
+    [SerializeField] private Animator _playerAnimator;
 
     private bool _isAttacking = false;
     private bool _canAttack = true;
@@ -87,6 +86,7 @@ public class Player : MonoBehaviour
     private void OnMove(InputAction.CallbackContext context)
     {
         _inputVector = context.ReadValue<Vector2>();
+
     }
 
     private void OnSprint(InputAction.CallbackContext context)
@@ -153,10 +153,17 @@ public class Player : MonoBehaviour
         Vector3 moveDirection = (cameraRight * input.x) + (cameraForward * input.y);
         moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
+        if (moveDirection != Vector3.zero)
+        {
+            _playerMesh.transform.rotation = Quaternion.Slerp(_playerMesh.transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * 5f);
+        }
+
         float currentMoveSpeed = _isSprinting ? _moveSpeed * _sprintModifier : _moveSpeed;
         Vector3 targetVelocity = moveDirection * currentMoveSpeed;
         targetVelocity.y = _rb.linearVelocity.y;
 
         _rb.linearVelocity = targetVelocity;
+
+        _playerAnimator.SetFloat("Velocity", _rb.linearVelocity.magnitude);
     }
 }
