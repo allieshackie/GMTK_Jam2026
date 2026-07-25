@@ -30,11 +30,6 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        StartLevel();
-    }
-
     private void Update()
     {
         switch (_state)
@@ -47,13 +42,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void StartLevel()
+    public void StartLevel()
     {
         _state = GameState.LevelStart;
 
         _gameTimer = _levelDuration;
 
         _state = GameState.Playing;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     void UpdatePlaying()
