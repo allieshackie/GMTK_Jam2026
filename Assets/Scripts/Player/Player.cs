@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
 
     private bool _canLure = false;
 
-     private float _currentLureCooldown = 0f;
+    private float _currentLureCooldown = 0f;
 
     private Player_Controls _playerControls;
     private Transform _cameraTransform;
