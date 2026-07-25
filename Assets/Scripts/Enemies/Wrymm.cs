@@ -83,7 +83,7 @@ public class Wrymm : MonoBehaviour
             _targetSheep.Release();
             _targetSheep = null;
 
-            //SetState(AnglerState.Stun);
+            _currentState = WrymmState.Retreating;
         }
     }
 
