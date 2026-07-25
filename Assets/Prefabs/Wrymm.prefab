@@ -129,3 +129,9 @@ MonoBehaviour:
   _retreatSpeed: 3
   _attackDuration: 2
   _playerTargetCooldown: 2
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  _avoidDistance: 2
+  _avoidRadius: 0.4
+  _avoidForce: 2

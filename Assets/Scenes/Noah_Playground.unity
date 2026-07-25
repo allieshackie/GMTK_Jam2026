@@ -451,6 +451,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Fence (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
       value: 1
@@ -794,6 +798,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Fence (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
       value: 1
@@ -1097,6 +1105,10 @@ PrefabInstance:
     - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: m_Name
       value: Wood_Fence (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
@@ -2016,6 +2028,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Fence (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
       value: 1
@@ -2076,6 +2092,10 @@ PrefabInstance:
     - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: m_Name
       value: Wood_Fence (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
@@ -2392,6 +2412,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Fence (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
       value: 1
@@ -2615,6 +2639,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Fence (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
       value: 1
@@ -2803,6 +2831,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Fence (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
       value: 1
@@ -2976,6 +3008,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Fence (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
       value: 1
@@ -3036,6 +3072,10 @@ PrefabInstance:
     - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: m_Name
       value: Wood_Fence (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
@@ -3098,6 +3138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wrymm
       objectReference: {fileID: 0}
+    - target: {fileID: 1269428320665511020, guid: 8df12abe33b4dac489100eab8757d3dc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7845771781728901331, guid: 8df12abe33b4dac489100eab8757d3dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.27
@@ -3159,6 +3203,10 @@ PrefabInstance:
     - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: m_Name
       value: Wood_Fence
+      objectReference: {fileID: 0}
+    - target: {fileID: 672449663215924361, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: _hitPoints
@@ -3235,7 +3283,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1

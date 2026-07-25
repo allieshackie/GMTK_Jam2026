@@ -27,6 +27,12 @@ public class Wrymm : MonoBehaviour
     [SerializeField] private float _attackDuration = 2f; // TODO: Make this match the length of the Attack Animation
     [SerializeField] private float _playerTargetCooldown = 2f;
 
+    // Obstacle
+    [SerializeField] private LayerMask _obstacleLayer;
+    [SerializeField] private float _avoidDistance = 2.0f;
+    [SerializeField] private float _avoidRadius = 0.4f;
+    [SerializeField] private float _avoidForce = 2.0f;
+
     private FlockManager _flockManager;
     private Player _player;
 
@@ -40,6 +46,10 @@ public class Wrymm : MonoBehaviour
 
     private Vector3 _retreatStartPosition;
 
+    private Vector3 _velocity;
+
+    private bool _goAroundObstacle = false;
+
     private void OnEnable()
     {
         _flockManager = FindAnyObjectByType<FlockManager>();
@@ -50,10 +60,12 @@ public class Wrymm : MonoBehaviour
 
     private void Update()
     {
+        Vector3 steer = Vector3.zero;
+
         switch (_currentState)
         {
             case WrymmState.Hunting:
-                Hunt();
+                steer += Hunt();
                 break;
 
             case WrymmState.AttackingPlayer:
@@ -66,12 +78,20 @@ public class Wrymm : MonoBehaviour
                 break;
 
             case WrymmState.Retreating:
-                Retreat();
+                steer += Retreat();
                 break;
         }
+
+        if (_goAroundObstacle)
+        {
+            steer += AvoidObstacle() * _avoidForce;
+            Invoke("CancelAvoid", 0.5f);
+        }
+
+        MoveTowards(steer);
     }
 
-    private void Hunt()
+    private Vector3 Hunt()
     {
         // Continuously check whether another target
         // has become closer than the current target.
@@ -79,28 +99,98 @@ public class Wrymm : MonoBehaviour
 
         if (_targetType == TargetType.Player && _player != null)
         {
-            MoveTowards(_player.transform);
+            Vector3 distanceFromTarget = _player.transform.position - transform.position;
+            return distanceFromTarget.normalized;
+            //MoveTowards(_player.transform);
         }
         else if (_targetType == TargetType.Sheep && _targetSheep != null)
         {
-            MoveTowards(_targetSheep.transform);
+            Vector3 distanceFromTarget = _targetSheep.transform.position - transform.position;
+            return distanceFromTarget.normalized;
+            //MoveTowards(_targetSheep.transform);
         }
         else
         {
             FindNewTarget();
         }
+
+        return Vector3.zero;
     }
 
-    private void MoveTowards(Transform target)
+    private bool ShouldAttackObstacle()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 origin = transform.position + Vector3.up * 0.5f;
+        Vector3 forward = transform.forward;
 
-        transform.position += _moveSpeed * Time.deltaTime * direction;
+        Vector3 left = Quaternion.Euler(0, -30, 0) * forward;
+        Vector3 right = Quaternion.Euler(0, 30, 0) * forward;
+
+        bool centerBlocked = Physics.Raycast(origin, forward, _avoidDistance, _obstacleLayer);
+        bool leftBlocked = Physics.Raycast(origin, left, _avoidDistance, _obstacleLayer);
+        bool rightBlocked = Physics.Raycast(origin, right, _avoidDistance, _obstacleLayer);
+        
+        return centerBlocked && leftBlocked && rightBlocked;
     }
 
-    private void Retreat()
+    private void CancelAvoid()
     {
-        transform.position -= _retreatSpeed * Time.deltaTime * transform.forward;
+        _goAroundObstacle = false;
+    }
+
+    private Vector3 AvoidObstacle()
+    {
+        Vector3 origin = transform.position + Vector3.up * 0.5f;
+        Vector3 forward = transform.forward;
+
+        Vector3 left = Quaternion.Euler(0, -30, 0) * forward;
+        Vector3 right = Quaternion.Euler(0, 30, 0) * forward;
+
+        bool centerBlocked = Physics.Raycast(origin, forward, _avoidDistance, _obstacleLayer);
+        bool leftBlocked = Physics.Raycast(origin, left, _avoidDistance, _obstacleLayer);
+        bool rightBlocked = Physics.Raycast(origin, right, _avoidDistance, _obstacleLayer);
+
+        if (!centerBlocked)
+        {
+            return Vector3.zero;
+        }
+
+        if (!leftBlocked)
+        {
+            return left;
+        }
+
+        if (!rightBlocked)
+        {
+            return right;
+        }
+
+        // Fully blocked
+        return Vector3.zero;
+    }
+
+    private void MoveTowards(Vector3 target)
+    {
+        target.y = 0;
+
+        _velocity = Vector3.Lerp(_velocity, target, Time.deltaTime);
+        if (target.sqrMagnitude < 0.001f && _velocity.sqrMagnitude < 0.03f)
+        {
+            _velocity = Vector3.zero;
+            return;
+        }
+
+        transform.position += _velocity * Time.deltaTime;
+
+        if (_velocity.sqrMagnitude > 0.01f)
+        {
+            Vector3 direction = _velocity.normalized;
+            transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * 0.5f);
+        }
+    }
+
+    private Vector3 Retreat()
+    {
+        return (transform.position - transform.forward) * _retreatSpeed;
     }
 
     private void FindNewTarget()
@@ -193,7 +283,16 @@ public class Wrymm : MonoBehaviour
 
         if (fence != null)
         {
-            StartAttackingFence(fence);
+            Debug.Log("Entered Fence");
+            if (ShouldAttackObstacle())
+            {
+                Debug.Log("Attack Fence");
+                StartAttackingFence(fence);
+            }
+            else
+            {
+                _goAroundObstacle = true;
+            }
         }
     }
 
