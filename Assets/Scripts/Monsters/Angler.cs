@@ -78,7 +78,6 @@ public class Angler : MonoBehaviour
         }
     }
 
-
     private Vector3 AvoidObstacle()
     {
         Vector3 direction = _velocity.sqrMagnitude > 0.01f ? _velocity.normalized : transform.forward;
@@ -110,7 +109,6 @@ public class Angler : MonoBehaviour
         return away * strength;
     }
 
-    
     private void Move(Vector3 steer)
     {
         steer.y = 0;
@@ -257,7 +255,9 @@ public class Angler : MonoBehaviour
         {
             _grabbedSheep.Kill();
             _grabbedSheep = null;
-            SetState(AnglerState.Hunt);
+            //SetState(AnglerState.Hunt);
+            // TODO: Kill angler after sheep is captured, but could uncomment to make it hunt more
+            Destroy(gameObject);
         }
         return (transform.position - _flockManager.GetHerdHomePoint()).normalized * _capturedSheepMoveSpeed;
     }
