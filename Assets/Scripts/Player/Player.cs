@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
             _currentLureCooldown = _lureCooldown;
             _canLure = false;
             Lure _bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
-            _bellLure.Initialize(40f, 15f);
+            _bellLure.Initialize(12f, 15f);
 
             Destroy(_bellLure.gameObject, 3f);
         }

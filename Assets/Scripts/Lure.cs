@@ -25,4 +25,10 @@ public class Lure : MonoBehaviour
     {
         _flockManager.RemoveLure(this);
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, Radius);
+    }
 }

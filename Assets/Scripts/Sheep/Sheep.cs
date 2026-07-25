@@ -22,11 +22,18 @@ public class Sheep : MonoBehaviour
     // Wander 
     [SerializeField] private float _wanderRadius = 2;
     [SerializeField] private float _wanderForce = 0.3f;
+     [SerializeField] private float _wanderSpeed = 2f;
     private bool _waitingForNewTarget = true;
     
     // Separation
     [SerializeField] private float _separationRadius = 1.5f;
     [SerializeField] private float _separationForce = 2.0f;
+
+    // Obstacle
+    [SerializeField] private LayerMask _obstacleLayer;
+    [SerializeField] private float _avoidDistance = 2.0f;
+    [SerializeField] private float _avoidRadius = 0.4f;
+    [SerializeField] private float _avoidForce = 2.0f;
 
     // Ground Calcs
     [SerializeField] private LayerMask _groundLayer;
@@ -44,10 +51,6 @@ public class Sheep : MonoBehaviour
     public void Init(FlockManager flockManager)
     {
         _flockManager = flockManager;
-    }
-
-    void Awake()
-    {
     }
 
     void Start()
@@ -85,6 +88,20 @@ public class Sheep : MonoBehaviour
         return separation;
     }
 
+    private Vector3 AvoidObstacle()
+    {
+        Vector3 direction = _velocity.sqrMagnitude > 0.01f ? _velocity.normalized : transform.forward;
+
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, direction);
+
+        if (Physics.SphereCast(ray, _avoidRadius, out RaycastHit hit, _avoidDistance, _obstacleLayer))
+        {
+            return Vector3.ProjectOnPlane(hit.normal, Vector3.up).normalized;
+        }
+
+        return Vector3.zero;
+    }
+
     private void Idle()
     {
         
@@ -112,7 +129,7 @@ public class Sheep : MonoBehaviour
     private void GetWanderTarget()
     {
         _waitingForNewTarget = false;
-        Vector3 currentHomingTarget = _flockManager.GetTargetPoint();
+        Vector3 currentHomingTarget = _flockManager.GetHerdHomePoint();
         Vector2 randomOffset = Random.insideUnitCircle * _wanderRadius;
         _currentTarget = currentHomingTarget + new Vector3(randomOffset.x, 0f, randomOffset.y);
     }
@@ -125,6 +142,12 @@ public class Sheep : MonoBehaviour
         foreach (Lure lure in _flockManager.GetCurrentLures())
         {
             Vector3 offset = lure.transform.position - transform.position;
+            float distance = offset.magnitude;
+
+            if (distance > lure.Radius)
+            {
+                continue;
+            }
             float influence = lure.LureStrength * (1 - offset.magnitude / lure.Radius);
 
             if (influence > strongestInfluence)
@@ -139,16 +162,12 @@ public class Sheep : MonoBehaviour
             _currentTarget = strongestLure.transform.position;
             SetState(SheepState.Lure);
         }
-        else if (_state == SheepState.Lure)
-        {
-            _currentTarget = _flockManager.GetTargetPoint();
-        }
     }
 
     private Vector3 Lure()
     {
         Vector3 distanceFromTarget = _currentTarget - transform.position;
-        if (distanceFromTarget.magnitude <= 0.5f)
+        if (distanceFromTarget.magnitude <= 0.2f)
         {
             _velocity = Vector3.zero;
             return Vector3.zero;
@@ -161,9 +180,12 @@ public class Sheep : MonoBehaviour
     {
         sheepSteering.y = 0;
 
-        _velocity = Vector3.Lerp(_velocity, sheepSteering.normalized * _moveSpeed, Time.deltaTime * _acceleration);
+        float speed = _state == SheepState.Wander ? _wanderSpeed : _moveSpeed;
 
-        if (_velocity.sqrMagnitude < 0.03f)
+        Vector3 desiredVelocity = sheepSteering.normalized * speed;
+        _velocity = Vector3.Lerp(_velocity, sheepSteering.normalized * speed, Time.deltaTime * _acceleration);
+
+        if (desiredVelocity.sqrMagnitude < 0.001f && _velocity.sqrMagnitude < 0.03f)
         {
             _velocity = Vector3.zero;
             _sheepAnimator.SetBool("IsMoving", false);
@@ -213,6 +235,7 @@ public class Sheep : MonoBehaviour
         }
 
         sheepSteer += Separation() * _separationForce;
+        sheepSteer += AvoidObstacle() * _avoidForce;
 
         Move(sheepSteer);
         UpdateGroundPosition();

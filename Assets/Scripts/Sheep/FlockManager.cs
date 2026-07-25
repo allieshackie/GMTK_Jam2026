@@ -8,7 +8,7 @@ public class FlockManager : MonoBehaviour
 
     [SerializeField] private float _spawnCount = 10;
 
-    [SerializeField] private Transform _spawnPoint; // Home point to center on
+    [SerializeField] private Transform _spawnPoint;
 
     [SerializeField] private float _spawnRadius = 5;
 
@@ -29,6 +29,8 @@ public class FlockManager : MonoBehaviour
 
             _flock.Add(newSheep);
         }
+
+        // Set up home/herd lure, wherever we want the herd to center at
     }
 
     void Update()
@@ -36,7 +38,7 @@ public class FlockManager : MonoBehaviour
         
     }
 
-    public Vector3 GetTargetPoint()
+    public Vector3 GetHerdHomePoint()
     {
         return _spawnPoint.position;
     }
