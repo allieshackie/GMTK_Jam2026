@@ -16,7 +16,6 @@ public class Sheep : MonoBehaviour
     [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _acceleration = 2.0f;
     [SerializeField] private float _turnSpeed = 2f;
-    [SerializeField] private float _reachedDestRadius = 1.5f;
 
     [Tooltip("The amount of influence needed for a sheep to be attracted by a lure")]
     [SerializeField] private float _lureThreshold = 2f;
@@ -47,7 +46,9 @@ public class Sheep : MonoBehaviour
     private FlockManager _flockManager;
 
     // Animations
-    private Animator _sheepAnimator;
+    [SerializeField] private Animator _sheepAnimator;
+
+    private float _randomLogicOffset;
 
     public void Init(FlockManager flockManager)
     {
@@ -56,9 +57,9 @@ public class Sheep : MonoBehaviour
 
     void Start()
     {
-        _sheepAnimator = GetComponent<Animator>();
         SetState(SheepState.Idle);
         _currentTarget = _flockManager.GetHerdHomePoint();
+        _randomLogicOffset = EntityId.ToULong(GetEntityId()) % 10 * 0.5f;
     }
 
     public void SetState(SheepState newState)
@@ -67,13 +68,13 @@ public class Sheep : MonoBehaviour
 
         if (_state == SheepState.Wander)
         {
-            Invoke(nameof(GetWanderTarget), Random.Range(1,5));
+            float delay = Random.Range(6f, 25f) + _randomLogicOffset;
+            Invoke(nameof(GetWanderTarget), delay);
         }
     }
 
     public void Grab(Transform monsterTransform)
     {
-        Debug.Log($"Grabbed sheep: {name} ({GetEntityId()})");
         transform.SetParent(monsterTransform);
         SetState(SheepState.Grabbed);
     }
@@ -145,16 +146,24 @@ public class Sheep : MonoBehaviour
         }
 
         Vector3 distanceFromTarget = _currentTarget - transform.position;
-        if (distanceFromTarget.magnitude <= 0.5f)
+        float distance = distanceFromTarget.magnitude;
+        if (distance <= 1.5f)
         {
             // Reached wander target, pick another
             _waitingForNewTarget = true;
-            _velocity = Vector3.zero;
-            Invoke(nameof(GetWanderTarget), Random.Range(1,10));
+            float delay = Random.Range(6f, 25f) + _randomLogicOffset;
+            Invoke(nameof(GetWanderTarget), delay);
             return Vector3.zero;
         }
 
-        return distanceFromTarget.normalized;
+        float speed = _moveSpeed;
+        float slowRadius = 3f;
+        if (distance < slowRadius)
+        {
+            speed *= distance / slowRadius;
+        }
+
+        return distanceFromTarget.normalized * speed;
     }
     private void GetWanderTarget()
     {
