@@ -6,6 +6,7 @@ public enum SheepState
     Idle,
     Wander,
     Lure,
+    Grabbed,
     Flee
 };
 
@@ -69,13 +70,34 @@ public class Sheep : MonoBehaviour
         }
     }
 
+    public void Grab(Transform monsterTransform)
+    {
+        Debug.Log($"Grabbed sheep: {name} ({GetEntityId()})");
+        transform.SetParent(monsterTransform);
+        SetState(SheepState.Grabbed);
+    }
+
+    public void Release()
+    {
+        transform.SetParent(null);
+        SetState(SheepState.Flee);
+    }
+
+    public void Kill()
+    {
+        _flockManager.RemoveSheep(this);
+        Destroy(gameObject);
+    }
+
     private Vector3 Separation()
     {
         Vector3 separation = Vector3.zero;
         foreach (Sheep other in _flockManager.GetCurrentFlock())
         {
             if (other == this)
+            {
                 continue;
+            }
 
             Vector3 distanceFromSheep = transform.position - other.transform.position;
             float distance = distanceFromSheep.magnitude;
@@ -230,6 +252,9 @@ public class Sheep : MonoBehaviour
             case SheepState.Lure:
                 sheepSteer += Lure();
                 break;
+            case SheepState.Grabbed:
+                // Disable all movement
+                return;
             default:
                 break;
         }

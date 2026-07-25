@@ -65,4 +65,28 @@ public class FlockManager : MonoBehaviour
         return _flock;
     }
 
+    public void RemoveSheep(Sheep sheep)
+    {
+        _flock.Remove(sheep);
+    }
+
+    public Sheep GetClosestSheep(Vector3 position, out float distance)
+    {
+        Sheep closest = null;
+        distance = float.MaxValue;
+
+        foreach (Sheep sheep in _flock)
+        {
+            float currentDistance = Vector3.Distance(position, sheep.transform.position);
+
+            if (currentDistance < distance)
+            {
+                distance = currentDistance;
+                closest = sheep;
+            }
+        }
+
+        return closest;
+    }
+
 }
