@@ -50,10 +50,12 @@ public class GameManager : MonoBehaviour
     void StartLevel()
     {
         _state = GameState.LevelStart;
+        OnGameStateChanged(_state);
 
         _gameTimer = _levelDuration;
 
         _state = GameState.Playing;
+        OnGameStateChanged(_state);
     }
 
     void UpdatePlaying()

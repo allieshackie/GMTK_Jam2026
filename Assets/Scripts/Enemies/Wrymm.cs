@@ -73,8 +73,6 @@ public class Wrymm : MonoBehaviour
 
     private void Hunt()
     {
-        // Continuously check whether another target
-        // has become closer than the current target.
         FindNewTarget();
 
         if (_targetType == TargetType.Player && _player != null)
@@ -106,15 +104,13 @@ public class Wrymm : MonoBehaviour
     private void FindNewTarget()
     {
         Sheep closestSheep = GetClosestSheep();
-
         float closestSheepDistanceSqr = Mathf.Infinity;
+        float playerDistanceSqr = Mathf.Infinity;
 
         if (closestSheep != null)
         {
             closestSheepDistanceSqr = (closestSheep.transform.position - transform.position).sqrMagnitude;
         }
-
-        float playerDistanceSqr = Mathf.Infinity;
 
         if (_player != null && !_ignorePlayer)
         {
@@ -215,17 +211,14 @@ public class Wrymm : MonoBehaviour
         {
             attackTimer += Time.deltaTime;
 
-            // TODO:
-            // Add attack animation here
+            // TODO: Add attack animation here
 
             yield return null;
         }
-        // Stun player
+        // TODO: Stun player
 
         _ignorePlayer = true;
 
-        // Attack finished.
-        // Immediately find a sheep.
         FindNewSheepTarget();
 
         yield return new WaitForSeconds(_playerTargetCooldown);
@@ -250,8 +243,7 @@ public class Wrymm : MonoBehaviour
         {
             attackTimer += Time.deltaTime;
 
-            // TODO:
-            // Add attack animation here
+            // TODO: Add attack animation here
 
             yield return null;
         }
@@ -295,8 +287,7 @@ public class Wrymm : MonoBehaviour
         {
             attackTimer += Time.deltaTime;
 
-            // TODO:
-            // Add attack animation here
+            // TODO: Add attack animation here
 
 
             yield return null;
@@ -308,7 +299,6 @@ public class Wrymm : MonoBehaviour
         }
         _targetFence = null;
 
-        // Find a new target after destroying/attacking fence
         FindNewTarget();
 
         StopCoroutine(AttackFence());
