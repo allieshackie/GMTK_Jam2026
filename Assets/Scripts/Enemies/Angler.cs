@@ -126,7 +126,7 @@ public class Angler : MonoBehaviour
         _anglerAnimator.SetFloat("Velocity", _velocity.sqrMagnitude);
         transform.position += _velocity * Time.deltaTime;
 
-        if (_velocity.sqrMagnitude > 0.01f)
+        if (_velocity.sqrMagnitude > 0.01f && _state != AnglerState.Lure)
         {
             Vector3 direction = _velocity.normalized;
             transform.forward = Vector3.Lerp(transform.forward, direction, Time.deltaTime * _turnSpeed);
@@ -216,6 +216,26 @@ public class Angler : MonoBehaviour
         return distanceFromTarget.normalized * speed;
     }
 
+    private void FaceLuringDirection()
+    {
+        Vector3 lookDirection;
+        Sheep closestSheep = _flockManager.GetClosestSheep(transform.position, out float distance);
+        if (closestSheep != null && distance < _grabbingDistance)
+        {
+            lookDirection = closestSheep.transform.position - transform.position;
+        }
+        else
+        {
+            lookDirection = _flockManager.GetHerdHomePoint() - transform.position;
+        }
+
+        if (lookDirection.sqrMagnitude > 0.01f)
+        {
+            lookDirection.y = 0;
+            transform.forward = Vector3.Lerp(transform.forward, lookDirection.normalized, Time.deltaTime * _turnSpeed);
+        }
+    }
+
     void Lure()
     {
         if (_currentLure == null)
@@ -280,6 +300,7 @@ public class Angler : MonoBehaviour
             case AnglerState.Lure:
                 CheckForSheepToGrab();
                 Lure();
+                FaceLuringDirection();
                 break;
             case AnglerState.Grab:
                 steer += CaptureSheep();

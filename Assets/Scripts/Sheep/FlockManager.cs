@@ -45,13 +45,13 @@ public class FlockManager : MonoBehaviour
 
     public void AddLure(Lure lure)
     {
-        Debug.Log("Lure Added");
+        //Debug.Log("Lure Added");
         _lures.Add(lure);
     }
 
     public void RemoveLure(Lure lure)
     {
-        Debug.Log("Lure Removed");
+        //Debug.Log("Lure Removed");
         _lures.Remove(lure);
     }
 
