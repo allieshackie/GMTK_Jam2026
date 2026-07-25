@@ -51,8 +51,12 @@ public class Angler : MonoBehaviour
     //Animation
     [SerializeField] private Animator _anglerAnimator;
 
+    [SerializeField] private float _stunTime = 2f;
+
     private Sheep _grabbedSheep;
     private float _captureTimer;
+
+    private float _stunnedTimer;
 
     private AnglerState _state;
 
@@ -62,11 +66,14 @@ public class Angler : MonoBehaviour
 
     private Player _player;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Enemy _enemy; // self
+
     void Start()
     {
         _flockManager = FindAnyObjectByType<FlockManager>();
         _player = FindAnyObjectByType<Player>();
+        _enemy = GetComponent<Enemy>();
+        _enemy.OnHit += OnHit;
         SetState(AnglerState.Hunt);
     }
 
@@ -78,6 +85,11 @@ public class Angler : MonoBehaviour
         if (_state == AnglerState.Hunt)
         {
             _findNewHuntingSpot = true;
+        }
+
+        if (_state == AnglerState.Stun)
+        {
+            _stunnedTimer = _stunTime;
         }
     }
 
@@ -288,6 +300,27 @@ public class Angler : MonoBehaviour
         return (transform.position - _flockManager.GetHerdHomePoint()).normalized * _capturedSheepMoveSpeed;
     }
 
+    public void OnHit()
+    {
+        if (_grabbedSheep != null)
+        {
+            _grabbedSheep.Release();
+            _grabbedSheep = null;
+
+            SetState(AnglerState.Stun);
+        }
+    }
+
+    private void Stunned()
+    {
+        _stunnedTimer -= Time.deltaTime;
+        if (_stunnedTimer <= 0)
+        {
+            // Should probably be Flee?
+            SetState(AnglerState.Hunt);
+        }
+    }
+
     void Update()
     {
         Vector3 steer = Vector3.zero;
@@ -305,6 +338,9 @@ public class Angler : MonoBehaviour
             case AnglerState.Grab:
                 steer += CaptureSheep();
                 break;
+            case AnglerState.Stun:
+                Stunned();
+                return;
             default:
                 break;
         }

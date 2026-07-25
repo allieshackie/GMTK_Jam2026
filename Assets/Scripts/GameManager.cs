@@ -42,15 +42,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SetState(GameState newState)
+    {
+        _state = newState;
+        OnGameStateChanged(_state);
+    }
+
     public void StartLevel()
     {
-        _state = GameState.LevelStart;
-        OnGameStateChanged(_state);
+        SetState(GameState.LevelStart);
 
         _gameTimer = _levelDuration;
 
-        _state = GameState.Playing;
-        OnGameStateChanged(_state);
+        SetState(GameState.Playing);
     }
 
     public void QuitGame()
@@ -69,13 +73,13 @@ public class GameManager : MonoBehaviour
 
     void EndLevel()
     {
-        _state = GameState.LevelComplete;
+        SetState(GameState.LevelComplete);
 
         _currentLevel++;
 
         if (_currentLevel >= _maxLevel)
         {
-            _state = GameState.GameComplete;
+            SetState(GameState.GameComplete);
         }
         else
         {

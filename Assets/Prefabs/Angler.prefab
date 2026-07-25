@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 2892961014634319535}
   - component: {fileID: 3927500049477304286}
   - component: {fileID: 367182120036364240}
+  - component: {fileID: 335253534578660400}
   m_Layer: 0
   m_Name: Angler
   m_TagString: Untagged
@@ -213,10 +214,24 @@ MonoBehaviour:
   _huntRadius: 35
   _minPlayerDistance: 25
   _lurePrefab: {fileID: -5051844452188655869, guid: b4dfa334301cf114ebf246f5b6048d66, type: 3}
-  _grabbingDistance: 5
-  _sheepCapturedTime: 3
+  _grabbingDistance: 2
+  _sheepCapturedTime: 8
   _capturedSheepMoveSpeed: 1
   _anglerAnimator: {fileID: 372820475177238872}
+  _stunTime: 2
+--- !u!114 &335253534578660400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6676731094513924606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324c7e2030ab4304d99156e8ec3bc6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  _health: 2
 --- !u!1001 &2653018568385634874
 PrefabInstance:
   m_ObjectHideFlags: 0

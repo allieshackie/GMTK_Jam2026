@@ -97,13 +97,19 @@ public class Player : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         _isAttacking = context.ReadValueAsButton();
-        print("Player Attack");
+        if (context.performed)
+        {
+            // Enemy angler = FindAnyObjectByType<Enemy>();
+            // if (angler)
+            // {
+            //     angler.TakeHit();
+            // }
+        }
     }
 
     private void OnBellLure(InputAction.CallbackContext context)
     {
-        bool isLuring = context.ReadValueAsButton();
-        if(isLuring && _canLure)
+        if(context.performed && _canLure)
         {
             _currentLureCooldown = _lureCooldown;
             _canLure = false;
