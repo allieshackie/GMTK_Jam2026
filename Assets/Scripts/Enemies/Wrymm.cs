@@ -27,7 +27,6 @@ public class Wrymm : MonoBehaviour
     [SerializeField] private float _attackDuration = 2f; // TODO: Make this match the length of the Attack Animation
     [SerializeField] private float _playerTargetCooldown = 2f;
 
-
     private FlockManager _flockManager;
     private Player _player;
 
