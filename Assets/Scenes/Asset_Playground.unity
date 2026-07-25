@@ -6903,6 +6903,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1169521440}
   - component: {fileID: 1169521439}
+  - component: {fileID: 1169521441}
   m_Layer: 0
   m_Name: soundtest
   m_TagString: Untagged
@@ -6925,11 +6926,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -2047918690
-      Data2: 1193314623
-      Data3: 1629157264
-      Data4: -2082605871
-    Path: event:/ambience
+      Data1: 790184298
+      Data2: 1201356823
+      Data3: 1242422407
+      Data4: -1158175321
+    Path: event:/Ambience/ambience_wind
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 0
@@ -6956,6 +6957,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1169521441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169521438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1646103671
+      Data2: 1282273765
+      Data3: 1311953795
+      Data4: 887920106
+    Path: event:/Music/music_drone
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &1172277333
 PrefabInstance:
   m_ObjectHideFlags: 0
