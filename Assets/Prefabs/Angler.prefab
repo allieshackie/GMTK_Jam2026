@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   _health: 2
+  _immortal: 1
 --- !u!1001 &2653018568385634874
 PrefabInstance:
   m_ObjectHideFlags: 0

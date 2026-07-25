@@ -4,6 +4,7 @@ using System;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int _health;
+    [SerializeField] private bool _immortal = false;
 
     private bool _dying = false;
 
@@ -18,7 +19,10 @@ public class Enemy : MonoBehaviour
             return; 
         }
 
-        _health--;
+        if (!_immortal)
+        {
+            _health--;
+        }
 
         Debug.Log("Take hit");
 
