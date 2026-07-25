@@ -2,17 +2,9 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-
-
-    private void OnEnable()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        Enemy enemy = other.GetComponent<Enemy>();
+        enemy.TakeHit();
     }
-
-    private void Update()
-    {
-        
-    }
-
-
 }

@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _lureCooldown = 0.05f;
     [SerializeField] private Transform _playerMesh;
     [SerializeField] private Animator _playerAnimator;
+    [SerializeField] private Collider _attackCollider;
 
     private bool _isAttacking = false;
     private bool _canAttack = true;
@@ -97,14 +98,15 @@ public class Player : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         _isAttacking = context.ReadValueAsButton();
-        if (context.performed)
-        {
-            // Enemy angler = FindAnyObjectByType<Enemy>();
-            // if (angler)
-            // {
-            //     angler.TakeHit();
-            // }
-        }
+
+        //if (context.performed)
+        //{
+        //    // Enemy angler = FindAnyObjectByType<Enemy>();
+        //    // if (angler)
+        //    // {
+        //    //     angler.TakeHit();
+        //    // }
+        //}
     }
 
     private void OnBellLure(InputAction.CallbackContext context)
@@ -126,14 +128,20 @@ public class Player : MonoBehaviour
         {
             _currentAttackCooldown = _attackCooldown;
             _canAttack = false;
-        
+
+            _attackCollider.enabled = true;
+
             // Play Attack Anim
         }
 
         if (!_canAttack)
         {
             _currentAttackCooldown -= Time.deltaTime;
-            _canAttack = _currentAttackCooldown <= 0f ? true : false;
+            if (_currentAttackCooldown <= 0f)
+            {
+                _canAttack = true;
+                _attackCollider.enabled = false;
+            }
         }
 
         if (!_canLure)

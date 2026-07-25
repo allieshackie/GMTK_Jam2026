@@ -36,6 +36,7 @@ public class Wrymm : MonoBehaviour
 
     private TargetType _targetType;
     private WrymmState _currentState;
+    private Enemy _enemy;
 
     private bool _ignorePlayer = false;
 
@@ -45,6 +46,9 @@ public class Wrymm : MonoBehaviour
     {
         _flockManager = FindAnyObjectByType<FlockManager>();
         _player = FindAnyObjectByType<Player>();
+        _enemy = GetComponent<Enemy>();
+
+        _enemy.OnHit += OnHit;
 
         FindNewTarget();
     }
@@ -272,8 +276,7 @@ public class Wrymm : MonoBehaviour
             return;
 
         _retreatStartPosition = transform.position;
-
-        _targetSheep.transform.SetParent(transform);
+        _targetSheep.Grab(transform);
     }
 
     private void StartAttackingFence(Fence fence)
