@@ -144,6 +144,11 @@ public class Wrymm : MonoBehaviour
         _timeBeforeDestruction -= Time.deltaTime;
         if (_retreatTime < 0f)
         {
+            if (_targetSheep != null)
+            {
+                _targetSheep.Kill();
+            }
+
             Destroy(gameObject);
         }
 
