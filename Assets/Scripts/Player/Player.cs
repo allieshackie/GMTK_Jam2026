@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     // Lure
     [SerializeField] private Lure _lurePrefab;
     [SerializeField] private float _lureCooldown = 0.5f;
+    [SerializeField] private float _lureMovementCooldown = 0.5f;
     [SerializeField] private float _lureSize = 12f;
     [SerializeField] private float _lureLifetime = 3f;
 
@@ -28,6 +29,7 @@ public class Player : MonoBehaviour
     private bool _isAttacking = false;
     private bool _canAttack = true;
     private float _currentAttackCooldown = 0f;
+    private float _currentlureMovementCooldown = 0f;
 
     private bool _isStunned = false;
     private bool _isSprinting = false;
@@ -46,8 +48,8 @@ public class Player : MonoBehaviour
         _playerControls.Player.Movement.performed += OnMove;
         _playerControls.Player.Movement.canceled += OnMove;
 
-        _playerControls.Player.Sprint.performed += OnSprint;
-        _playerControls.Player.Sprint.canceled += OnSprint;
+        //_playerControls.Player.Sprint.performed += OnSprint;
+        //_playerControls.Player.Sprint.canceled += OnSprint;
 
         _playerControls.Player.Attack.performed += OnAttack;
         _playerControls.Player.Attack.canceled += OnAttack;
@@ -63,8 +65,8 @@ public class Player : MonoBehaviour
         _playerControls.Player.Movement.performed -= OnMove;
         _playerControls.Player.Movement.canceled -= OnMove;
 
-        _playerControls.Player.Sprint.performed -= OnSprint;
-        _playerControls.Player.Sprint.canceled -= OnSprint;
+        //_playerControls.Player.Sprint.performed -= OnSprint;
+        //_playerControls.Player.Sprint.canceled -= OnSprint;
 
         _playerControls.Player.Attack.performed -= OnAttack;
         _playerControls.Player.Attack.canceled -= OnAttack;
@@ -124,6 +126,7 @@ public class Player : MonoBehaviour
         if (context.performed && _canLure)
         {
             _currentLureCooldown = _lureCooldown;
+            _currentlureMovementCooldown = _lureMovementCooldown;
             _canLure = false;
             SetLureAnim(true);
             Invoke(nameof(CancelLureAnim), 0.2f);
@@ -189,6 +192,9 @@ public class Player : MonoBehaviour
         {
             _currentLureCooldown -= Time.deltaTime;
             _canLure = _currentLureCooldown <= 0f ? true : false;
+
+            _currentlureMovementCooldown -= Time.deltaTime;
+            //_canLure = _currentLureCooldown <= 0f ? true : false;
         }
     }
 
@@ -199,7 +205,7 @@ public class Player : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (_isStunned || _currentLureCooldown > 0 || _currentAttackCooldown > 0)
+        if (_isStunned || _currentlureMovementCooldown > 0 || _currentAttackCooldown > 0)
         {
             _rb.linearVelocity = Vector3.zero;
             return;

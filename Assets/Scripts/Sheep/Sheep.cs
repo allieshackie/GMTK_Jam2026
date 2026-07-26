@@ -1,3 +1,4 @@
+using FMODUnity;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -116,6 +117,7 @@ public class Sheep : MonoBehaviour
 
     public void Grab(Transform monsterTransform)
     {
+        RuntimeManager.PlayOneShotAttached("event:/Sheep/sheep_grab", gameObject);
         transform.SetParent(monsterTransform);
         SetState(SheepState.Grabbed);
     }
@@ -128,6 +130,7 @@ public class Sheep : MonoBehaviour
 
     public void Kill()
     {
+        RuntimeManager.PlayOneShotAttached("event:/Sheep/sheep_dead", gameObject);
         _flockManager.RemoveSheep(this);
         Destroy(gameObject);
     }
