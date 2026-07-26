@@ -114,6 +114,7 @@ public class Player : MonoBehaviour
             _canLure = false;
             Lure _bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
             _bellLure.Initialize(12f, 15f);
+            _playerAnimator.SetTrigger("Lure");
 
             Destroy(_bellLure.gameObject, 3f);
         }
@@ -129,6 +130,7 @@ public class Player : MonoBehaviour
             _attackCollider.enabled = true;
 
             // Play Attack Anim
+            _playerAnimator.SetTrigger("Attack");
         }
 
         if (!_canAttack)
@@ -190,10 +192,12 @@ public class Player : MonoBehaviour
     {
         // TODO: Play animation
         _isStunned = true;
+        _playerAnimator.SetBool("IsStunned", _isStunned);
 
         yield return new WaitForSeconds(_stunnedDuration);
 
         _isStunned = false;
+        _playerAnimator.SetBool("IsStunned", _isStunned);
         StopCoroutine(StunAnimation());
     }
 }
