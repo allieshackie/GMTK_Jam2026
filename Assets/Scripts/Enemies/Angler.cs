@@ -346,6 +346,15 @@ public class Angler : MonoBehaviour
         return _fleeDirection * _fleeSpeed;
     }
 
+    private void CountdownFleeState()
+    {
+        _fleeTimer -= Time.deltaTime;
+        if (_fleeTimer <= 0)
+        {
+            SetState(AnglerState.Hunt);
+        }
+    }
+
     void Update()
     {
         Vector3 steer = Vector3.zero;
@@ -368,6 +377,7 @@ public class Angler : MonoBehaviour
                 return;
             case AnglerState.Flee:
                 steer += Flee();
+                CountdownFleeState();
                 break;
             default:
                 break;
