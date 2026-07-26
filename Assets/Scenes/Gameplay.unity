@@ -119,6 +119,59 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &2857181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2857182}
+  - component: {fileID: 2857183}
+  m_Layer: 7
+  m_Name: LeftArena (14)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2857182
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857181}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9659688, z: -0, w: 0.2586589}
+  m_LocalPosition: {x: -70.66, y: 5.82, z: 9.73}
+  m_LocalScale: {x: 1, y: 11.826374, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 710620089}
+  m_LocalEulerAnglesHint: {x: 0, y: 150.019, z: 0}
+--- !u!65 &2857183
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857181}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8.888963, y: 1.6451341, z: 46.444817}
+  m_Center: {x: -1.4017173, y: 0.32256606, z: -12.361082}
 --- !u!1001 &13822882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156,8 +209,28 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2044715837727921712, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
+      propertyPath: _moveSpeed
+      value: 4.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044715837727921712, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
+      propertyPath: _lureCooldown
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044715837727921712, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
+      propertyPath: _lureLifetime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044715837727921712, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
       propertyPath: _sprintModifier
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044715837727921712, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
+      propertyPath: _lureMovementCooldown
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2660123113821439598, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4941667295966135184, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3514,6 +3587,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 793801fd898742e458b176e595912299, type: 3}
+--- !u!1 &305994798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 305994799}
+  - component: {fileID: 305994800}
+  m_Layer: 7
+  m_Name: LeftArena (12)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &305994799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305994798}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9239431, z: -0, w: 0.38253}
+  m_LocalPosition: {x: 29.37, y: 5.82, z: 15.06}
+  m_LocalScale: {x: 1, y: 11.826374, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 710620089}
+  m_LocalEulerAnglesHint: {x: 0, y: 135.019, z: 0}
+--- !u!65 &305994800
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305994798}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8.888963, y: 1.6451341, z: 46.444817}
+  m_Center: {x: -1.4017173, y: 0.32256606, z: -12.361082}
 --- !u!1001 &306221395
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6771,6 +6897,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WrymmSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 9088952975462272744, guid: 2d81bde89e1b608449dbd32d28d4b30c, type: 3}
+      propertyPath: _spawnInterval
+      value: 45
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7626,6 +7756,11 @@ Transform:
   - {fileID: 149256437}
   - {fileID: 505932095}
   - {fileID: 1180400955}
+  - {fileID: 1348607432}
+  - {fileID: 305994799}
+  - {fileID: 1610541061}
+  - {fileID: 2857182}
+  - {fileID: 733618349}
   - {fileID: 1652402545}
   - {fileID: 1437156774}
   - {fileID: 263474766}
@@ -7924,6 +8059,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3355814579465576291, guid: 62e60ccebd4965740ae69e03f6f5f1eb, type: 3}
   m_PrefabInstance: {fileID: 724089724}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &733618348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 733618349}
+  - component: {fileID: 733618350}
+  m_Layer: 7
+  m_Name: LeftArena (15)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &733618349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733618348}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.96588314, z: -0, w: -0.25897828}
+  m_LocalPosition: {x: -82.38, y: 5.82, z: -23.28}
+  m_LocalScale: {x: 1, y: 11.826374, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 710620089}
+  m_LocalEulerAnglesHint: {x: 0, y: 210.019, z: 0}
+--- !u!65 &733618350
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733618348}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8.888963, y: 1.6451341, z: 46.444817}
+  m_Center: {x: -1.4017173, y: 0.32256606, z: -12.361082}
 --- !u!1001 &743791027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14236,6 +14424,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb2ed515521441e449727d70ff552f0c, type: 3}
+--- !u!1 &1348607431
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1348607432}
+  - component: {fileID: 1348607433}
+  m_Layer: 7
+  m_Name: LeftArena (11)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1348607432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348607431}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9858248, z: -0, w: 0.16777822}
+  m_LocalPosition: {x: -15.41, y: 5.82, z: 57.739952}
+  m_LocalScale: {x: 1, y: 11.826374, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 710620089}
+  m_LocalEulerAnglesHint: {x: 0, y: 160.683, z: 0}
+--- !u!65 &1348607433
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1348607431}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8.888963, y: 1, z: 46.444817}
+  m_Center: {x: -1.4017179, y: 0, z: -12.361081}
 --- !u!1001 &1353245586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14642,7 +14883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
       propertyPath: _lifeTime
-      value: 25
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16139,6 +16380,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb2ed515521441e449727d70ff552f0c, type: 3}
+--- !u!1 &1610541060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1610541061}
+  - component: {fileID: 1610541062}
+  m_Layer: 7
+  m_Name: LeftArena (13)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1610541061
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610541060}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9239431, z: -0, w: 0.38253}
+  m_LocalPosition: {x: 29.37, y: 5.82, z: 15.06}
+  m_LocalScale: {x: 1, y: 11.826374, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 710620089}
+  m_LocalEulerAnglesHint: {x: 0, y: 135.019, z: 0}
+--- !u!65 &1610541062
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610541060}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 8.888963, y: 1.6451341, z: 46.444817}
+  m_Center: {x: -1.4017173, y: 0.32256606, z: -12.361082}
 --- !u!1001 &1619582197
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17836,7 +18130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
       propertyPath: _lifeTime
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17913,7 +18207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
       propertyPath: _lifeTime
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3542332607008501014, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
       propertyPath: m_Enabled
@@ -19830,7 +20124,7 @@ PrefabInstance:
     - target: {fileID: 6615182399954811588, guid: d3d05d016fc2d964e8a3be334afb121d, type: 3}
       propertyPath: '_anchors.Array.data[1]'
       value: 
-      objectReference: {fileID: 1807363430}
+      objectReference: {fileID: 1368203644}
     - target: {fileID: 6615182399954811588, guid: d3d05d016fc2d964e8a3be334afb121d, type: 3}
       propertyPath: '_anchors.Array.data[2]'
       value: 
@@ -19842,7 +20136,7 @@ PrefabInstance:
     - target: {fileID: 6615182399954811588, guid: d3d05d016fc2d964e8a3be334afb121d, type: 3}
       propertyPath: '_anchors.Array.data[4]'
       value: 
-      objectReference: {fileID: 1368203644}
+      objectReference: {fileID: 1807363430}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19907,7 +20201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
       propertyPath: _lifeTime
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20774,6 +21068,10 @@ PrefabInstance:
     - target: {fileID: 1174800369523682626, guid: 2d81bde89e1b608449dbd32d28d4b30c, type: 3}
       propertyPath: m_Name
       value: WrymmSpawner (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088952975462272744, guid: 2d81bde89e1b608449dbd32d28d4b30c, type: 3}
+      propertyPath: _spawnInterval
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
