@@ -5,6 +5,8 @@ public class AnchorManager : MonoBehaviour
 {
     [SerializeField] private Anchor[] _anchors;
 
+    public event Action NewAnchorUnlocked;
+
     private int _activeIndex;
     private Anchor _activeAnchor;
 
@@ -31,6 +33,16 @@ public class AnchorManager : MonoBehaviour
         _activeAnchor = _anchors[_activeIndex];
         _activeAnchor.OnTimerComplete += HandleAnchorComplete;
         _activeAnchor.SetActiveState(true);
+        NewAnchorUnlocked?.Invoke();
+    }
+
+    public Vector3 GetAnchorPosition()
+    {
+        if (_activeAnchor == null)
+        {
+            return Vector3.zero;
+        }
+        return _activeAnchor.transform.position;
     }
 
     void HandleAnchorComplete()
