@@ -49,7 +49,7 @@ public class Wrymm : MonoBehaviour
 
     private bool _hasRetreated = false;
     private bool _ignorePlayer = false;
-    private bool _fenceIsTarget = false;
+    //private bool _fenceIsTarget = false;
     private bool _inLight = false;
 
     private Vector3 _retreatStartPosition;
