@@ -1,7 +1,8 @@
-using Random = UnityEngine.Random;
+using FMODUnity;
 using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Wrymm : MonoBehaviour
 {
@@ -92,6 +93,8 @@ public class Wrymm : MonoBehaviour
     private void OnHit()
     {
         _wyrmmAnimator.SetTrigger("IsAttacked");
+        RuntimeManager.PlayOneShotAttached("event:/Wyrms/wyrm_hit", gameObject);
+
         if (_targetSheep != null)
         {
             _targetSheep.Release();
@@ -343,8 +346,8 @@ public class Wrymm : MonoBehaviour
             yield return null;
         }
 
-        // TODO: Stun player
         _player.StartStun();
+        RuntimeManager.PlayOneShotAttached("event:/Player/player_hit", gameObject);
 
         _ignorePlayer = true;
 
@@ -377,6 +380,7 @@ public class Wrymm : MonoBehaviour
 
         // Attack finished, grab the sheep
         GrabSheep();
+        RuntimeManager.PlayOneShotAttached("event:/Wyrms/wyrm_grab", gameObject);
 
         // Begin retreating
         _currentState = WrymmState.Retreating;
