@@ -19,8 +19,6 @@ public class FlockManager : MonoBehaviour
 
     public event Action LastSheepKilled;
 
-    public event Action NewHomePointSet;
-
     private List<Sheep> _flock = new List<Sheep>();
 
     private List<Lure> _lures = new List<Lure>();

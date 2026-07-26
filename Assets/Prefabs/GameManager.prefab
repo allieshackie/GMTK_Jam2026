@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5722714797247931604}
   - component: {fileID: 3009691436639700652}
+  - component: {fileID: 9034975771804859165}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,3 +47,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _levelDuration: 120
   _maxLevel: 1
+--- !u!114 &9034975771804859165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8884555933132652999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f20ab219c5282248817b63797f2b7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButton
+  _buttonSound:
+    Guid:
+      Data1: -1437227194
+      Data2: 1336485836
+      Data3: 1592304810
+      Data4: -1051193718
+    Path: event:/UI/UI_click
+  _hoverSound:
+    Guid:
+      Data1: -1170003581
+      Data2: 1304014985
+      Data3: 163979142
+      Data4: 530314947
+    Path: event:/UI/UI_hover
