@@ -118,6 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1785790245223235515}
   - component: {fileID: 626814648699993676}
+  - component: {fileID: 1960956822943729254}
   m_Layer: 8
   m_Name: AttackCollider
   m_TagString: Untagged
@@ -155,12 +156,24 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.5, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 1}
+--- !u!114 &1960956822943729254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065089084931988604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b31317dfa19484998f96bc61fcf286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
 --- !u!1 &5893134267066792329
 GameObject:
   m_ObjectHideFlags: 0

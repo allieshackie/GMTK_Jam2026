@@ -135,7 +135,7 @@ Material:
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
-    - _AreaOne_Tiling: {r: 5, g: 5, b: 0, a: 0}
+    - _AreaOne_Tiling: {r: 10, g: 10, b: 0, a: 0}
     - _AreaOne_Tint: {r: 0.6226415, g: 0.4956986, b: 0.36712354, a: 1}
     - _AreaThree_Tiling: {r: 25, g: 25, b: 0, a: 0}
     - _AreaThree_Tint: {r: 0.07831969, g: 0.3018868, b: 0.08134248, a: 1}
