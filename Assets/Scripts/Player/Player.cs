@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Animator _playerAnimator;
     [SerializeField] private Collider _attackCollider;
     
-
     private bool _isAttacking = false;
     private bool _canAttack = true;
     private float _currentAttackCooldown = 0f;
@@ -178,15 +177,12 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isStunned)
-            return;
-
         MovePlayer();
     }
 
     private void MovePlayer()
     {
-        if (_currentLureCooldown > 0)
+        if (_isStunned || _currentLureCooldown > 0 || _currentAttackCooldown > 0)
         {
             _rb.linearVelocity = Vector3.zero;
             return;
