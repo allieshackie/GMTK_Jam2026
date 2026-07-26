@@ -20,13 +20,13 @@ public class Fence : MonoBehaviour
             // Destroy Fence
             // Play Fence Destruction Animation
 
-            _fenceModel.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 
     public void RepairFence() 
     {
         _currentHitPoints = _hitPoints;
-        _fenceModel.SetActive(true);
+            gameObject.SetActive(false);
     }
 }
