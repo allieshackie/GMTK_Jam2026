@@ -222,7 +222,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_stunnedDuration);
 
         _isStunned = false;
-        _playerAnimator.SetBool("IsStunned", _isStunned);
+        _playerAnimator.SetTrigger("StunRecover");
         StopCoroutine(StunAnimation());
     }
 }
