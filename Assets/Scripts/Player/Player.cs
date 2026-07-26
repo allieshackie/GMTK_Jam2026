@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
         _playerControls.Player.Sprint.canceled += OnSprint;
 
         _playerControls.Player.Attack.performed += OnAttack;
-        _playerControls.Player.Attack.canceled += OnAttack;
+        //_playerControls.Player.Attack.canceled += OnAttack;
 
         _playerControls.Player.BellLure.performed += OnBellLure;
         _playerControls.Player.BellLure.canceled += OnBellLure;
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         _playerControls.Player.Sprint.canceled -= OnSprint;
 
         _playerControls.Player.Attack.performed -= OnAttack;
-        _playerControls.Player.Attack.canceled -= OnAttack;
+        //_playerControls.Player.Attack.canceled -= OnAttack;
 
         _playerControls.Player.BellLure.performed -= OnBellLure;
         _playerControls.Player.BellLure.canceled -= OnBellLure;
@@ -98,15 +98,6 @@ public class Player : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         _isAttacking = context.ReadValueAsButton();
-
-        //if (context.performed)
-        //{
-        //    // Enemy angler = FindAnyObjectByType<Enemy>();
-        //    // if (angler)
-        //    // {
-        //    //     angler.TakeHit();
-        //    // }
-        //}
     }
 
     private void OnBellLure(InputAction.CallbackContext context)
