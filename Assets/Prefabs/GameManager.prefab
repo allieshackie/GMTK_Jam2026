@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _levelDuration: 120
-  _maxLevel: 3
+  _maxLevel: 1
