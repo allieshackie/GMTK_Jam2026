@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 378a397a336f75b4a90609ca201349de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sheep
-  _moveSpeed: 2
+  _moveSpeed: 3
   _acceleration: 1
   _turnSpeed: 8
   _lureThreshold: 1

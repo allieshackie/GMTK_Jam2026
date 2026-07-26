@@ -201,7 +201,7 @@ MonoBehaviour:
   _turnSpeed: 2
   _obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   _avoidDistance: 10
   _avoidRadius: 5
   _avoidForce: 2
@@ -212,7 +212,7 @@ MonoBehaviour:
   _groundRayDistance: 5
   _groundOffset: 0.1
   _preferredFlockDistance: 25
-  _huntRadius: 35
+  _huntRadius: 20
   _minPlayerDistance: 25
   _lurePrefab: {fileID: -5051844452188655869, guid: b4dfa334301cf114ebf246f5b6048d66, type: 3}
   _grabbingDistance: 2
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   _health: 2
-  _immortal: 1
+  _immortal: 0
 --- !u!114 &8149499680104699753
 MonoBehaviour:
   m_ObjectHideFlags: 0
