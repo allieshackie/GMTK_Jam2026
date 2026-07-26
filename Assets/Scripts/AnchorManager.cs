@@ -11,7 +11,15 @@ public class AnchorManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SetActiveAnchor();        
+        GameManager.Instance.OnGameStateChanged += GameStateChanged;
+    }
+
+    void GameStateChanged(GameManager.GameState state)
+    {
+        if (state == GameManager.GameState.LevelStart)
+        {
+            SetActiveAnchor();        
+        }
     }
 
     void SetActiveAnchor()

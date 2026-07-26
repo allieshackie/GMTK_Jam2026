@@ -2667,6 +2667,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
+      propertyPath: _lifeTime
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14608,6 +14612,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
+      propertyPath: _lifeTime
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17798,6 +17806,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
+      propertyPath: _lifeTime
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17870,6 +17882,10 @@ PrefabInstance:
     - target: {fileID: 1649047829896778667, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
+      propertyPath: _lifeTime
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3542332607008501014, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
       propertyPath: m_Enabled
@@ -19860,6 +19876,10 @@ PrefabInstance:
     - target: {fileID: 1649047829896778667, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2220927664570356241, guid: d17dbc205b9499b488be3c1e39aa628f, type: 3}
+      propertyPath: _lifeTime
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
