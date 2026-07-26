@@ -8,6 +8,7 @@ public class EndScreen : MonoBehaviour
     void Start()
     {
         GameManager.Instance.OnGameStateChanged += SetEndScreenState;
+        gameObject.SetActive(false);
     }
 
     void SetEndScreenState(GameManager.GameState state)

@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Anchor
   _lifeTime: 0
+  _light: {fileID: 9131030182857784030}
 --- !u!136 &5838246202974816153
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -450,5 +451,10 @@ PrefabInstance:
 --- !u!4 &1772430967475478538 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7194094885229590143, guid: 28c3430b2af12144ea1ee6715a69bf00, type: 3}
+  m_PrefabInstance: {fileID: 8885179561887094389}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9131030182857784030 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 430533770614729899, guid: 28c3430b2af12144ea1ee6715a69bf00, type: 3}
   m_PrefabInstance: {fileID: 8885179561887094389}
   m_PrefabAsset: {fileID: 0}
