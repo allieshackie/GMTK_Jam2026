@@ -4,6 +4,7 @@ using UnityEngine;
 public class Anchor : MonoBehaviour
 {
     [SerializeField] private float _lifeTime;
+    [SerializeField] private GameObject _light;
 
     public event Action OnTimerComplete;
 
@@ -18,6 +19,7 @@ public class Anchor : MonoBehaviour
     {
         _collider = GetComponent<Collider>();
         _collider.enabled = false;
+        _light.SetActive(false);
         _flockManager = FindAnyObjectByType<FlockManager>();
     }
 
@@ -31,6 +33,8 @@ public class Anchor : MonoBehaviour
         {
             _collider.enabled = active;
         }
+
+        _light.SetActive(active);
     }
 
     void Update()
