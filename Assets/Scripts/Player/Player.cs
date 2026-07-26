@@ -95,7 +95,13 @@ public class Player : MonoBehaviour
     private void EnableControls(GameManager.GameState state)
     {
         if (state == GameManager.GameState.LevelStart)
+        {   
             SubscribeInputs();
+        }
+        else if (state == GameManager.GameState.GameWon || state == GameManager.GameState.GameLost)
+        {
+            UnsubscribeInputs();
+        }
     }
 
     private void OnDisable()
