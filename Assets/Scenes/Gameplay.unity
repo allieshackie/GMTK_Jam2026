@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 0
+  m_FogColor: {r: 0.26633143, g: 0.31906372, b: 0.4245283, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.003
+  m_FogDensity: 0.022
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
@@ -974,7 +974,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f4133fa08b44e934e8bb2fe26ad0bc71, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.1
+      value: 40.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f4133fa08b44e934e8bb2fe26ad0bc71, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5482,6 +5482,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6112110811570668052, guid: 793801fd898742e458b176e595912299, type: 3}
   m_PrefabInstance: {fileID: 949097226}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &969824800 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8840812392826326037, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
+  m_PrefabInstance: {fileID: 13822882}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &969824802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969824800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &974431375
 GameObject:
   m_ObjectHideFlags: 0
@@ -5595,25 +5614,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3955897804955038567, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
   m_PrefabInstance: {fileID: 974514498}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &969824800 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8840812392826326037, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
-  m_PrefabInstance: {fileID: 13822882}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &969824802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969824800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
-  nonRigidbodyVelocity: 0
-  attenuationObject: {fileID: 0}
 --- !u!1001 &979671287
 PrefabInstance:
   m_ObjectHideFlags: 0
