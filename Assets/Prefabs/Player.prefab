@@ -33,7 +33,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4284456039881990651}
-  - {fileID: 1785790245223235515}
   - {fileID: 672717964722060966}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -134,12 +133,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065089084931988604}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4941667295966135184}
+  m_Father: {fileID: 4284456039881990651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &626814648699993676
 BoxCollider:
@@ -418,6 +417,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1785790245223235515}
     - targetCorrespondingSourceObject: {fileID: 1491135575978297230, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
       insertIndex: 0
       addedObject: {fileID: 8776921032360972482}
@@ -425,6 +427,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7456646559562138807}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1416730524178983914}
   m_SourcePrefab: {fileID: 100100000, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
 --- !u!4 &2904356167623786910 stripped
 Transform:
@@ -458,6 +463,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1416730524178983914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3476394898805046081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71696c28628cf344ab339ddfb451f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepPlayer
 --- !u!4 &4284456039881990651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
