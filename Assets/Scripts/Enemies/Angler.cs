@@ -53,6 +53,12 @@ public class Angler : MonoBehaviour
 
     [SerializeField] private float _stunTime = 2f;
 
+    // Flee
+    [SerializeField] private float _fleeTime = 2.0f;
+    [SerializeField] private float _fleeSpeed = 2.0f;
+    private Vector3 _fleeDirection;
+    private float _fleeTimer;
+
     private Sheep _grabbedSheep;
     private float _captureTimer;
 
@@ -90,6 +96,19 @@ public class Angler : MonoBehaviour
         if (_state == AnglerState.Stun)
         {
             _stunnedTimer = _stunTime;
+        }
+
+        if (_state == AnglerState.Flee)
+        {
+            Player player = FindAnyObjectByType<Player>();
+            if (player)
+            {
+                Vector3 away = transform.position - player.transform.position;
+                Vector3 random = UnityEngine.Random.insideUnitSphere;
+                random.y = 0;
+                _fleeDirection = (away.normalized + random * 0.5f).normalized;
+                _fleeTimer = _fleeTime;
+            }
         }
     }
 
@@ -293,9 +312,7 @@ public class Angler : MonoBehaviour
         {
             _grabbedSheep.Kill();
             _grabbedSheep = null;
-            //SetState(AnglerState.Hunt);
-            // TODO: Kill angler after sheep is captured, but could uncomment to make it hunt more
-            Destroy(gameObject);
+            SetState(AnglerState.Hunt);
         }
         return (transform.position - _flockManager.GetHerdHomePoint()).normalized * _capturedSheepMoveSpeed;
     }
@@ -309,6 +326,10 @@ public class Angler : MonoBehaviour
 
             SetState(AnglerState.Stun);
         }
+        if (_currentLure != null)
+        {
+            Destroy(_currentLure);
+        }
     }
 
     private void Stunned()
@@ -316,9 +337,13 @@ public class Angler : MonoBehaviour
         _stunnedTimer -= Time.deltaTime;
         if (_stunnedTimer <= 0)
         {
-            // Should probably be Flee?
-            SetState(AnglerState.Hunt);
+            SetState(AnglerState.Flee);
         }
+    }
+
+    private Vector3 Flee()
+    {
+        return _fleeDirection * _fleeSpeed;
     }
 
     void Update()
@@ -341,6 +366,9 @@ public class Angler : MonoBehaviour
             case AnglerState.Stun:
                 Stunned();
                 return;
+            case AnglerState.Flee:
+                steer += Flee();
+                break;
             default:
                 break;
         }
