@@ -33,7 +33,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4284456039881990651}
-  - {fileID: 1785790245223235515}
   - {fileID: 672717964722060966}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -134,12 +133,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065089084931988604}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4941667295966135184}
+  m_Father: {fileID: 4284456039881990651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &626814648699993676
 BoxCollider:
@@ -418,6 +417,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1785790245223235515}
     - targetCorrespondingSourceObject: {fileID: 1491135575978297230, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
       insertIndex: 0
       addedObject: {fileID: 8776921032360972482}
