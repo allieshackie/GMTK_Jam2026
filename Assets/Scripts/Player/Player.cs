@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
             _bellLure.Initialize(_lureSize, 100f);
             _bellLure.transform.SetParent(transform);
 
-            _playerAnimator.SetTrigger("Lure");
+            //_playerAnimator.SetTrigger("Lure");
             _lureParticle.Play();
 
             Destroy(_bellLure.gameObject, _lureLifetime);
@@ -193,7 +193,7 @@ public class Player : MonoBehaviour
             _currentLureCooldown -= Time.deltaTime;
             _canLure = _currentLureCooldown <= 0f ? true : false;
 
-            _currentlureMovementCooldown -= Time.deltaTime;
+            //_currentlureMovementCooldown -= Time.deltaTime;
             //_canLure = _currentLureCooldown <= 0f ? true : false;
         }
     }
@@ -205,7 +205,7 @@ public class Player : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (_isStunned || _currentlureMovementCooldown > 0 || _currentAttackCooldown > 0)
+        if (_isStunned ||  _currentAttackCooldown > 0)
         {
             _rb.linearVelocity = Vector3.zero;
             return;
