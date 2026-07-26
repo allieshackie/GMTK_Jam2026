@@ -313,8 +313,8 @@ public class Angler : MonoBehaviour
             if (_grabbedSheep != null)
             { 
                 _grabbedSheep.Kill();
-                _grabbedSheep = null;
             }
+            _grabbedSheep = null;
             SetState(AnglerState.Hunt);
         }
         return (transform.position - _flockManager.GetHerdHomePoint()).normalized * _capturedSheepMoveSpeed;
