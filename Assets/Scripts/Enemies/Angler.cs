@@ -310,7 +310,10 @@ public class Angler : MonoBehaviour
         _captureTimer -= Time.deltaTime;
         if (_captureTimer <= 0)
         {
-            _grabbedSheep.Kill();
+            if (_grabbedSheep != null)
+            { 
+                _grabbedSheep.Kill();
+            }
             _grabbedSheep = null;
             SetState(AnglerState.Hunt);
         }

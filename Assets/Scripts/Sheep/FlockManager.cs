@@ -7,13 +7,17 @@ public class FlockManager : MonoBehaviour
     [Tooltip("Sheep Spawn")]
     [SerializeField] private Sheep _sheepPrefab;
 
-    [SerializeField] private float _spawnCount = 10;
+    [SerializeField] private int _spawnCount = 10;
 
     [SerializeField] private Transform _spawnPoint;
 
     [SerializeField] private float _spawnRadius = 5;
 
     [SerializeField] private LayerMask _obstacleLayer;
+
+    public event Action OnSheepKilled;
+
+    public event Action LastSheepKilled;
 
     public event Action NewHomePointSet;
 
@@ -37,28 +41,26 @@ public class FlockManager : MonoBehaviour
 
             _flock.Add(newSheep);
         }
-
-        // Set up home/herd lure, wherever we want the herd to center at
     }
 
     private Vector3 FindValidSpawnPosition()
-{
-    const int maxAttempts = 50;
-
-    for (int attempt = 0; attempt < maxAttempts; attempt++)
     {
-        Vector2 randomOffset = UnityEngine.Random.insideUnitCircle * _spawnRadius;
-        Vector3 position = _spawnPoint.position + new Vector3(randomOffset.x, 0f, randomOffset.y);
+        const int maxAttempts = 50;
 
-        // Check if this position is inside an obstacle
-        if (!Physics.CheckSphere(position, 0.5f, _obstacleLayer))
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
-            return position;
-        }
-    }
+            Vector2 randomOffset = UnityEngine.Random.insideUnitCircle * _spawnRadius;
+            Vector3 position = _spawnPoint.position + new Vector3(randomOffset.x, 0f, randomOffset.y);
 
-    return _spawnPoint.position;
-}
+            // Check if this position is inside an obstacle
+            if (!Physics.CheckSphere(position, 0.5f, _obstacleLayer))
+            {
+                return position;
+            }
+        }
+
+        return _spawnPoint.position;
+    }
 
     public Vector3 GetHerdHomePoint()
     {
@@ -101,9 +103,26 @@ public class FlockManager : MonoBehaviour
         return _flock;
     }
 
+    public int GetSheepCount()
+    {
+        return _flock.Count;
+    }
+
+    public int GetSpawnCount()
+    {
+        return _spawnCount;
+    }
+
     public void RemoveSheep(Sheep sheep)
     {
         _flock.Remove(sheep);
+        OnSheepKilled?.Invoke();
+        Debug.Log($"flock count: ${_flock.Count}");
+        if(_flock.Count == 0)
+        {
+            Debug.Log($"Last sheep killed");
+            LastSheepKilled?.Invoke();
+        }
     }
 
     public Sheep GetClosestSheep(Vector3 position, out float distance)

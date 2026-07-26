@@ -62,8 +62,6 @@ public class Sheep : MonoBehaviour
 
     private bool _gameStart = false;
 
-    private Rigidbody _rigidbody;
-
     public void Init(FlockManager flockManager)
     {
         _flockManager = flockManager;
@@ -75,8 +73,6 @@ public class Sheep : MonoBehaviour
         GameManager.Instance.OnGameStateChanged += CheckGameState;
         _currentTarget = _flockManager.GetHerdHomePoint();
         _randomLogicOffset = EntityId.ToULong(GetEntityId()) % 10 * 0.5f;
-
-        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void OnDestroy()
