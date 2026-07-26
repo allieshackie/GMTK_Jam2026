@@ -525,8 +525,8 @@ Transform:
   - {fileID: 1368203641}
   - {fileID: 871453737}
   - {fileID: 700137399}
-  - {fileID: 127558209}
   - {fileID: 1014373182}
+  - {fileID: 127558209}
   - {fileID: 604495608}
   - {fileID: 589096899}
   - {fileID: 2122401106}
@@ -7425,16 +7425,48 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 871453736}
     - target: {fileID: 1321598593052898003, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 871453738}
+    - target: {fileID: 1321598593052898003, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321598593052898003, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: PlayClickSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 1686208695305673402, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871453738}
+    - target: {fileID: 1686208695305673402, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayHoverSound
       objectReference: {fileID: 0}
     - target: {fileID: 2639894098859466953, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 871453736}
     - target: {fileID: 2639894098859466953, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 871453738}
+    - target: {fileID: 2639894098859466953, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: QuitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639894098859466953, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayClickSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882004116619198472, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871453738}
+    - target: {fileID: 2882004116619198472, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayHoverSound
       objectReference: {fileID: 0}
     - target: {fileID: 4105100532675752346, guid: cf39c42a14da3f64481b56e9b31cab80, type: 3}
       propertyPath: m_Pivot.x
@@ -9446,6 +9478,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5722714797247931604, guid: 4c005eb3481f9f34b8612350db9c5816, type: 3}
   m_PrefabInstance: {fileID: 871453735}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &871453738 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9034975771804859165, guid: 4c005eb3481f9f34b8612350db9c5816, type: 3}
+  m_PrefabInstance: {fileID: 871453735}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f20ab219c5282248817b63797f2b7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIButton
 --- !u!4 &878786892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2018481446764710004, guid: cb2ed515521441e449727d70ff552f0c, type: 3}
@@ -19739,11 +19782,11 @@ PrefabInstance:
     - target: {fileID: 6615182399954811588, guid: d3d05d016fc2d964e8a3be334afb121d, type: 3}
       propertyPath: '_anchors.Array.data[0]'
       value: 
-      objectReference: {fileID: 1978947683}
+      objectReference: {fileID: 859479150}
     - target: {fileID: 6615182399954811588, guid: d3d05d016fc2d964e8a3be334afb121d, type: 3}
       propertyPath: '_anchors.Array.data[1]'
       value: 
-      objectReference: {fileID: 859479150}
+      objectReference: {fileID: 1807363430}
     - target: {fileID: 6615182399954811588, guid: d3d05d016fc2d964e8a3be334afb121d, type: 3}
       propertyPath: '_anchors.Array.data[2]'
       value: 
@@ -19751,7 +19794,7 @@ PrefabInstance:
     - target: {fileID: 6615182399954811588, guid: d3d05d016fc2d964e8a3be334afb121d, type: 3}
       propertyPath: '_anchors.Array.data[3]'
       value: 
-      objectReference: {fileID: 1807363430}
+      objectReference: {fileID: 1978947683}
     - target: {fileID: 6615182399954811588, guid: d3d05d016fc2d964e8a3be334afb121d, type: 3}
       propertyPath: '_anchors.Array.data[4]'
       value: 
