@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Terrain
+  m_Name: Mat_Terrain_Mountain
   m_Shader: {fileID: -6465566751694194690, guid: d5140c411691ab245bd5a3058a1724b6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AreaOne_Tex:
-        m_Texture: {fileID: 2800000, guid: a20256d6de7228a418a5e08884c5222c, type: 3}
+        m_Texture: {fileID: 2800000, guid: e9913999bb16cb940950579100b3eba8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AreaThree_Tex:
@@ -33,7 +33,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AreaTwo_Tex:
-        m_Texture: {fileID: 2800000, guid: 726ebebf832f9f1498611444e3284ae7, type: 3}
+        m_Texture: {fileID: 2800000, guid: e689e42057529944c9180adc65c0bce2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -103,7 +103,7 @@ Material:
     - _AlphaToMask: 0
     - _AreaOne_NoiseScale: 0.78
     - _AreaThree_NoiseScale: 4.12
-    - _AreaTwo_NoiseScale: 2.37
+    - _AreaTwo_NoiseScale: 4.35
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -135,12 +135,12 @@ Material:
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
     m_Colors:
-    - _AreaOne_Tiling: {r: 25, g: 25, b: 0, a: 0}
-    - _AreaOne_Tint: {r: 0.4008989, g: 0.8584906, b: 0.46626908, a: 1}
+    - _AreaOne_Tiling: {r: 5, g: 5, b: 0, a: 0}
+    - _AreaOne_Tint: {r: 0.6226415, g: 0.4956986, b: 0.36712354, a: 1}
     - _AreaThree_Tiling: {r: 25, g: 25, b: 0, a: 0}
     - _AreaThree_Tint: {r: 0.07831969, g: 0.3018868, b: 0.08134248, a: 1}
-    - _AreaTwo_Tiling: {r: 1, g: 1, b: 0, a: 0}
-    - _AreaTwo_Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _AreaTwo_Tiling: {r: 25, g: 25, b: 0, a: 0}
+    - _AreaTwo_Tint: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Dirt_Tex_Tint: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
