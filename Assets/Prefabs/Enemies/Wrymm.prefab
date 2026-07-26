@@ -71,8 +71,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Wrymm
   _moveSpeed: 5
   _retreatSpeed: 7
+  _retreatSpeedMultiplier: 3
   _attackDuration: 2
   _playerTargetCooldown: 2
+  _retreatTime: 3
   _wyrmmAnimator: {fileID: 5255730784058056345}
 --- !u!114 &-4802951602051343810
 MonoBehaviour:
