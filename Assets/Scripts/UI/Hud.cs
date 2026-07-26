@@ -10,7 +10,7 @@ public class Hud : MonoBehaviour
 
     [SerializeField] RectTransform  _indicator;
 
-    [SerializeField] private float _indicatorTime = 3f;
+    [SerializeField] private float _indicatorTime = 6f;
 
     private FlockManager _flockManager;
 

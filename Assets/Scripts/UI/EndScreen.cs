@@ -9,7 +9,7 @@ public class EndScreen : MonoBehaviour
 
     private FlockManager _flockManager;
 
-    private float charactersPerSecond = 5f;
+    private float charactersPerSecond = 6f;
     void Start()
     {
         GameManager.Instance.OnGameStateChanged += SetEndScreenState;
