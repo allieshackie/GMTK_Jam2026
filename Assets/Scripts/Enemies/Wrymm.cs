@@ -24,6 +24,7 @@ public class Wrymm : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 5f;
+    [SerializeField, Range(0f, 1f)] private float _moveSpeedDivider = 0.5f;
     [SerializeField] private float _retreatSpeed = 3f;
     [SerializeField] private float _retreatSpeedMultiplier = 3f;
     [SerializeField] private float _timeBeforeDestruction = 8f; // seconds
@@ -49,6 +50,7 @@ public class Wrymm : MonoBehaviour
     private bool _hasRetreated = false;
     private bool _ignorePlayer = false;
     private bool _fenceIsTarget = false;
+    private bool _inLight = false;
 
     private Vector3 _retreatStartPosition;
 
@@ -122,11 +124,13 @@ public class Wrymm : MonoBehaviour
     private void MoveTowards(Transform target)
     {
         Vector3 direction = (target.position - transform.position).normalized;
+        float moveSpeed = _inLight ? _moveSpeed * _moveSpeedDivider : _moveSpeed;
+        print($"moveSpeed: {moveSpeed}");
 
-        _wyrmmAnimator.SetFloat("Velocity", _moveSpeed);
+        _wyrmmAnimator.SetFloat("Velocity", moveSpeed);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 5f);
-        transform.position += _moveSpeed * Time.deltaTime * direction;
+        transform.position += moveSpeed * Time.deltaTime * direction;
     }
 
     private void Retreat()
@@ -175,8 +179,7 @@ public class Wrymm : MonoBehaviour
 
             //if (closestFence != null)
             //{
-            //    closestFenceDistanceSqr =
-            //        (closestFence.transform.position - transform.position).sqrMagnitude;
+            //    closestFenceDistanceSqr = (closestFence.transform.position - transform.position).sqrMagnitude;
             //}
 
             float closestNonPlayerDistanceSqr =
@@ -278,8 +281,19 @@ public class Wrymm : MonoBehaviour
         return closestSheep;
     }
 
+    public void SetInLight(bool inLight)
+    {
+        _inLight = inLight;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<Anchor>() != null)
+        {
+            _inLight = true;
+            print("Entered Light");
+        }
+
         // Check for the player
         Player player = other.GetComponent<Player>();
 
