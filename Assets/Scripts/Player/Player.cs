@@ -8,7 +8,7 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 1.6f;
-    [SerializeField] private float _acceleration = 12f;
+    //[SerializeField] private float _acceleration = 12f;
     [SerializeField] private float _sprintModifier = 1.75f;
     [SerializeField] private float _stunnedDuration = 1.75f; // seconds
     [SerializeField] private float _attackCooldown = 0.05f;

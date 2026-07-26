@@ -15,12 +15,11 @@ public class Anchor : MonoBehaviour
 
     private Collider _collider;
 
-    void Start()
+    void OnEnable()
     {
         _collider = GetComponent<Collider>();
-        _collider.enabled = false;
-        _light.SetActive(false);
         _flockManager = FindAnyObjectByType<FlockManager>();
+        SetActiveState(false);
     }
 
     public void SetActiveState(bool active)
