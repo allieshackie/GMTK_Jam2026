@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 public class Fence : MonoBehaviour
 {
@@ -15,11 +16,12 @@ public class Fence : MonoBehaviour
     public void Damage() 
     {
         _currentHitPoints -= 1;
+        //RuntimeManager.PlayOneShotAttached("event:/Wrymm/fence_hit", gameObject);
         if (_currentHitPoints <= 0)
         {
             // Destroy Fence
             // Play Fence Destruction Animation
-
+            RuntimeManager.PlayOneShotAttached("event:/Wyrms/fence_break", gameObject);
             gameObject.SetActive(false);
         }
     }

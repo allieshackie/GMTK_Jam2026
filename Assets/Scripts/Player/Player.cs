@@ -96,6 +96,9 @@ public class Player : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         _isAttacking = context.ReadValueAsButton();
+
+        // Plays the event attached to the current GameObject
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/staff_swing", gameObject);
     }
 
     private void OnBellLure(InputAction.CallbackContext context)

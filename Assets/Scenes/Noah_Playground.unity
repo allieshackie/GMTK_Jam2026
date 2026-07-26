@@ -451,10 +451,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wood_Fence (7)
       objectReference: {fileID: 0}
-    - target: {fileID: 705082996496182323, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
-      propertyPath: _hitPoints
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3955897804955038567, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.3425553
@@ -494,10 +490,6 @@ PrefabInstance:
     - target: {fileID: 3955897804955038567, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8050990683082342508, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -990,6 +982,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wrymm
       objectReference: {fileID: 0}
+    - target: {fileID: 1269428320665511020, guid: 8df12abe33b4dac489100eab8757d3dc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7845771781728901331, guid: 8df12abe33b4dac489100eab8757d3dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.347869
@@ -1314,6 +1310,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WrymmSpawner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1174800369523682626, guid: 2d81bde89e1b608449dbd32d28d4b30c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1379,6 +1379,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 767335437326908080, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2067407273}
     - targetCorrespondingSourceObject: {fileID: 1065089084931988604, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1950035593}
@@ -2027,6 +2030,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnglerSpawner (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1872606381929777036, guid: df5b9a3358ba9cf48bd83809a6bc1429, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2083,6 +2090,10 @@ PrefabInstance:
     - target: {fileID: 1872606381929777036, guid: df5b9a3358ba9cf48bd83809a6bc1429, type: 3}
       propertyPath: m_Name
       value: AnglerSpawner (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872606381929777036, guid: df5b9a3358ba9cf48bd83809a6bc1429, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3117,6 +3128,42 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &2067407269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 767335437326908080, guid: b0c430f3ea9f1684599e3e9f0de446f2, type: 3}
+  m_PrefabInstance: {fileID: 789165261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2067407273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067407269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: -1
+  OverrideMaxDistance: -1
 --- !u!1001 &2090556065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3476,10 +3523,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8050990683082342508, guid: 456eac82bcf8e3849b8624a7680dfa2e, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3537,6 +3580,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnglerSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 1872606381929777036, guid: df5b9a3358ba9cf48bd83809a6bc1429, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3593,6 +3640,10 @@ PrefabInstance:
     - target: {fileID: 1174800369523682626, guid: 2d81bde89e1b608449dbd32d28d4b30c, type: 3}
       propertyPath: m_Name
       value: WrymmSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088952975462272744, guid: 2d81bde89e1b608449dbd32d28d4b30c, type: 3}
+      propertyPath: _spawnTotalCount
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

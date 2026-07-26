@@ -93,8 +93,9 @@ public class Wrymm : MonoBehaviour
             _targetSheep.Release();
             _targetSheep = null;
 
-            _currentState = WrymmState.Retreating;
         }
+        
+        _currentState = WrymmState.Retreating;
     }
 
     private void Hunt()
