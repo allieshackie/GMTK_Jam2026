@@ -367,6 +367,8 @@ PrefabInstance:
       value: Statue_Light
       objectReference: {fileID: 0}
     - target: {fileID: 7538286364180098245, guid: 28c3430b2af12144ea1ee6715a69bf00, type: 3}
+      propertyPath: m_Layer
+      value: 7
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}

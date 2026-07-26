@@ -122,6 +122,7 @@ public class Player : MonoBehaviour
         
             Lure _bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
             _bellLure.Initialize(_lureSize, 100f);
+            _bellLure.transform.SetParent(transform);
 
             Destroy(_bellLure.gameObject, _lureLifetime);
         }
