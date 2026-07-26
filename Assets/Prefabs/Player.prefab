@@ -101,9 +101,11 @@ MonoBehaviour:
   _moveSpeed: 1.6
   _acceleration: 12
   _sprintModifier: 1.75
-  _lurePrefab: {fileID: -5051844452188655869, guid: b4dfa334301cf114ebf246f5b6048d66, type: 3}
   _attackCooldown: 0.5
-  _lureCooldown: 0.05
+  _lurePrefab: {fileID: -5051844452188655869, guid: b4dfa334301cf114ebf246f5b6048d66, type: 3}
+  _lureCooldown: 1.5
+  _lureSize: 12
+  _lureLifetime: 3
   _playerMesh: {fileID: 4284456039881990651}
   _playerAnimator: {fileID: 7456646559562138807}
   _attackCollider: {fileID: 626814648699993676}
