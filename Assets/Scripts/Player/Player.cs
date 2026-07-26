@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
         _playerControls.Player.BellLure.performed += OnBellLure;
         _playerControls.Player.BellLure.canceled += OnBellLure;
 
-        _playerControls.Player.Enable();
+        _playerControls.Player.Disable();
     }
 
     private void UnsubscribeInputs()
@@ -143,6 +143,19 @@ public class Player : MonoBehaviour
     private void CancelLureAnim()
     {
         SetLureAnim(false);
+    }
+
+    void Start()
+    {
+        GameManager.Instance.OnGameStateChanged += StateChange;
+    }
+
+    private void StateChange(GameManager.GameState state)
+    {
+        if (state == GameManager.GameState.LevelStart)
+        {
+            _playerControls.Player.Enable();
+        }
     }
 
     private void Update()
