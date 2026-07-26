@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1649047829896778667}
   - component: {fileID: 2220927664570356241}
   - component: {fileID: 5838246202974816153}
+  - component: {fileID: 7660677994603650671}
   m_Layer: 0
   m_Name: Anchor
   m_TagString: Untagged
@@ -70,6 +71,33 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 1.49, z: 0}
+--- !u!54 &7660677994603650671
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553340948530086265}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &8885179561887094389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -369,8 +397,6 @@ PrefabInstance:
     - target: {fileID: 7538286364180098245, guid: 28c3430b2af12144ea1ee6715a69bf00, type: 3}
       propertyPath: m_Layer
       value: 7
-      propertyPath: m_StaticEditorFlags
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7872984559665006819, guid: 28c3430b2af12144ea1ee6715a69bf00, type: 3}
       propertyPath: m_StaticEditorFlags

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[DefaultExecutionOrder(-500)]
 public class GameManager : MonoBehaviour
 {
     public enum GameState
@@ -9,7 +10,8 @@ public class GameManager : MonoBehaviour
         LevelStart,
         Playing,
         LevelComplete,
-        GameComplete
+        GameWon,
+        GameLost
     }
 
     public static GameManager Instance;
@@ -25,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     private int _currentLevel = 0;
 
+    private FlockManager _flockManager;
 
     private void Awake()
     {
@@ -34,6 +37,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetState(GameState.MainMenu);
+        _flockManager = FindAnyObjectByType<FlockManager>();
+        _flockManager.LastSheepKilled += GameLost;
+    }
+
+    private void GameLost()
+    {
+        SetState(GameState.GameLost);
+        LevelCleanup();
     }
 
     private void Update()
@@ -82,15 +93,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void LevelCleanup()
+    {
+        // Kill all enemies on level end
+        Enemy[] allEnemies = FindObjectsByType<Enemy>();
+        foreach(Enemy enemy in allEnemies)
+        {
+            Destroy(enemy);
+        }
+    }
+
     void EndLevel()
     {
         SetState(GameState.LevelComplete);
 
+        LevelCleanup();
         _currentLevel++;
 
         if (_currentLevel >= _maxLevel)
         {
-            SetState(GameState.GameComplete);
+            SetState(GameState.GameWon);
         }
         else
         {

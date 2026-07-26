@@ -41,6 +41,10 @@ public class Anchor : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<Wrymm>())
+        {
+            Debug.Log("Wyrmm entered");
+        }
         if (other.GetComponent<Player>())
         {
             _countdownStarted = true;
