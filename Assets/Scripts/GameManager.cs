@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[DefaultExecutionOrder(-500)]
 public class GameManager : MonoBehaviour
 {
     public enum GameState
