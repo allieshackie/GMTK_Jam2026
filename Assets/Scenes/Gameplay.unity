@@ -14162,6 +14162,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 29410424}
     m_Modifications:
+    - target: {fileID: 258438660655037693, guid: d66e22de29bf32e418b9b71b1d00c02c, type: 3}
+      propertyPath: m_margin.z
+      value: -0.029663086
+      objectReference: {fileID: 0}
     - target: {fileID: 770887506048909974, guid: d66e22de29bf32e418b9b71b1d00c02c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -14241,6 +14245,22 @@ PrefabInstance:
     - target: {fileID: 770887506048909974, guid: d66e22de29bf32e418b9b71b1d00c02c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1230712538659787224, guid: d66e22de29bf32e418b9b71b1d00c02c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871453736}
+    - target: {fileID: 1230712538659787224, guid: d66e22de29bf32e418b9b71b1d00c02c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 871453738}
+    - target: {fileID: 5541998891128586000, guid: d66e22de29bf32e418b9b71b1d00c02c, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871453738}
+    - target: {fileID: 6640949527550289321, guid: d66e22de29bf32e418b9b71b1d00c02c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8784504754716332345, guid: d66e22de29bf32e418b9b71b1d00c02c, type: 3}
       propertyPath: m_Name

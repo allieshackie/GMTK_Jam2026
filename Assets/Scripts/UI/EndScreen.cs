@@ -1,11 +1,13 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EndScreen : MonoBehaviour
 {
 
     [SerializeField] TextMeshProUGUI _endText;
+    [SerializeField] Button _endButton;
 
     private FlockManager _flockManager;
 
@@ -14,6 +16,7 @@ public class EndScreen : MonoBehaviour
     {
         GameManager.Instance.OnGameStateChanged += SetEndScreenState;
         gameObject.SetActive(false);
+        _endButton.gameObject.SetActive(false);
        _flockManager = FindAnyObjectByType<FlockManager>();
     }
 
@@ -41,11 +44,12 @@ public class EndScreen : MonoBehaviour
             _endText.maxVisibleCharacters++;
             yield return new WaitForSeconds(1f / charactersPerSecond);
         }
+
+        _endButton.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 }
