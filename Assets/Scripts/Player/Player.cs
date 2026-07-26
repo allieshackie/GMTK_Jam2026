@@ -46,8 +46,8 @@ public class Player : MonoBehaviour
         _playerControls.Player.Movement.performed += OnMove;
         _playerControls.Player.Movement.canceled += OnMove;
 
-        _playerControls.Player.Sprint.performed += OnSprint;
-        _playerControls.Player.Sprint.canceled += OnSprint;
+        //_playerControls.Player.Sprint.performed += OnSprint;
+        //_playerControls.Player.Sprint.canceled += OnSprint;
 
         _playerControls.Player.Attack.performed += OnAttack;
         _playerControls.Player.Attack.canceled += OnAttack;
@@ -63,8 +63,8 @@ public class Player : MonoBehaviour
         _playerControls.Player.Movement.performed -= OnMove;
         _playerControls.Player.Movement.canceled -= OnMove;
 
-        _playerControls.Player.Sprint.performed -= OnSprint;
-        _playerControls.Player.Sprint.canceled -= OnSprint;
+        //_playerControls.Player.Sprint.performed -= OnSprint;
+        //_playerControls.Player.Sprint.canceled -= OnSprint;
 
         _playerControls.Player.Attack.performed -= OnAttack;
         _playerControls.Player.Attack.canceled -= OnAttack;
