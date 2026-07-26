@@ -18,7 +18,8 @@ public class Sheep : MonoBehaviour
     [SerializeField] private float _turnSpeed = 2f;
 
     [Tooltip("The amount of influence needed for a sheep to be attracted by a lure")]
-    [SerializeField] private float _lureThreshold = 2f;
+    [SerializeField] private float _lureThreshold = 0;
+    [SerializeField] private float _homeInfluence = 50f;
     [SerializeField] private float _returnHomeDistance = 2f;
     // Wander 
     [SerializeField] private float _wanderRadius = 2;
@@ -244,19 +245,21 @@ public class Sheep : MonoBehaviour
             }
         }
 
-        if (strongestLure != null && strongestInfluence >= _lureThreshold)
-        {
-            _currentTarget = strongestLure.transform.position;
-            SetState(SheepState.Lure);
-        }
-
-        // If no lures, and not currently targeting home
-        if (strongestLure == null && _currentTarget != _flockManager.GetHerdHomePoint())
+        // If have a herd home point, and the home influence is stronger than the strongest lure, return home
+        if ((strongestLure == null || strongestInfluence < _homeInfluence) && _flockManager.IsHomePointSet() && _currentTarget != _flockManager.GetHerdHomePoint())
         {
             if (Vector3.Distance(transform.position, _flockManager.GetHerdHomePoint()) <= _returnHomeDistance)
             {
                 _currentTarget = _flockManager.GetHerdHomePoint();
+                SetState(SheepState.Idle);
+                return;
             }
+        }
+
+        if (strongestLure != null && strongestInfluence >= _lureThreshold)
+        {
+            _currentTarget = strongestLure.transform.position;
+            SetState(SheepState.Lure);
         }
     }
 
