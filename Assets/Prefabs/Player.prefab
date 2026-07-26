@@ -425,6 +425,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7456646559562138807}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1416730524178983914}
   m_SourcePrefab: {fileID: 100100000, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
 --- !u!4 &2904356167623786910 stripped
 Transform:
@@ -458,6 +461,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1416730524178983914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3476394898805046081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71696c28628cf344ab339ddfb451f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepPlayer
 --- !u!4 &4284456039881990651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: acf3ac5f99389c946aa5e7950979b918, type: 3}
