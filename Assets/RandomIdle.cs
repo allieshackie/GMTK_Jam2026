@@ -4,8 +4,6 @@ using UnityEngine;
 public class RandomIdle : StateMachineBehaviour
 {
 
-    private int _randomIdleIndex = 0;
-
     private bool _shouldSwapIdle = false;
 
     private float _time = 0f;
