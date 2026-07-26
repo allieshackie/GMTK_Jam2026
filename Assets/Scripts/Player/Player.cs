@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _playerMesh;
     [SerializeField] private Animator _playerAnimator;
     [SerializeField] private Collider _attackCollider;
+
+    // particles
+    [SerializeField] private ParticleSystem _lureParticle;
     
     private bool _isAttacking = false;
     private bool _canAttack = true;
@@ -130,6 +133,7 @@ public class Player : MonoBehaviour
             _bellLure.transform.SetParent(transform);
 
             _playerAnimator.SetTrigger("Lure");
+            _lureParticle.Play();
 
             Destroy(_bellLure.gameObject, _lureLifetime);
         }

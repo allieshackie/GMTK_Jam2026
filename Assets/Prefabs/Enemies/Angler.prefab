@@ -220,6 +220,8 @@ MonoBehaviour:
   _capturedSheepMoveSpeed: 1
   _anglerAnimator: {fileID: 372820475177238872}
   _stunTime: 2
+  _fleeTime: 2
+  _fleeSpeed: 2
 --- !u!114 &335253534578660400
 MonoBehaviour:
   m_ObjectHideFlags: 0
