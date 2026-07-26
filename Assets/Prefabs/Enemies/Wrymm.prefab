@@ -69,7 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0deb2ad44c09794ebe0e23606f829a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Wrymm
-  _moveSpeed: 5
+  _moveSpeed: 4
+  _moveSpeedDivider: 0.5
   _retreatSpeed: 7
   _retreatSpeedMultiplier: 3
   _timeBeforeDestruction: 8
