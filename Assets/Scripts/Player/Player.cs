@@ -129,7 +129,7 @@ public class Player : MonoBehaviour
 
     private void SetLureAnim(bool active)
     {
-        _playerAnimator.SetBool("IsLuring", active);
+        _playerAnimator.SetBool("Lure", active);
     }
 
     private void CancelLureAnim()
