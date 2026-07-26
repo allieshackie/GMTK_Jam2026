@@ -84,8 +84,14 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
 
-        SubscribeInputs();
+        //SubscribeInputs();
+        GameManager.Instance.OnGameStateChanged += EnableControls;
+    }
 
+    private void EnableControls(GameManager.GameState state)
+    {
+        if (state == GameManager.GameState.LevelStart)
+            SubscribeInputs();
     }
 
     private void OnDisable()
