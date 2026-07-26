@@ -26,7 +26,7 @@ public class Wrymm : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _retreatSpeed = 3f;
     [SerializeField] private float _retreatSpeedMultiplier = 3f;
-    [SerializeField] private float _timeBeforeDestructoin = 8f; // seconds
+    [SerializeField] private float _timeBeforeDestruction = 8f; // seconds
 
     [Header("Attacking")]
     [SerializeField] private float _attackDuration = 2f; // TODO: Make this match the length of the Attack Animation
@@ -89,6 +89,7 @@ public class Wrymm : MonoBehaviour
 
     private void OnHit()
     {
+        _wyrmmAnimator.SetTrigger("IsAttacked");
         if (_targetSheep != null)
         {
             _targetSheep.Release();
@@ -140,7 +141,7 @@ public class Wrymm : MonoBehaviour
             _retreatSpeed *= _retreatSpeedMultiplier;
         }
 
-        _timeBeforeDestructoin -= Time.deltaTime;
+        _timeBeforeDestruction -= Time.deltaTime;
         if (_retreatTime < 0f)
         {
             Destroy(gameObject);
@@ -316,18 +317,15 @@ public class Wrymm : MonoBehaviour
         float attackTimer = 0f;
 
         _wyrmmAnimator.SetTrigger("IsAttacking"); // Moved it out of th while loop, as the attack anim is only a trigger, feel free to move this noah, this just fires a single request to attack to the animation controller.
-                                                  //_wyrmmAnimator.SetTrigger("IsAttacked"); // Not sure where the on wyrmm hit stuff is, so feel free to move this where that exists.
 
         while (attackTimer < _attackDuration)
         {
             attackTimer += Time.deltaTime;
-
-            // TODO: Add attack animation here
-
-
             yield return null;
         }
+
         // TODO: Stun player
+        _player.StartStun();
 
         _ignorePlayer = true;
 
@@ -355,9 +353,6 @@ public class Wrymm : MonoBehaviour
         while (attackTimer < _attackDuration)
         {
             attackTimer += Time.deltaTime;
-
-            // TODO: Add attack animation here
-
             yield return null;
         }
 

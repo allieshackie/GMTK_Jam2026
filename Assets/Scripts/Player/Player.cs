@@ -1,12 +1,16 @@
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
+using System;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 1.6f;
     [SerializeField] private float _acceleration = 12f;
     [SerializeField] private float _sprintModifier = 1.75f;
+    [SerializeField] private float _stunnedDuration = 1.75f; // seconds
     [SerializeField] private Lure _lurePrefab;
     [SerializeField] private float _attackCooldown = 0.05f;
     [SerializeField] private float _lureCooldown = 0.05f;
@@ -18,8 +22,8 @@ public class Player : MonoBehaviour
     private bool _canAttack = true;
     private float _currentAttackCooldown = 0f;
 
+    private bool _isStunned = false;
     private bool _isSprinting = false;
-
     private bool _canLure = false;
 
     private float _currentLureCooldown = 0f;
@@ -30,7 +34,7 @@ public class Player : MonoBehaviour
     private Vector2 _inputVector;
 
     #region Input Subscription
-    private void SubscribeInputs() 
+    private void SubscribeInputs()
     {
         _playerControls.Player.Movement.performed += OnMove;
         _playerControls.Player.Movement.canceled += OnMove;
@@ -40,7 +44,7 @@ public class Player : MonoBehaviour
 
         _playerControls.Player.Attack.performed += OnAttack;
         _playerControls.Player.Attack.canceled += OnAttack;
-        
+
         _playerControls.Player.BellLure.performed += OnBellLure;
         _playerControls.Player.BellLure.canceled += OnBellLure;
 
@@ -87,7 +91,6 @@ public class Player : MonoBehaviour
     private void OnMove(InputAction.CallbackContext context)
     {
         _inputVector = context.ReadValue<Vector2>();
-
     }
 
     private void OnSprint(InputAction.CallbackContext context)
@@ -100,12 +103,12 @@ public class Player : MonoBehaviour
         _isAttacking = context.ReadValueAsButton();
 
         // Plays the event attached to the current GameObject
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/Player/staff_swing", gameObject);
+        RuntimeManager.PlayOneShotAttached("event:/Player/staff_swing", gameObject);
     }
 
     private void OnBellLure(InputAction.CallbackContext context)
     {
-        if(context.performed && _canLure)
+        if (context.performed && _canLure)
         {
             _currentLureCooldown = _lureCooldown;
             _canLure = false;
@@ -147,6 +150,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_isStunned)
+            return;
+
         MovePlayer();
     }
 
@@ -173,5 +179,21 @@ public class Player : MonoBehaviour
         _rb.linearVelocity = targetVelocity;
 
         _playerAnimator.SetFloat("Velocity", _rb.linearVelocity.magnitude);
+    }
+
+    public void StartStun() 
+    {
+        StartCoroutine(StunAnimation());
+    }
+
+    private IEnumerator StunAnimation()
+    {
+        // TODO: Play animation
+        _isStunned = true;
+
+        yield return new WaitForSeconds(_stunnedDuration);
+
+        _isStunned = false;
+        StopCoroutine(StunAnimation());
     }
 }
