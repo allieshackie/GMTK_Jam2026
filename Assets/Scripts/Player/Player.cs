@@ -39,8 +39,7 @@ public class Player : MonoBehaviour
         _playerControls.Player.Sprint.canceled += OnSprint;
 
         _playerControls.Player.Attack.performed += OnAttack;
-        //_playerControls.Player.Attack.canceled += OnAttack;
-
+        
         _playerControls.Player.BellLure.performed += OnBellLure;
         _playerControls.Player.BellLure.canceled += OnBellLure;
 
@@ -56,8 +55,7 @@ public class Player : MonoBehaviour
         _playerControls.Player.Sprint.canceled -= OnSprint;
 
         _playerControls.Player.Attack.performed -= OnAttack;
-        //_playerControls.Player.Attack.canceled -= OnAttack;
-
+        
         _playerControls.Player.BellLure.performed -= OnBellLure;
         _playerControls.Player.BellLure.canceled -= OnBellLure;
 

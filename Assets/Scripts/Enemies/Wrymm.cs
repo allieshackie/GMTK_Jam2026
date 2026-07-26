@@ -1,4 +1,3 @@
-using System;
 using Random = UnityEngine.Random;
 using System.Collections;
 using UnityEngine;
@@ -37,7 +36,7 @@ public class Wrymm : MonoBehaviour
     private FlockManager _flockManager;
     private Player _player;
     
-    private List<Fence> _fences; // Remove Destroyed Fence from _fences
+    private List<Fence> _fences;
 
     private Sheep _targetSheep;
     private Fence _targetFence;
@@ -143,8 +142,7 @@ public class Wrymm : MonoBehaviour
 
     private void FindNewTarget()
     {
-        // Player is always considered first if they are allowed
-        // to be targeted and are closer than the other targets.
+        // Player is always considered first if they are allowed to be targeted and are closer than the other targets.
         if (_player != null && !_ignorePlayer)
         {
             Sheep closestSheep = GetClosestSheep();
@@ -432,8 +430,7 @@ public class Wrymm : MonoBehaviour
         }
         _targetFence = null;
 
-        // Fence was the actual target.
-        // Find a completely new target.
+        // Fence was the actual target. Find a completely new target.
         if (_fenceIsTarget)
         {
             _fenceIsTarget = false;
@@ -445,8 +442,7 @@ public class Wrymm : MonoBehaviour
         }
         else
         {
-            // Fence was blocking our path to a sheep.
-            // Continue targeting the same sheep.
+            // Fence was blocking our path to a sheep. Continue targeting the same sheep.
             _targetType = TargetType.Sheep;
             _currentState = WrymmState.Hunting;
         }
