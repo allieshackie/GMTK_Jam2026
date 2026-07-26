@@ -1,5 +1,7 @@
+using Random = UnityEngine.Random;
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Wrymm : MonoBehaviour
 {
@@ -16,35 +18,47 @@ public class Wrymm : MonoBehaviour
     {
         None,
         Player,
-        Sheep
+        Sheep,
+        Fence
     }
 
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _retreatSpeed = 3f;
+    [SerializeField] private float _retreatSpeedMultiplier = 3f;
 
     [Header("Attacking")]
     [SerializeField] private float _attackDuration = 2f; // TODO: Make this match the length of the Attack Animation
     [SerializeField] private float _playerTargetCooldown = 2f;
+    [SerializeField] private float _retreatTime = 3f;
     [SerializeField] private Animator _wyrmmAnimator;
 
     private FlockManager _flockManager;
     private Player _player;
+    
+    private List<Fence> _fences;
 
     private Sheep _targetSheep;
     private Fence _targetFence;
 
     private TargetType _targetType;
     private WrymmState _currentState;
+    private Enemy _enemy;
 
+    private bool _hasRetreated = false;
     private bool _ignorePlayer = false;
+    private bool _fenceIsTarget = false;
 
     private Vector3 _retreatStartPosition;
 
     private void OnEnable()
     {
+        _fences = new List<Fence>(FindObjectsByType<Fence>());
         _flockManager = FindAnyObjectByType<FlockManager>();
         _player = FindAnyObjectByType<Player>();
+        _enemy = GetComponent<Enemy>();
+
+        _enemy.OnHit += OnHit;
 
         FindNewTarget();
     }
@@ -72,10 +86,19 @@ public class Wrymm : MonoBehaviour
         }
     }
 
+    private void OnHit()
+    {
+        if (_targetSheep != null)
+        {
+            _targetSheep.Release();
+            _targetSheep = null;
+
+            _currentState = WrymmState.Retreating;
+        }
+    }
+
     private void Hunt()
     {
-        FindNewTarget();
-
         if (_targetType == TargetType.Player && _player != null)
         {
             MoveTowards(_player.transform);
@@ -83,6 +106,10 @@ public class Wrymm : MonoBehaviour
         else if (_targetType == TargetType.Sheep && _targetSheep != null)
         {
             MoveTowards(_targetSheep.transform);
+        }
+        else if (_targetType == TargetType.Fence && _targetFence != null && _targetFence.gameObject.activeInHierarchy)
+        {
+            MoveTowards(_targetFence.transform);
         }
         else
         {
@@ -104,46 +131,114 @@ public class Wrymm : MonoBehaviour
     {
         _wyrmmAnimator.SetFloat("Velocity", _retreatSpeed);
         transform.position -= _retreatSpeed * Time.deltaTime * transform.forward;
+
+        _retreatTime -= Time.deltaTime;
+        if (_retreatTime < 0f && !_hasRetreated)
+        {
+            _hasRetreated = true;
+            _retreatSpeed *= _retreatSpeedMultiplier;
+        }
     }
 
     private void FindNewTarget()
     {
-        Sheep closestSheep = GetClosestSheep();
-        float closestSheepDistanceSqr = Mathf.Infinity;
-        float playerDistanceSqr = Mathf.Infinity;
-
-        if (closestSheep != null)
-        {
-            closestSheepDistanceSqr = (closestSheep.transform.position - transform.position).sqrMagnitude;
-        }
-
+        // Player is always considered first if they are allowed to be targeted and are closer than the other targets.
         if (_player != null && !_ignorePlayer)
         {
-            playerDistanceSqr = (_player.transform.position - transform.position).sqrMagnitude;
+            Sheep closestSheep = GetClosestSheep();
+            Fence closestFence = GetClosestFence();
+
+            float closestSheepDistanceSqr = Mathf.Infinity;
+            float closestFenceDistanceSqr = Mathf.Infinity;
+            float playerDistanceSqr =
+                (_player.transform.position - transform.position).sqrMagnitude;
+
+            if (closestSheep != null)
+            {
+                closestSheepDistanceSqr =
+                    (closestSheep.transform.position - transform.position).sqrMagnitude;
+            }
+
+            if (closestFence != null)
+            {
+                closestFenceDistanceSqr =
+                    (closestFence.transform.position - transform.position).sqrMagnitude;
+            }
+
+            float closestNonPlayerDistanceSqr =
+                Mathf.Min(closestSheepDistanceSqr, closestFenceDistanceSqr);
+
+            if (playerDistanceSqr < closestNonPlayerDistanceSqr)
+            {
+                _targetSheep = null;
+                _targetFence = null;
+                _targetType = TargetType.Player;
+                _currentState = WrymmState.Hunting;
+
+                return;
+            }
         }
 
-        // Player is closer than the closest sheep
-        if (_player != null && playerDistanceSqr < closestSheepDistanceSqr)
+        // Player wasn't selected. Randomly select between Sheep and Fence.
+        bool targetSheep = Random.value < 0.5f;
+
+        if (targetSheep)
         {
-            _targetSheep = null;
-            _targetType = TargetType.Player;
-            _currentState = WrymmState.Hunting;
+            _targetSheep = GetClosestSheep();
 
-            return;
+            if (_targetSheep != null)
+            {
+                _targetFence = null;
+                _targetType = TargetType.Sheep;
+                _currentState = WrymmState.Hunting;
+
+                return;
+            }
         }
-
-        // Sheep is closer than the player
-        if (closestSheep != null)
+        else
         {
-            _targetSheep = closestSheep;
-            _targetType = TargetType.Sheep;
-            _currentState = WrymmState.Hunting;
+            _targetFence = GetClosestFence();
 
-            return;
+            if (_targetFence != null)
+            {
+                _targetSheep = null;
+                _targetType = TargetType.Fence;
+                _currentState = WrymmState.Hunting;
+
+                return;
+            }
         }
 
-        // No valid targets
-        _targetSheep = null;
+        // If the randomly selected target type doesn't exist,
+        // try the other target type.
+        if (_targetSheep == null)
+        {
+            _targetSheep = GetClosestSheep();
+
+            if (_targetSheep != null)
+            {
+                _targetFence = null;
+                _targetType = TargetType.Sheep;
+                _currentState = WrymmState.Hunting;
+
+                return;
+            }
+        }
+
+        if (_targetFence == null)
+        {
+            _targetFence = GetClosestFence();
+
+            if (_targetFence != null)
+            {
+                _targetSheep = null;
+                _targetType = TargetType.Fence;
+                _currentState = WrymmState.Hunting;
+
+                return;
+            }
+        }
+
         _targetType = TargetType.None;
     }
 
@@ -167,6 +262,29 @@ public class Wrymm : MonoBehaviour
         }
 
         return closestSheep;
+    }
+
+    private Fence GetClosestFence()
+    {
+        Fence closestFence = null;
+        float closestDistanceSqr = Mathf.Infinity;
+
+        foreach (Fence fence in _fences)
+        {
+            if (fence == null || !fence.gameObject.activeInHierarchy)
+                continue;
+
+            float distanceSqr =
+                (fence.transform.position - transform.position).sqrMagnitude;
+
+            if (distanceSqr < closestDistanceSqr)
+            {
+                closestDistanceSqr = distanceSqr;
+                closestFence = fence;
+            }
+        }
+
+        return closestFence;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -272,8 +390,7 @@ public class Wrymm : MonoBehaviour
             return;
 
         _retreatStartPosition = transform.position;
-
-        _targetSheep.transform.SetParent(transform);
+        _targetSheep.Grab(transform);
     }
 
     private void StartAttackingFence(Fence fence)
@@ -283,6 +400,8 @@ public class Wrymm : MonoBehaviour
             return;
 
         _targetFence = fence;
+
+        _fenceIsTarget = _targetType == TargetType.Fence;
 
         _currentState = WrymmState.AttackingFence;
 
@@ -311,7 +430,22 @@ public class Wrymm : MonoBehaviour
         }
         _targetFence = null;
 
-        FindNewTarget();
+        // Fence was the actual target. Find a completely new target.
+        if (_fenceIsTarget)
+        {
+            _fenceIsTarget = false;
+
+            _targetSheep = null;
+            _targetType = TargetType.None;
+
+            FindNewTarget();
+        }
+        else
+        {
+            // Fence was blocking our path to a sheep. Continue targeting the same sheep.
+            _targetType = TargetType.Sheep;
+            _currentState = WrymmState.Hunting;
+        }
 
         StopCoroutine(AttackFence());
     }
