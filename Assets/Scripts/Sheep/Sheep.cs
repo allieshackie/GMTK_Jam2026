@@ -59,6 +59,10 @@ public class Sheep : MonoBehaviour
 
     private float _randomLogicOffset;
 
+    private bool _gameStart = false;
+
+    private Rigidbody _rigidbody;
+
     public void Init(FlockManager flockManager)
     {
         _flockManager = flockManager;
@@ -67,8 +71,21 @@ public class Sheep : MonoBehaviour
     void Start()
     {
         SetState(SheepState.Idle);
+        GameManager.Instance.OnGameStateChanged += CheckGameState;
         _currentTarget = _flockManager.GetHerdHomePoint();
         _randomLogicOffset = EntityId.ToULong(GetEntityId()) % 10 * 0.5f;
+
+        _rigidbody = GetComponent<Rigidbody>();
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnGameStateChanged -= CheckGameState;
+    }
+
+    private void CheckGameState(GameManager.GameState state)
+    {
+        _gameStart = (state == GameManager.GameState.LevelStart) || (state == GameManager.GameState.Playing);
     }
 
     public void SetState(SheepState newState)
@@ -155,6 +172,10 @@ public class Sheep : MonoBehaviour
 
     private void Idle()
     {
+        if (!_gameStart)
+        {
+            return;
+        }
         if (_currentTarget == _flockManager.GetHerdHomePoint())
         {   
             if (Vector3.Distance(_currentTarget, transform.position) <= _wanderRadius)
@@ -274,7 +295,8 @@ public class Sheep : MonoBehaviour
             return;
         }
 
-        transform.position += _velocity * Time.deltaTime;
+        //transform.position += _velocity * Time.deltaTime;
+        _rigidbody.MovePosition(transform.position + _velocity * Time.deltaTime);
 
         if (_velocity.sqrMagnitude > 0.01f)
         {
