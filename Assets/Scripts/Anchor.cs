@@ -23,7 +23,14 @@ public class Anchor : MonoBehaviour
 
     public void SetActiveState(bool active)
     {
-        _collider.enabled = active;
+        if (_collider == null)
+        {
+            _collider = GetComponent<Collider>();
+        }
+        if (_collider)
+        {
+            _collider.enabled = active;
+        }
     }
 
     void Update()
