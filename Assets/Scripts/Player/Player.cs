@@ -21,8 +21,10 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _playerMesh;
     [SerializeField] private Animator _playerAnimator;
     [SerializeField] private Collider _attackCollider;
-    
 
+    // particles
+    [SerializeField] private ParticleSystem _lureParticle;
+    
     private bool _isAttacking = false;
     private bool _canAttack = true;
     private float _currentAttackCooldown = 0f;
@@ -131,6 +133,7 @@ public class Player : MonoBehaviour
             _bellLure.transform.SetParent(transform);
 
             _playerAnimator.SetTrigger("Lure");
+            _lureParticle.Play();
 
             Destroy(_bellLure.gameObject, _lureLifetime);
         }
@@ -191,15 +194,12 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isStunned)
-            return;
-
         MovePlayer();
     }
 
     private void MovePlayer()
     {
-        if (_currentLureCooldown > 0)
+        if (_isStunned || _currentLureCooldown > 0 || _currentAttackCooldown > 0)
         {
             _rb.linearVelocity = Vector3.zero;
             return;
