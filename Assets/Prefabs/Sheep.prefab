@@ -52,8 +52,9 @@ MonoBehaviour:
   _acceleration: 1
   _turnSpeed: 8
   _lureThreshold: 1
+  _homeInfluence: 1.5
   _returnHomeDistance: 2
-  _wanderRadius: 6
+  _wanderRadius: 12
   _wanderForce: 0.3
   _wanderSpeed: 1
   _separationRadius: 1.5

@@ -18,7 +18,8 @@ public class Sheep : MonoBehaviour
     [SerializeField] private float _turnSpeed = 2f;
 
     [Tooltip("The amount of influence needed for a sheep to be attracted by a lure")]
-    [SerializeField] private float _lureThreshold = 2f;
+    [SerializeField] private float _lureThreshold = 0;
+    [SerializeField] private float _homeInfluence = 1.5f;
     [SerializeField] private float _returnHomeDistance = 2f;
     // Wander 
     [SerializeField] private float _wanderRadius = 2;
@@ -149,7 +150,8 @@ public class Sheep : MonoBehaviour
             float distance = distanceFromSheep.magnitude;
             if (distance < _separationRadius)
             {
-                separation += distanceFromSheep.normalized / distance;
+               float strength = Mathf.Clamp01(1f - distance / _separationRadius);
+                separation += distanceFromSheep.normalized * strength;
             }
         }
 
@@ -176,7 +178,7 @@ public class Sheep : MonoBehaviour
         {
             return;
         }
-        if (_currentTarget == _flockManager.GetHerdHomePoint())
+        if (Vector3.Distance(_currentTarget, _flockManager.GetHerdHomePoint()) < 0.1f)
         {   
             if (Vector3.Distance(_currentTarget, transform.position) <= _wanderRadius)
             {
@@ -184,6 +186,19 @@ public class Sheep : MonoBehaviour
                 SetState(SheepState.Wander);
             }
         }
+    }
+
+    private Vector3 Home()
+    {
+        Vector3 home = _flockManager.GetHerdHomePoint();
+
+        float distance = Vector3.Distance(transform.position, home);
+        if (distance <= _returnHomeDistance)
+        {
+            return Vector3.zero;
+        }
+
+        return (home - transform.position).normalized;
     }
 
     private Vector3 Wander()
@@ -195,15 +210,17 @@ public class Sheep : MonoBehaviour
 
         Vector3 distanceFromTarget = _currentTarget - transform.position;
         float distance = distanceFromTarget.magnitude;
-        if (distance <= 1.5f)
+        if (HasArrived(_currentTarget, 1.5f))
         {
-            // Reached wander target, pick another
+            _velocity = Vector3.zero;
             _waitingForNewTarget = true;
+
             float delay = Random.Range(6f, 25f) + _randomLogicOffset;
             Invoke(nameof(GetWanderTarget), delay);
+
             return Vector3.zero;
         }
-
+   
         float speed = _moveSpeed;
         float slowRadius = 3f;
         if (distance < slowRadius)
@@ -244,37 +261,52 @@ public class Sheep : MonoBehaviour
             }
         }
 
+        // If have a herd home point, and the home influence is stronger than the strongest lure, return home
+        if ((strongestLure == null || strongestInfluence < _homeInfluence) && _flockManager.IsHomePointSet() && (Vector3.Distance( _currentTarget, _flockManager.GetHerdHomePoint()) > 0.1f))
+        {
+            if (Vector3.Distance(transform.position, _flockManager.GetHerdHomePoint()) <= _returnHomeDistance)
+            {
+                _currentTarget = _flockManager.GetHerdHomePoint();
+                SetState(SheepState.Idle);
+                return;
+            }
+        }
+
         if (strongestLure != null && strongestInfluence >= _lureThreshold)
         {
             _currentTarget = strongestLure.transform.position;
             SetState(SheepState.Lure);
         }
-
-        // If no lures, and not currently targeting home
-        if (strongestLure == null && _currentTarget != _flockManager.GetHerdHomePoint())
-        {
-            if (Vector3.Distance(transform.position, _flockManager.GetHerdHomePoint()) <= _returnHomeDistance)
-            {
-                _currentTarget = _flockManager.GetHerdHomePoint();
-            }
-        }
     }
 
     private Vector3 Lure()
     {
-        Vector3 distanceFromTarget = _currentTarget - transform.position;
-        if (distanceFromTarget.magnitude <= 0.2f)
+        float distance = Vector3.Distance(transform.position, _currentTarget);
+        if (distance <= 1f)
         {
             _velocity = Vector3.zero;
+            SetState(SheepState.Idle);
             return Vector3.zero;
         }
 
-        return distanceFromTarget.normalized;
+        return (_currentTarget - transform.position).normalized;
+    }
+
+    private bool HasArrived(Vector3 target, float stoppingDistance)
+    {
+        return Vector3.Distance(transform.position, target) <= stoppingDistance;
     }
 
     private void Move(Vector3 sheepSteering)
     {
         sheepSteering.y = 0;
+
+        if (sheepSteering.sqrMagnitude < 0.001f)
+        {
+            _velocity = Vector3.zero;
+            _sheepAnimator.SetFloat("Velocity", 0);
+            return;
+        }
 
         float speed = _moveSpeed;
         if (_state == SheepState.Wander)
@@ -287,16 +319,9 @@ public class Sheep : MonoBehaviour
         }
 
         Vector3 desiredVelocity = sheepSteering.normalized * speed;
-        _velocity = Vector3.Lerp(_velocity, sheepSteering.normalized * speed, Time.deltaTime * _acceleration);
-
-        if (desiredVelocity.sqrMagnitude < 0.001f && _velocity.sqrMagnitude < 0.03f)
-        {
-            _velocity = Vector3.zero;
-            return;
-        }
+        _velocity = Vector3.Lerp(_velocity, desiredVelocity, Time.deltaTime * _acceleration);
 
         transform.position += _velocity * Time.deltaTime;
-        //_rigidbody.MovePosition(transform.position + _velocity * Time.deltaTime);
 
         if (_velocity.sqrMagnitude > 0.01f)
         {
@@ -335,8 +360,7 @@ public class Sheep : MonoBehaviour
 
             if (sheep.GetState() == SheepState.Grabbed)
             {
-                float distance = Vector3.Distance(transform.position, sheep.transform.position);
-                if (distance <= _panicRadius)
+                if ((transform.position - sheep.transform.position).sqrMagnitude < _panicRadius * _panicRadius)
                 {
                     SetState(SheepState.Flee);
                     return;
@@ -403,7 +427,17 @@ public class Sheep : MonoBehaviour
         }
 
         sheepSteer += Separation() * _separationForce;
-        sheepSteer += AvoidObstacle() * _avoidForce;
+
+        float avoidStrength = Mathf.Clamp01(_velocity.magnitude / _moveSpeed);
+        sheepSteer += AvoidObstacle() * _avoidForce * avoidStrength;
+
+        Vector3 homeSteer = Vector3.zero;
+        if (_state == SheepState.Idle && _flockManager.IsHomePointSet())
+        {
+            homeSteer = Home() * _homeInfluence;
+        }
+
+        sheepSteer += homeSteer;
 
         Move(sheepSteer);
         UpdateGroundPosition();

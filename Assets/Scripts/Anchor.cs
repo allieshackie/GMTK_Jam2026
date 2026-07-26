@@ -7,6 +7,8 @@ public class Anchor : MonoBehaviour
 
     public event Action OnTimerComplete;
 
+    private FlockManager _flockManager;
+
     private bool _countdownStarted = false;
     private float _timer;
 
@@ -16,6 +18,7 @@ public class Anchor : MonoBehaviour
     {
         _collider = GetComponent<Collider>();
         _collider.enabled = false;
+        _flockManager = FindAnyObjectByType<FlockManager>();
     }
 
     public void SetActiveState(bool active)
@@ -42,6 +45,7 @@ public class Anchor : MonoBehaviour
         {
             _countdownStarted = true;
             _timer = _lifeTime;
+            _flockManager.SetHerdHomePoint(transform.position);
         }
     }
 }

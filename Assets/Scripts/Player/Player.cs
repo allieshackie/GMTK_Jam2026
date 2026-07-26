@@ -11,12 +11,17 @@ public class Player : MonoBehaviour
     [SerializeField] private float _acceleration = 12f;
     [SerializeField] private float _sprintModifier = 1.75f;
     [SerializeField] private float _stunnedDuration = 1.75f; // seconds
-    [SerializeField] private Lure _lurePrefab;
     [SerializeField] private float _attackCooldown = 0.05f;
-    [SerializeField] private float _lureCooldown = 0.05f;
+    // Lure
+    [SerializeField] private Lure _lurePrefab;
+    [SerializeField] private float _lureCooldown = 0.5f;
+    [SerializeField] private float _lureSize = 12f;
+    [SerializeField] private float _lureLifetime = 3f;
+
     [SerializeField] private Transform _playerMesh;
     [SerializeField] private Animator _playerAnimator;
     [SerializeField] private Collider _attackCollider;
+    
 
     private bool _isAttacking = false;
     private bool _canAttack = true;
@@ -112,12 +117,27 @@ public class Player : MonoBehaviour
         {
             _currentLureCooldown = _lureCooldown;
             _canLure = false;
+            SetLureAnim(true);
+            Invoke(nameof(CancelLureAnim), 0.2f);
+        
             Lure _bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
-            _bellLure.Initialize(12f, 15f);
+            _bellLure.Initialize(_lureSize, 100f);
+            _bellLure.transform.SetParent(transform);
+
             _playerAnimator.SetTrigger("Lure");
 
-            Destroy(_bellLure.gameObject, 3f);
+            Destroy(_bellLure.gameObject, _lureLifetime);
         }
+    }
+
+    private void SetLureAnim(bool active)
+    {
+        _playerAnimator.SetBool("Lure", active);
+    }
+
+    private void CancelLureAnim()
+    {
+        SetLureAnim(false);
     }
 
     private void Update()
@@ -160,6 +180,11 @@ public class Player : MonoBehaviour
 
     private void MovePlayer()
     {
+        if (_currentLureCooldown > 0)
+        {
+            _rb.linearVelocity = Vector3.zero;
+            return;
+        }
         Vector3 cameraForward = _cameraTransform.forward;
         cameraForward.y = 0f;
         cameraForward.Normalize();
