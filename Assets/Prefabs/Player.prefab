@@ -103,7 +103,7 @@ MonoBehaviour:
   _stunnedDuration: 1.75
   _attackCooldown: 0.5
   _lurePrefab: {fileID: -5051844452188655869, guid: b4dfa334301cf114ebf246f5b6048d66, type: 3}
-  _lureCooldown: 10
+  _lureCooldown: 5
   _lureMovementCooldown: 0
   _lureSize: 12
   _lureLifetime: 4.5
