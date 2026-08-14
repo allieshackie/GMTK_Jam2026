@@ -29,6 +29,13 @@ namespace Manaflow.Systems
         private int[,] _gridArray;
         private TextMesh[,] _debugTextArray;
 
+        /// <summary>
+        /// Creates a data grid that is relevant in 3D Space.
+        /// </summary>
+        /// <param name="width"> How long the grid is on the X axis </param>
+        /// <param name="height"> How long the grid is on the Y axis </param>
+        /// <param name="cellSize"> How big each cells are </param>
+        /// <param name="originPosition"> Where start the grid in world space </param>
         public Grid(int width, int height, float cellSize, Vector3 originPosition)
         {
             _width = width;

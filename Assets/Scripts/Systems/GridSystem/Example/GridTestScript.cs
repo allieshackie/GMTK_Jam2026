@@ -2,7 +2,7 @@ using FMODUnity;
 using Manaflow.Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using MGrid = Manaflow.Systems.Grid;
+using MGrid = Manaflow.Systems.Grid; // assigning an alias because unity has its own "Grid" system.
 
 public class GridTestScript : MonoBehaviour
 {
@@ -21,14 +21,16 @@ public class GridTestScript : MonoBehaviour
     void Start()
     {
         _mainCam = Camera.main;
+
+        // Here's where i initialize it for testing.
         _mGrid = new MGrid(2,4,5f, new Vector3(20,0));
-        Debug.Log("Test");
     }
 
     private void Update()
     {
     }
 
+    // LClick binding.
     private void OnLeftClick(InputAction.CallbackContext context)
     {
         if (context.ReadValueAsButton())
@@ -38,6 +40,7 @@ public class GridTestScript : MonoBehaviour
         }
     }
 
+    // RClick binding.
     private void OnRightClick(InputAction.CallbackContext context)
     {
         if (context.ReadValueAsButton())
