@@ -29,7 +29,6 @@ namespace Manaflow.Systems
         private TGridObject[,] _gridArray;
         private TextMesh[,] _debugTextArray;
 
-        public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<TGridObject>, int, int, TGridObject> createTGridObject)
         /// <summary>
         /// Creates a data grid that is relevant in 3D Space.
         /// </summary>
