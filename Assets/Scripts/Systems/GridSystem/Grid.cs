@@ -1,5 +1,4 @@
 using System;
-using Unity.Mathematics;
 using UnityEngine;
 ///
 /// Credits:
@@ -57,7 +56,7 @@ namespace Manaflow.Systems
             {
                 for (int y = 0; y < _gridArray.GetLength(1); y++)
                 {
-                    _debugTextArray[x, y] = DebugUtils.CreateWorldText(_gridArray[x, y]?.ToString(), GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * .5f, 15, Color.white);
+                    _debugTextArray[x, y] = GridUtils.CreateWorldText(_gridArray[x, y]?.ToString(), GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * .5f, 15, Color.white);
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x , y + 1), Color.white, 100f);
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
                 }

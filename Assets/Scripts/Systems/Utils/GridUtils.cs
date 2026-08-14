@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 namespace Manaflow.Systems
 {
-    public static class DebugUtils
+    public static class GridUtils
     {
 
         public static TextMesh CreateWorldText(string text, Vector3 worldPosition = default(Vector3), int fontSize = 1, Color color = default(Color))

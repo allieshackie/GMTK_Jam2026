@@ -1,6 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+///
+/// Credits:
+/// 
+/// CodeMonkey - https://www.youtube.com/watch?v=dulosHPl82A&list=PLzDRvYVwl53uhO8yhqxcyjDImRjO9W722&index=8
+/// 
+/// "Making a grid system, and how to implement it"
+///
+
 
 [CreateAssetMenu(fileName = "GridItemData", menuName = "InventoryGrid/GridItemData")]
 public class GridItemData : ScriptableObject
@@ -25,7 +33,6 @@ public class GridItemData : ScriptableObject
         }
     }
 
-    public string Name;
     public GameObject Obj;
     public int Width;
     public int Height;

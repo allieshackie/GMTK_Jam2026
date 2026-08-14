@@ -159,9 +159,36 @@
             "id": "8198356f-7503-4bd8-8273-f9e3b4781591",
             "actions": [
                 {
-                    "name": "ToggleInventory",
+                    "name": "Select",
                     "type": "Button",
                     "id": "639ad77b-03b8-47df-85fe-cd50ea41ddc0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RClick",
+                    "type": "Button",
+                    "id": "04c93f24-8197-4b4c-bc05-4d8bdd468402",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwapItem",
+                    "type": "Button",
+                    "id": "489d0114-ac62-48ae-977f-450845245ccc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateItem",
+                    "type": "Button",
+                    "id": "94194bb0-3de4-4096-b7e0-c96d5dec4c5e",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -172,11 +199,44 @@
                 {
                     "name": "",
                     "id": "21f7fe7e-60e2-4d39-add2-65ca3c3238a6",
-                    "path": "<Keyboard>/i",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ToggleInventory",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb060d6d-9d3b-4f95-952a-3facad960fcc",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e70aa31-b747-4597-8be1-f872271cbf75",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "638ab897-0eb5-4999-bb8d-262da3dcbb9b",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

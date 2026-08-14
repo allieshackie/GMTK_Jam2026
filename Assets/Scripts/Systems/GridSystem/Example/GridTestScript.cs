@@ -32,7 +32,7 @@ public class GridTestScript : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
-            var mouseInWorld = DebugUtils.MouseInWorldSpace(_mainCam);
+            var mouseInWorld = GridUtils.MouseInWorldSpace(_mainCam);
             Vector3 worldPosition = new Vector3(mouseInWorld.x, mouseInWorld.y, 0);
             _mGrid.SetValue(worldPosition, 56);
         }
@@ -43,7 +43,7 @@ public class GridTestScript : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
-            Debug.Log(_mGrid.GetGridObject(DebugUtils.MouseInWorldSpace(_mainCam)));
+            Debug.Log(_mGrid.GetGridObject(GridUtils.MouseInWorldSpace(_mainCam)));
         }
     }
 }

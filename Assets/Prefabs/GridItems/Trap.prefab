@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 783960637834776887}
   - component: {fileID: 8439338495354412668}
+  - component: {fileID: 210108443914787993}
   m_Layer: 0
   m_Name: Trap
   m_TagString: Untagged
@@ -92,3 +93,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &210108443914787993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7957435407229291919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84dfde1e4f0463845b37fbbbb6361db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
