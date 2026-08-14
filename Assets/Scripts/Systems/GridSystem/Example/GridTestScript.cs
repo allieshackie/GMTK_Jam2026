@@ -43,7 +43,7 @@ public class GridTestScript : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
-            Debug.Log(_mGrid.GetValue(DebugUtils.MouseInWorldSpace(_mainCam)));
+            Debug.Log(_mGrid.GetGridObject(DebugUtils.MouseInWorldSpace(_mainCam)));
         }
     }
 }

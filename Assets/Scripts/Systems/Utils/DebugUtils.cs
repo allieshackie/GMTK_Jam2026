@@ -29,11 +29,25 @@ namespace Manaflow.Systems
             return new Vector3(cam.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x, cam.ScreenToWorldPoint(Mouse.current.position.ReadValue()).y);
         }
 
-
         public static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, Camera worldCamera)
         {
             Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
             return worldPosition;
         }
+
+        // 3D test setup
+        public static Vector3 GetMouseWorldPosition3D()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 999f))
+            {
+                return hit.point;
+            }
+            else
+            {
+                return Vector3.zero;
+            }
+        }
+
     }
 }

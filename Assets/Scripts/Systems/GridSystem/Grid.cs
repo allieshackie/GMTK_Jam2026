@@ -74,16 +74,26 @@ namespace Manaflow.Systems
         }
 
         // convert x / y keys into world coordinates.
-        private Vector3 GetWorldPosition(int x, int y)
+        public Vector3 GetWorldPosition(int x, int y)
         {
             return new Vector3(x, y) * _cellSize + _originPosition;
         }
 
+        public float GetCellSize()
+        {
+            return _cellSize;
+        }
+
         // Convert world coordinate into x / y keys from the grid array.
-        private void GetXY(Vector3 worldPosition, out int x, out int y) 
+        public void GetXY(Vector3 worldPosition, out int x, out int y) 
         {
             x = Mathf.FloorToInt((worldPosition - _originPosition).x / _cellSize);
             y = Mathf.FloorToInt((worldPosition - _originPosition).y / _cellSize);
+        }
+
+        public void TriggerGridObjectChanged(int x, int y)
+        {
+            OnGridValueChanged?.Invoke(this, new OnGridValueChangedEventArgs { x = x, y = y });
         }
 
         // setting the grid coordinate's value via direct x,y coordinates.
@@ -93,7 +103,7 @@ namespace Manaflow.Systems
             {
                 _debugTextArray[x, y].text = value.ToString();
                 _gridArray[x, y] = value;
-                if (OnGridValueChanged != null) OnGridValueChanged(this, new OnGridValueChangedEventArgs { x = x, y = y });
+                TriggerGridObjectChanged(x, y);
             }
         }
 
@@ -106,7 +116,7 @@ namespace Manaflow.Systems
         }
 
         // Reports back a value from given coordinates.
-        public TGridObject GetValue(int x, int y)
+        public TGridObject GetGridObject(int x, int y)
         {
             if (x >= 0 && y >= 0 && x < _width && y < _height)
             {
@@ -120,11 +130,11 @@ namespace Manaflow.Systems
         }
 
         // world position wrapper for the get value.
-        public TGridObject GetValue(Vector3 worldPosition)
+        public TGridObject GetGridObject(Vector3 worldPosition)
         {
             int x, y;
             GetXY(worldPosition, out x, out y);
-            return GetValue(x, y);
+            return GetGridObject(x, y);
         }
     }
 }
