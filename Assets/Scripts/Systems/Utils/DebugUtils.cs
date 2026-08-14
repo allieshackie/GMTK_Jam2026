@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 ///
 /// Credits :
@@ -37,8 +38,9 @@ namespace Manaflow.Systems
             return worldPosition;
         }
 
-
-
-
+        public static Vector3 MouseInWorldSpace(Camera camera)
+        {
+            return new Vector3( camera.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x, camera.ScreenToWorldPoint(Mouse.current.position.ReadValue()).y);
+        }
     }
 }

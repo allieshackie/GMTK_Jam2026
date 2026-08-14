@@ -1,12 +1,10 @@
-using FMODUnity;
 using Manaflow.Systems;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using MGrid = Manaflow.Systems.Grid;
 
 public class GridTestScript : MonoBehaviour
 {
-    private MGrid _mGrid;
+    private Grid<int> _mGrid;
     private Player_Controls _playerControls;
     private Camera _mainCam;
 
@@ -21,7 +19,7 @@ public class GridTestScript : MonoBehaviour
     void Start()
     {
         _mainCam = Camera.main;
-        _mGrid = new MGrid(2,4,5f, new Vector3(20,0));
+        _mGrid = new Grid<int>(2,4,5f, new Vector3(20,0), (Grid<int> g, int x, int y) => 1);
     }
 
     private void Update()
@@ -32,7 +30,8 @@ public class GridTestScript : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
-            Vector3 worldPosition = new Vector3(MouseInWorldSpace().x, MouseInWorldSpace().y, 0);
+            var mouseInWorld = DebugUtils.MouseInWorldSpace(_mainCam);
+            Vector3 worldPosition = new Vector3(mouseInWorld.x, mouseInWorld.y, 0);
             _mGrid.SetValue(worldPosition, 56);
         }
     }
@@ -41,13 +40,8 @@ public class GridTestScript : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
-            Debug.Log(_mGrid.GetValue(MouseInWorldSpace()));
+            Debug.Log(_mGrid.GetValue(DebugUtils.MouseInWorldSpace(_mainCam)));
         }
     }
-
-    // Add this to utils.
-    private Vector3 MouseInWorldSpace()
-    {
-        return new Vector3( _mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x, _mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue()).y);
-    }
+    
 }

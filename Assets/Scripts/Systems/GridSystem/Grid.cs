@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Manaflow.Systems
 {
-    public class Grid
+    public class Grid<TGridObject>
     {
         public event EventHandler<OnGridValueChangedEventArgs> OnGridValueChanged;
         public class OnGridValueChangedEventArgs : EventArgs
@@ -26,23 +26,31 @@ namespace Manaflow.Systems
         private float _cellSize;
         private Vector3 _originPosition;
 
-        private int[,] _gridArray;
+        private TGridObject[,] _gridArray;
         private TextMesh[,] _debugTextArray;
 
-        public Grid(int width, int height, float cellSize, Vector3 originPosition)
+        public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<TGridObject>, int, int, TGridObject> createTGridObject)
         {
             _width = width;
             _height = height;
             _cellSize = cellSize;
             _originPosition = originPosition;
-            _gridArray = new int[width, height];
+            _gridArray = new TGridObject[width, height];
             _debugTextArray = new TextMesh[width, height];
 
             for (int x = 0; x < _gridArray.GetLength(0); x++)
             {
                 for (int y = 0; y < _gridArray.GetLength(1); y++)
                 {
-                    _debugTextArray[x, y] = DebugUtils.CreateWorldText(_gridArray[x, y].ToString(), GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * .5f, 15, Color.white);
+                    _gridArray[x,y] = createTGridObject(this, x, y);
+                }
+            }
+
+            for (int x = 0; x < _gridArray.GetLength(0); x++)
+            {
+                for (int y = 0; y < _gridArray.GetLength(1); y++)
+                {
+                    _debugTextArray[x, y] = DebugUtils.CreateWorldText(_gridArray[x, y]?.ToString(), GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * .5f, 15, Color.white);
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x , y + 1), Color.white, 100f);
                     Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
                 }
@@ -50,6 +58,11 @@ namespace Manaflow.Systems
 
             Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
             Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
+
+            OnGridValueChanged += (object sender, OnGridValueChangedEventArgs eventArgs) =>
+            {
+                _debugTextArray[eventArgs.x, eventArgs.y].text = _gridArray[eventArgs.x, eventArgs.y]?.ToString();
+            };
 
         }
 
@@ -67,7 +80,7 @@ namespace Manaflow.Systems
         }
 
         // setting the grid coordinate's value via direct x,y coordinates.
-        public void SetValue(int x, int y, int value)
+        public void SetValue(int x, int y, TGridObject value)
         {
             if (x >= 0 && y >= 0 && x < _width && y < _height)
             {
@@ -77,7 +90,7 @@ namespace Manaflow.Systems
         }
 
         // Setting the grid coordinate's value via vector 3 world position.
-        public void SetValue(Vector3 worldPosition, int value)
+        public void SetValue(Vector3 worldPosition, TGridObject value)
         {
             int x, y;
             GetXY(worldPosition, out x, out y);
@@ -85,7 +98,7 @@ namespace Manaflow.Systems
         }
 
         // Reports back a value from given coordinates.
-        public int GetValue(int x, int y)
+        public TGridObject GetValue(int x, int y)
         {
             if (x >= 0 && y >= 0 && x < _width && y < _height)
             {
@@ -94,12 +107,12 @@ namespace Manaflow.Systems
             else
             {
                 // What do we return if the player goes out of bounds? 
-                return 0;
+                return default;
             }
         }
 
         // world position wrapper for the get value.
-        public int GetValue(Vector3 worldPosition)
+        public TGridObject GetValue(Vector3 worldPosition)
         {
             int x, y;
             GetXY(worldPosition, out x, out y);
