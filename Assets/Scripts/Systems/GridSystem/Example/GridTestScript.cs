@@ -20,6 +20,7 @@ public class GridTestScript : MonoBehaviour
     {
         _mainCam = Camera.main;
         _mGrid = new Grid<int>(2,4,5f, new Vector3(20,0), (Grid<int> g, int x, int y) => 1);
+        Debug.Log("Test");
     }
 
     private void Update()
@@ -43,5 +44,4 @@ public class GridTestScript : MonoBehaviour
             Debug.Log(_mGrid.GetValue(DebugUtils.MouseInWorldSpace(_mainCam)));
         }
     }
-    
 }
