@@ -35,10 +35,5 @@ namespace Manaflow.Systems
             Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
             return worldPosition;
         }
-
-        public static Vector3 MouseInWorldSpace(Camera camera)
-        {
-            return new Vector3( camera.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x, camera.ScreenToWorldPoint(Mouse.current.position.ReadValue()).y);
-        }
     }
 }

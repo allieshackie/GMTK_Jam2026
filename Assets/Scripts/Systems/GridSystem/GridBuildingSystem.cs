@@ -52,7 +52,7 @@ public class GridBuildingSystem : MonoBehaviour
         {
             var mouseInWorld = DebugUtils.MouseInWorldSpace(_mainCam);
             Vector3 worldPosition = new Vector3(mouseInWorld.x, mouseInWorld.y, 0);
-            Instantiate(_testSprite, )
+            //Instantiate(_testSprite, )
         }
     }
     
