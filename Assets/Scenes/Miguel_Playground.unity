@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 52226982}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.28466, y: -0, z: -14.88758}
+  m_LocalPosition: {x: -10.02, y: -20.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -160,9 +160,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 52226982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 103c4102d5b587d419928d76588a2658, type: 3}
+  m_Script: {fileID: 11500000, guid: dcf64a0810fed604e8c11cca8e36813a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GridTestScript
+  m_EditorClassIdentifier: Assembly-CSharp::GridBuildingSystem
 --- !u!1 &407692860
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ Transform:
   m_GameObject: {fileID: 407692860}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -9.85, y: -14.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
