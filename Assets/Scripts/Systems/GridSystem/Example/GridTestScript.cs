@@ -22,6 +22,7 @@ public class GridTestScript : MonoBehaviour
     {
         _mainCam = Camera.main;
         _mGrid = new MGrid(2,4,5f, new Vector3(20,0));
+        Debug.Log("Test");
     }
 
     private void Update()
@@ -32,7 +33,7 @@ public class GridTestScript : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
-            Vector3 worldPosition = new Vector3(MouseInWorldSpace().x, MouseInWorldSpace().y, 0);
+            Vector3 worldPosition = new Vector3(DebugUtils.MouseInWorldSpace(_mainCam).x, DebugUtils.MouseInWorldSpace(_mainCam).y, 0);
             _mGrid.SetValue(worldPosition, 56);
         }
     }
@@ -41,13 +42,7 @@ public class GridTestScript : MonoBehaviour
     {
         if (context.ReadValueAsButton())
         {
-            Debug.Log(_mGrid.GetValue(MouseInWorldSpace()));
+            Debug.Log(_mGrid.GetValue(DebugUtils.MouseInWorldSpace(_mainCam)));
         }
-    }
-
-    // Add this to utils.
-    private Vector3 MouseInWorldSpace()
-    {
-        return new Vector3( _mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x, _mainCam.ScreenToWorldPoint(Mouse.current.position.ReadValue()).y);
     }
 }

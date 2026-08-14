@@ -71,6 +71,7 @@ namespace Manaflow.Systems
         {
             if (x >= 0 && y >= 0 && x < _width && y < _height)
             {
+                _debugTextArray[x, y].text = value.ToString();
                 _gridArray[x, y] = value;
                 if (OnGridValueChanged != null) OnGridValueChanged(this, new OnGridValueChangedEventArgs { x = x, y = y });
             }

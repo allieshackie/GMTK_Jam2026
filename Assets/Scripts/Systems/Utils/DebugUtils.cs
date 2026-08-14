@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 ///
 /// Credits :
@@ -23,21 +24,10 @@ namespace Manaflow.Systems
             return textMesh;
         }
 
-        public static Vector3 GetMouseWorldPosition(Vector3 mousePos)
+        public static Vector3 MouseInWorldSpace(Camera cam)
         {
-            Vector3 vec = GetMouseWorldPositionWithZ(mousePos, Camera.main);
-            vec.z = 0;
-            return vec;
+            return new Vector3(cam.ScreenToWorldPoint(Mouse.current.position.ReadValue()).x, cam.ScreenToWorldPoint(Mouse.current.position.ReadValue()).y);
         }
-
-
-        public static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, Camera worldCamera)
-        {
-            Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
-            return worldPosition;
-        }
-
-
 
 
     }
