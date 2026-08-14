@@ -75,7 +75,8 @@ public class GridBuildingSystem : MonoBehaviour
             List<Vector2Int> posList = _testObj.GetGridPositionList(new Vector2Int(x, y), _currentDir);
             foreach(Vector2Int vec in posList)
             {
-                if (!_grid.GetGridObject(vec.x, vec.y).CanPlace())
+                GridObject obj = _grid.GetGridObject(vec.x, vec.y);
+                if (obj == null || !obj.CanPlace())
                 {
                     canBuild = false;
                     break;
