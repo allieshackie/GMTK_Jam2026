@@ -158,11 +158,12 @@ public class GridBuildingSystem : MonoBehaviour
     private void OnSwapItem(InputAction.CallbackContext context)
     {
         _selectedGridItemObjIndex++;
-        if (_selectedGridItemObjIndex > _gridItemObjList.Count)
+        if (_selectedGridItemObjIndex >= _gridItemObjList.Count)
         {
             _selectedGridItemObjIndex = 0;
         }
         _selectedGridItemObj = _gridItemObjList[_selectedGridItemObjIndex];
+        OnSelectedGridItemChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public GridItemData GetGridItemDataType()
