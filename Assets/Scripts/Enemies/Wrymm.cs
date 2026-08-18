@@ -346,7 +346,7 @@ public class Wrymm : MonoBehaviour
             yield return null;
         }
 
-        _player.StartStun();
+        //_player.StartStun();
         RuntimeManager.PlayOneShotAttached("event:/Player/player_hit", gameObject);
 
         _ignorePlayer = true;

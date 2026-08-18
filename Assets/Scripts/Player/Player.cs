@@ -8,34 +8,9 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 1.6f;
-    //[SerializeField] private float _acceleration = 12f;
-    [SerializeField] private float _sprintModifier = 1.75f;
-    [SerializeField] private float _stunnedDuration = 1.75f; // seconds
-    [SerializeField] private float _attackCooldown = 0.05f;
-    // Lure
-    [SerializeField] private Lure _lurePrefab;
-    [SerializeField] private float _lureCooldown = 0.5f;
-    [SerializeField] private float _lureMovementCooldown = 0.5f;
-    [SerializeField] private float _lureSize = 12f;
-    [SerializeField] private float _lureLifetime = 3f;
-
     [SerializeField] private Transform _playerMesh;
     [SerializeField] private Animator _playerAnimator;
     [SerializeField] private Collider _attackCollider;
-
-    // particles
-    [SerializeField] private ParticleSystem _lureParticle;
-    
-    private bool _isAttacking = false;
-    private bool _canAttack = true;
-    private float _currentAttackCooldown = 0f;
-    private float _currentlureMovementCooldown = 0f;
-
-    private bool _isStunned = false;
-    private bool _isSprinting = false;
-    private bool _canLure = false;
-
-    private float _currentLureCooldown = 0f;
 
     private Player_Controls _playerControls;
     private Transform _cameraTransform;
@@ -47,9 +22,6 @@ public class Player : MonoBehaviour
     {
         _playerControls.Player.Movement.performed += OnMove;
         _playerControls.Player.Movement.canceled += OnMove;
-
-        //_playerControls.Player.Sprint.performed += OnSprint;
-        //_playerControls.Player.Sprint.canceled += OnSprint;
 
         _playerControls.Player.Attack.performed += OnAttack;
         _playerControls.Player.Attack.canceled += OnAttack;
@@ -64,9 +36,6 @@ public class Player : MonoBehaviour
     {
         _playerControls.Player.Movement.performed -= OnMove;
         _playerControls.Player.Movement.canceled -= OnMove;
-
-        //_playerControls.Player.Sprint.performed -= OnSprint;
-        //_playerControls.Player.Sprint.canceled -= OnSprint;
 
         _playerControls.Player.Attack.performed -= OnAttack;
         _playerControls.Player.Attack.canceled -= OnAttack;
@@ -91,6 +60,10 @@ public class Player : MonoBehaviour
         SubscribeInputs();
         //GameManager.Instance.OnGameStateChanged += EnableControls;
     }
+    private void OnDisable()
+    {
+        UnsubscribeInputs();
+    }
 
     private void EnableControls(GameManager.GameState state)
     {
@@ -104,105 +77,30 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        UnsubscribeInputs();
-    }
-
     private void OnMove(InputAction.CallbackContext context)
     {
-        _inputVector = context.ReadValue<Vector2>();
+        _inputVector = context.action.ReadValue<Vector2>();
     }
 
     private void OnSprint(InputAction.CallbackContext context)
     {
-        _isSprinting = context.ReadValueAsButton();
     }
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        _isAttacking = context.ReadValueAsButton();
-
-        // Plays the event attached to the current GameObject
-        RuntimeManager.PlayOneShotAttached("event:/Player/staff_swing", gameObject);
     }
 
     private void OnBellLure(InputAction.CallbackContext context)
     {
-        if (context.performed && _canLure)
-        {
-            _currentLureCooldown = _lureCooldown;
-            _currentlureMovementCooldown = _lureMovementCooldown;
-            _canLure = false;
-            SetLureAnim(true);
-            Invoke(nameof(CancelLureAnim), 0.2f);
-        
-            Lure _bellLure = Instantiate(_lurePrefab, transform.position, Quaternion.identity);
-            _bellLure.Initialize(_lureSize, 100f);
-            _bellLure.transform.SetParent(transform);
-
-            //_playerAnimator.SetTrigger("Lure");
-            _lureParticle.Play();
-
-            Destroy(_bellLure.gameObject, _lureLifetime);
-        }
-    }
-
-    private void SetLureAnim(bool active)
-    {
-        _playerAnimator.SetBool("Lure", active);
-    }
-
-    private void CancelLureAnim()
-    {
-        SetLureAnim(false);
     }
 
     void Start()
     {
         _playerControls.Player.Enable();
-        //GameManager.Instance.OnGameStateChanged += StateChange;
-    }
-
-    private void StateChange(GameManager.GameState state)
-    {
-        if (state == GameManager.GameState.LevelStart)
-        {
-            
-        }
     }
 
     private void Update()
     {
-        if (_isAttacking && _canAttack)
-        {
-            _currentAttackCooldown = _attackCooldown;
-            _canAttack = false;
-
-            _attackCollider.enabled = true;
-
-            // Play Attack Anim
-            _playerAnimator.SetTrigger("Attack");
-        }
-
-        if (!_canAttack)
-        {
-            _currentAttackCooldown -= Time.deltaTime;
-            if (_currentAttackCooldown <= 0f)
-            {
-                _canAttack = true;
-                _attackCollider.enabled = false;
-            }
-        }
-
-        if (!_canLure)
-        {
-            _currentLureCooldown -= Time.deltaTime;
-            _canLure = _currentLureCooldown <= 0f ? true : false;
-
-            //_currentlureMovementCooldown -= Time.deltaTime;
-            //_canLure = _currentLureCooldown <= 0f ? true : false;
-        }
     }
 
     private void FixedUpdate()
@@ -212,11 +110,6 @@ public class Player : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (_isStunned ||  _currentAttackCooldown > 0)
-        {
-            _rb.linearVelocity = Vector3.zero;
-            return;
-        }
         Vector3 cameraForward = _cameraTransform.forward;
         cameraForward.y = 0f;
         cameraForward.Normalize();
@@ -228,33 +121,14 @@ public class Player : MonoBehaviour
 
         if (moveDirection != Vector3.zero)
         {
-            _playerMesh.transform.rotation = Quaternion.Slerp(_playerMesh.transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * 5f);
+            _playerMesh.transform.rotation = Quaternion.Slerp(_playerMesh.transform.rotation, Quaternion.LookRotation(moveDirection), Time.deltaTime * 10f);
         }
 
-        float currentMoveSpeed = _isSprinting ? _moveSpeed * _sprintModifier : _moveSpeed;
-        Vector3 targetVelocity = moveDirection * currentMoveSpeed;
+        Vector3 targetVelocity = moveDirection * _moveSpeed;
         targetVelocity.y = _rb.linearVelocity.y;
 
         _rb.linearVelocity = targetVelocity;
 
         _playerAnimator.SetFloat("Velocity", _rb.linearVelocity.magnitude);
-    }
-
-    public void StartStun() 
-    {
-        StartCoroutine(StunAnimation());
-    }
-
-    private IEnumerator StunAnimation()
-    {
-        // TODO: Play animation
-        _isStunned = true;
-        _playerAnimator.SetBool("IsStunned", _isStunned);
-
-        yield return new WaitForSeconds(_stunnedDuration);
-
-        _isStunned = false;
-        _playerAnimator.SetTrigger("StunRecover");
-        StopCoroutine(StunAnimation());
     }
 }
