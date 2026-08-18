@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a793028403fda934bad7c8e9f2c6a10f, type: 3}
   m_Name: LanternUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  Name: Lantern Upgrade
-  Obj: {fileID: 7957435407229291919, guid: c8ef70ec856079842a129f830bc8d799, type: 3}
+  Obj: {fileID: 98445973920719455, guid: f77dc01dddbd59c4ca0c94056d9f8652, type: 3}
+  Sprite: {fileID: 21300000, guid: 2f0a5ce2e5e8dfc498924b19135d484c, type: 3}
   Width: 2
   Height: 2
