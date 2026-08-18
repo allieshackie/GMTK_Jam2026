@@ -88,8 +88,8 @@ public class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
 
-        //SubscribeInputs();
-        GameManager.Instance.OnGameStateChanged += EnableControls;
+        SubscribeInputs();
+        //GameManager.Instance.OnGameStateChanged += EnableControls;
     }
 
     private void EnableControls(GameManager.GameState state)
@@ -160,14 +160,15 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        GameManager.Instance.OnGameStateChanged += StateChange;
+        _playerControls.Player.Enable();
+        //GameManager.Instance.OnGameStateChanged += StateChange;
     }
 
     private void StateChange(GameManager.GameState state)
     {
         if (state == GameManager.GameState.LevelStart)
         {
-            _playerControls.Player.Enable();
+            
         }
     }
 
