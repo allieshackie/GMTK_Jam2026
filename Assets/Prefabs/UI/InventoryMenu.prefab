@@ -110,7 +110,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7390403080322509979}
   - component: {fileID: 5010984023386330666}
-  - component: {fileID: 1759928987973178933}
   - component: {fileID: 2282526013248787529}
   m_Layer: 5
   m_Name: UIGhost
@@ -126,17 +125,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002522288907763262}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8337228895769118497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 455, y: -364.2742}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5010984023386330666
 CanvasRenderer:
@@ -146,36 +145,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002522288907763262}
   m_CullTransparentMesh: 1
---- !u!114 &1759928987973178933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002522288907763262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.29411766}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2f0a5ce2e5e8dfc498924b19135d484c, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &2282526013248787529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,8 +167,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8337228895769118497}
   - component: {fileID: 8088036439464079717}
-  - component: {fileID: 8447015861098732642}
-  - component: {fileID: 7462049646314615763}
   m_Layer: 5
   m_Name: MainGridContainer
   m_TagString: Untagged
@@ -235,60 +202,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3411773670014580816}
   m_CullTransparentMesh: 1
---- !u!114 &8447015861098732642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3411773670014580816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.113826975, g: 0.118712075, b: 0.2754717, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!114 &7462049646314615763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3411773670014580816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
-  m_Padding:
-    m_Left: 10
-    m_Right: 10
-    m_Top: 10
-    m_Bottom: 10
-  m_ChildAlignment: 4
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 150, y: 150}
-  m_Spacing: {x: 0, y: 0}
-  m_Constraint: 1
-  m_ConstraintCount: 2
 --- !u!1 &3734323599144154138
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,7 +364,7 @@ GameObject:
   - component: {fileID: 1466446218986863027}
   - component: {fileID: 5727113796199734200}
   - component: {fileID: 2905580058898281907}
-  - component: {fileID: 6100662555120045555}
+  - component: {fileID: 1329622847663865056}
   m_Layer: 5
   m_Name: InventoryMenu
   m_TagString: Untagged
@@ -546,7 +459,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6100662555120045555
+--- !u!114 &1329622847663865056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -555,13 +468,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6466266388443644659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcf64a0810fed604e8c11cca8e36813a, type: 3}
+  m_Script: {fileID: 11500000, guid: b0aee4525a6767f4bbcc0d42dddfbc5c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GridBuildingSystem
+  m_EditorClassIdentifier: Assembly-CSharp::Grid2D
   _gridItemObjList:
   - {fileID: 11400000, guid: 935573127e36ad14c8e9f56cadf763a7, type: 2}
   - {fileID: 11400000, guid: d3cbdd38e7ae83541a8194077b14642d, type: 2}
   - {fileID: 11400000, guid: 354758bebfcb6774eae4e29da9ce38a4, type: 2}
-  _gridItemUI: {fileID: 8267701634823082114, guid: 84aa8a941028dda45b10d933741fbe8c, type: 3}
+  _gridItemUI: {fileID: 4045829506695384529, guid: c4613604f3822f94397b797c787d39c7, type: 3}
   _mainGridSection: {fileID: 1423793509773616098}
   _mainGridContainerSection: {fileID: 3411773670014580816}

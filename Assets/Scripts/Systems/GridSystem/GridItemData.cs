@@ -34,6 +34,8 @@ public class GridItemData : ScriptableObject
     }
 
     public GameObject Obj;
+
+    public Sprite Sprite;
     public int Width;
     public int Height;
 
