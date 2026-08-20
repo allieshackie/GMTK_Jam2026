@@ -113,11 +113,11 @@ public class GridBuildingSystem : MonoBehaviour
             {
                 Vector2Int rotationOffset = _selectedGridItemObj.GetRotationOffset(_currentDir);
                 Vector3 placedPos = _grid.GetWorldPosition(x, y) + (new Vector3(rotationOffset.x, rotationOffset.y, 0) * _grid.GetCellSize());
-                InventoryItem newItem = InventoryItem.Create(placedPos, new Vector2Int(x,y), _currentDir, _selectedGridItemObj);
-                foreach (Vector2Int vec in posList)
-                {
-                    _grid.GetGridObject(vec.x, vec.y).SetItem(newItem);
-                }
+                //InventoryItem newItem = InventoryItem.Create(placedPos, new Vector2Int(x,y), _currentDir, _selectedGridItemObj);
+                // foreach (Vector2Int vec in posList)
+                // {
+                //     _grid.GetGridObject(vec.x, vec.y).SetItem(newItem);
+                // }
             }
             else
             {

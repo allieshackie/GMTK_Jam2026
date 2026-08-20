@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 ///
 /// Credits:
@@ -15,9 +17,12 @@ public class InventoryItem : MonoBehaviour
     private Vector2Int _origin;
     private GridItemData.Dir _dir;
 
-    public static InventoryItem Create(Vector3 worldPos, Vector2Int origin, GridItemData.Dir dir, GridItemData data)
+    public static InventoryItem Create(Transform parentTransform, Vector2Int origin, GridItemData.Dir dir, GridItemData data)
     {
-        GameObject obj = Instantiate(data.Obj, worldPos, Quaternion.Euler(0, 0, data.GetRotationAngle(dir)));
+        GameObject obj = Instantiate(data.Obj, parentTransform);
+        RectTransform rectTransform = obj.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = Grid2D.Instance.GetHoveredGridCellPosition();
+        rectTransform.sizeDelta = Grid2D.Instance.GetItemSize(data.Width, data.Height);
 
         InventoryItem item = obj.GetComponent<InventoryItem>();
         item._gridItemData = data;

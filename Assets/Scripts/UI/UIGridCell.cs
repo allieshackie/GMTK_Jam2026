@@ -30,6 +30,9 @@ public class UIGridCell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        OnCellClick?.Invoke();
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OnCellClick?.Invoke();
+        }
     }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3218075975752455744}
   - component: {fileID: 8742065850350181559}
   - component: {fileID: 8239537248939746798}
+  - component: {fileID: 1806313686846708589}
   m_Layer: 5
   m_Name: LureUpgrade
   m_TagString: Untagged
@@ -75,3 +76,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1806313686846708589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98445973920719455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84dfde1e4f0463845b37fbbbb6361db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
