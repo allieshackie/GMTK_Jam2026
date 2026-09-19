@@ -10,12 +10,13 @@ using UnityEngine;
 
 public class GridItemGhost : MonoBehaviour
 {
+    [SerializeField] private Grid2D _gridParent;
     private GameObject _currentVisual;
     void Start()
     {
         RefreshVisual();
 
-        Grid2D.Instance.OnSelectedGridItemChanged += OnSelectedChanged;
+        _gridParent.OnSelectedGridItemChanged += OnSelectedChanged;
     }
 
     private void OnSelectedChanged(object sender, System.EventArgs e)
@@ -31,7 +32,7 @@ public class GridItemGhost : MonoBehaviour
             _currentVisual = null;
         }
         
-        GridItemData data = Grid2D.Instance.GetGridItemDataType();
+        GridItemData data = _gridParent.GetGridItemDataType();
         if (data != null)
         {
             _currentVisual = Instantiate(data.Obj, transform);
@@ -45,20 +46,20 @@ public class GridItemGhost : MonoBehaviour
 
                 rectTransform.anchoredPosition = Vector2.zero;
                 rectTransform.localPosition = Vector3.zero;
-                rectTransform.sizeDelta = Grid2D.Instance.GetItemSize(data.Width, data.Height);
+                rectTransform.sizeDelta = _gridParent.GetItemSize(data.Width, data.Height);
             }
         }
     }
 
     private void LateUpdate()
     {
-        Vector2 targetPosition = Grid2D.Instance.GetHoveredGridCellPosition();
+        Vector2 targetPosition = _gridParent.GetHoveredGridCellPosition();
         if (targetPosition != Vector2.zero)
         {
             RectTransform rectTransform = GetComponent<RectTransform>();
 
             rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, targetPosition, Time.deltaTime * 15f);
-            rectTransform.localRotation = Quaternion.Lerp(rectTransform.localRotation, Grid2D.Instance.GetPlacedItemRotation(), Time.deltaTime * 15f);
+            rectTransform.localRotation = Quaternion.Lerp(rectTransform.localRotation, _gridParent.GetPlacedItemRotation(), Time.deltaTime * 15f);
         }
     }
 }

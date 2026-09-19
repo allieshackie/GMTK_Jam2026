@@ -17,12 +17,12 @@ public class InventoryItem : MonoBehaviour
     private Vector2Int _origin;
     private GridItemData.Dir _dir;
 
-    public static InventoryItem Create(Transform parentTransform, Vector2Int origin, GridItemData.Dir dir, GridItemData data)
+    public static InventoryItem Create(Grid2D gridParent, Transform parentTransform, Vector2Int origin, GridItemData.Dir dir, GridItemData data)
     {
         GameObject obj = Instantiate(data.Obj, parentTransform);
         RectTransform rectTransform = obj.GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = Grid2D.Instance.GetHoveredGridCellPosition();
-        rectTransform.sizeDelta = Grid2D.Instance.GetItemSize(data.Width, data.Height);
+        rectTransform.anchoredPosition = gridParent.GetHoveredGridCellPosition();
+        rectTransform.sizeDelta = gridParent.GetItemSize(data.Width, data.Height);
 
         InventoryItem item = obj.GetComponent<InventoryItem>();
         item._gridItemData = data;

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Grid2D : MonoBehaviour
 {
-    public static Grid2D Instance;
     [SerializeField] private List<GridItemData> _gridItemObjList;
     [SerializeField] private GameObject _gridItemUI;
     [SerializeField] private GameObject _mainGridSection;
@@ -62,8 +61,6 @@ public class Grid2D : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         _playerControls = new Player_Controls();
         _playerControls.UI.RClick.performed += OnRightClick;
         _playerControls.UI.SwapItem.performed += OnSwapItem;
@@ -185,7 +182,7 @@ public class Grid2D : MonoBehaviour
         }
         if (canBuild)
         {
-            InventoryItem newItem = InventoryItem.Create(_mainGridContainerSection.transform, selectedCellPos, _currentDir, _selectedGridItemObj);
+            InventoryItem newItem = InventoryItem.Create(this, _mainGridContainerSection.transform, selectedCellPos, _currentDir, _selectedGridItemObj);
             foreach (Vector2Int vec in posList)
             {
                 _gridArray[vec.x, vec.y].SetItem(newItem);
