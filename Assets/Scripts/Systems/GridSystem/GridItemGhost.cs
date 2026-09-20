@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 ///
 /// Credits:
@@ -11,15 +12,46 @@ using UnityEngine.InputSystem;
 
 public class GridItemGhost : MonoBehaviour
 {
-    [SerializeField] private Grid2D _gridParent;
+    private Grid2D _currentlyHoveredGrid;
+    private Grid2D _displayGrid;
     private GameObject _currentVisual;
+
     void Start()
     {
-        // Note: this is mainly for testing, where you can swap item types
-        // Normally you'll be selecting one item at a time and placing them
-        // Uncomment for testing
-        RefreshVisual();
-        _gridParent.OnSelectedGridItemChanged += OnSelectedChanged;
+        Graphic ghostLayerGraphic = transform.parent.GetComponent<Graphic>();
+        if (ghostLayerGraphic != null)
+        {
+            ghostLayerGraphic.raycastTarget = false;
+        }
+
+        Grid2D.OnHoveredGridChanged += HandleHoveredGridChanged;
+        HandleHoveredGridChanged(Grid2D.CurrentlyHoveredGrid);
+    }
+
+    private void OnDestroy()
+    {
+        Grid2D.OnHoveredGridChanged -= HandleHoveredGridChanged;
+        if (_currentlyHoveredGrid != null)
+        {
+            _currentlyHoveredGrid.OnSelectedGridItemChanged -= OnSelectedChanged;
+        }
+    }
+
+    private void HandleHoveredGridChanged(Grid2D grid)
+    {
+        if (_currentlyHoveredGrid != null)
+        {
+            _currentlyHoveredGrid.OnSelectedGridItemChanged -= OnSelectedChanged;
+        }
+
+        _currentlyHoveredGrid = grid;
+
+        if (_currentlyHoveredGrid != null)
+        {
+            _displayGrid = _currentlyHoveredGrid;
+            _currentlyHoveredGrid.OnSelectedGridItemChanged += OnSelectedChanged;
+            RefreshVisual();
+        }
     }
 
     private void OnSelectedChanged(object sender, System.EventArgs e)
@@ -35,11 +67,21 @@ public class GridItemGhost : MonoBehaviour
             _currentVisual = null;
         }
         
-        GridItemData data = _gridParent.GetGridItemDataType();
+        if (_displayGrid == null)
+        {
+            return;
+        }
+
+        GridItemData data = _displayGrid.GetSelectedGridItemData();
         if (data != null)
         {
             _currentVisual = Instantiate(data.Obj, transform);
             RectTransform rectTransform = _currentVisual.GetComponent<RectTransform>();
+
+            foreach (Graphic graphic in _currentVisual.GetComponentsInChildren<Graphic>())
+            {
+                graphic.raycastTarget = false;
+            }
 
             if (rectTransform != null)
             {
@@ -49,7 +91,7 @@ public class GridItemGhost : MonoBehaviour
 
                 rectTransform.anchoredPosition = Vector2.zero;
                 rectTransform.localPosition = Vector3.zero;
-                rectTransform.sizeDelta = _gridParent.GetItemSize(data.Width, data.Height);
+                rectTransform.sizeDelta = _displayGrid.GetItemSize(data.Width, data.Height);
             }
         }
     }
@@ -57,21 +99,24 @@ public class GridItemGhost : MonoBehaviour
     private void LateUpdate()
     {
         RectTransform rectTransform = GetComponent<RectTransform>();
-        Vector2 targetPosition = _gridParent.GetHoveredGridCellPosition();
+        RectTransform parentRect = rectTransform.parent as RectTransform;
 
-        if (targetPosition != Vector2.zero)
+        if (_currentlyHoveredGrid != null && parentRect != null && _currentlyHoveredGrid.TryGetHoveredItemWorldPosition(out Vector3 targetWorldPosition))
         {
-            rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, targetPosition, Time.deltaTime * 15f);
+            Vector3 targetLocalPosition = parentRect.InverseTransformPoint(targetWorldPosition);
+            rectTransform.localPosition = Vector3.Lerp(rectTransform.localPosition, targetLocalPosition, Time.deltaTime * 15f);
         }
         else
         {
-            RectTransform parentRect = rectTransform.parent as RectTransform;
-            if (Mouse.current != null && RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, Mouse.current.position.ReadValue(), Camera.main, out Vector2 localMousePos))
+            if (parentRect != null && Mouse.current != null && RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, Mouse.current.position.ReadValue(), Camera.main, out Vector2 localMousePos))
             {
                 rectTransform.localPosition = Vector3.Lerp(rectTransform.localPosition, localMousePos, Time.deltaTime * 25f);
             }
         }
 
-        rectTransform.localRotation = Quaternion.Lerp(rectTransform.localRotation, _gridParent.GetPlacedItemRotation(), Time.deltaTime * 15f);
+        if (_displayGrid != null)
+        {
+            rectTransform.localRotation = Quaternion.Lerp(rectTransform.localRotation, _displayGrid.GetPlacedItemRotation(), Time.deltaTime * 15f);
+        }
     }
 }

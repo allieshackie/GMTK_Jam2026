@@ -4,8 +4,8 @@ using UnityEngine.EventSystems;
 
 public class UIGridCell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public static event Action<UIGridCell, bool> OnHoverChanged;
-    public static event Action OnCellClick;
+    public event Action<UIGridCell, bool> OnHoverChanged;
+    public event Action<UIGridCell> OnCellClick;
     private Vector2Int _gridPos;
 
     public void Initialize(int x, int y)
@@ -32,7 +32,7 @@ public class UIGridCell : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            OnCellClick?.Invoke();
+            OnCellClick?.Invoke(this);
         }
     }
 }

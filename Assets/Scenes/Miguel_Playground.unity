@@ -669,7 +669,23 @@ PrefabInstance:
     - target: {fileID: 2282526013248787529, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}
       propertyPath: _gridParent
       value: 
-      objectReference: {fileID: 1161977994}
+      objectReference: {fileID: 0}
+    - target: {fileID: 2741787427886064874, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00012207031
+      objectReference: {fileID: 0}
+    - target: {fileID: 2741787427886064874, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 2832301676505104490, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.00036621094
+      objectReference: {fileID: 0}
+    - target: {fileID: 3534211128050536780, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000061035156
+      objectReference: {fileID: 0}
     - target: {fileID: 5727113796199734200, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -912,17 +928,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6466266388443644659, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}
   m_PrefabInstance: {fileID: 667842504}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1161977994 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1329622847663865056, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}
-  m_PrefabInstance: {fileID: 667842504}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1161977993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0aee4525a6767f4bbcc0d42dddfbc5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Grid2D
 --- !u!224 &1161977998 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 678169624453504919, guid: fe9b792334d0ec64faf5ec33639969d8, type: 3}

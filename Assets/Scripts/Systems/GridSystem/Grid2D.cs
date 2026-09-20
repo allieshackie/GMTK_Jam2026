@@ -6,10 +6,13 @@ using UnityEngine.UI;
 
 public class Grid2D : MonoBehaviour
 {
+    public static Grid2D CurrentlyHoveredGrid { get; private set; }
+    public static event Action<Grid2D> OnHoveredGridChanged;
+
     [SerializeField] private List<GridItemData> _gridItemObjList;
     [SerializeField] private GameObject _gridItemUI;
-    [SerializeField] private GameObject _gridContent;
-    [SerializeField] private GameObject _gridContainerSection;
+    [SerializeField] private GameObject _gridCellContainer;
+    [SerializeField] private GameObject _gridItemContainer;
 
     [SerializeField] private int _rows = 5;
     [SerializeField] private int _columns = 5;
@@ -66,22 +69,53 @@ public class Grid2D : MonoBehaviour
         _playerControls.UI.RClick.performed += OnRightClick;
         _playerControls.UI.SwapItem.performed += OnSwapItem;
         _playerControls.UI.RotateItem.performed += OnRotateItem;
-        _playerControls.UI.Enable();
 
         Init();
         _selectedGridItemObj = _gridItemObjList[_selectedGridItemObjIndex];
     }
 
-    void Start()
+    private void OnEnable()
     {
-        Canvas inventoryCanvas = GetComponent<Canvas>();
-        Player player = FindAnyObjectByType<Player>();
+        _playerControls?.UI.Enable();
+    }
 
-        inventoryCanvas.transform.position = player.transform.position + Vector3.up * 10f;
-        inventoryCanvas.transform.localScale = Vector3.one * 0.01f;
+    private void OnDisable()
+    {
+        _playerControls?.UI.Disable();
 
-        Vector3 direction = inventoryCanvas.transform.position - Camera.main.transform.position;
-        inventoryCanvas.transform.rotation = Quaternion.LookRotation(direction);
+        if (CurrentlyHoveredGrid == this)
+        {
+            SetCurrentlyHoveredGrid(null);
+        }
+
+        _hoveredCell = null;
+    }
+
+    private void OnDestroy()
+    {
+        if (_playerControls != null)
+        {
+            _playerControls.UI.RClick.performed -= OnRightClick;
+            _playerControls.UI.SwapItem.performed -= OnSwapItem;
+            _playerControls.UI.RotateItem.performed -= OnRotateItem;
+            _playerControls.Dispose();
+        }
+
+        if (_uiCells == null)
+        {
+            return;
+        }
+
+        foreach (UIGridCell cell in _uiCells)
+        {
+            if (cell == null)
+            {
+                continue;
+            }
+
+            cell.OnHoverChanged -= HandleGridCellOnHoverChanged;
+            cell.OnCellClick -= OnLeftClick;
+        }
     }
 
     private void Init()
@@ -96,7 +130,7 @@ public class Grid2D : MonoBehaviour
             }
         }
 
-        GridLayoutGroup gridLayout = _gridContent.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = _gridCellContainer.GetComponent<GridLayoutGroup>();
         if (gridLayout)
         {
             // This constraint count is specifically "column count", 
@@ -104,7 +138,7 @@ public class Grid2D : MonoBehaviour
             gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             gridLayout.constraintCount = _rows;
 
-            RectTransform rect = _gridContent.GetComponent<RectTransform>();
+            RectTransform rect = _gridCellContainer.GetComponent<RectTransform>();
             float menuContentWidth = rect.rect.width;
             float menuContentHeight = rect.rect.height;
 
@@ -114,7 +148,6 @@ public class Grid2D : MonoBehaviour
 
             // Ideally, keep content area a perfect square so that the cells will perfectly fit, but if the content area is a rectangle, 
             // need to calc based on the shortest size
-            //cellSize = Mathf.Min(cellWidth, cellHeight);
             gridLayout.cellSize = new Vector2(cellWidth, cellHeight);
             _cellSize = gridLayout.cellSize;
         }
@@ -124,18 +157,17 @@ public class Grid2D : MonoBehaviour
         {
             for (int x = 0; x < _rows; x++)
             {
-                GameObject cellObj = Instantiate(_gridItemUI, _gridContent.transform);
+                GameObject cellObj = Instantiate(_gridItemUI, _gridCellContainer.transform);
                 UIGridCell uiCell = cellObj.GetComponent<UIGridCell>();
                 if (uiCell)
                 {
                     uiCell.Initialize(x, y);
+                    uiCell.OnHoverChanged += HandleGridCellOnHoverChanged;
+                    uiCell.OnCellClick += OnLeftClick;
                     _uiCells[x,y] = uiCell;
                 }
             }
         }
-
-        UIGridCell.OnHoverChanged += HandleGridCellOnHoverChanged;
-        UIGridCell.OnCellClick += OnLeftClick;
     }
 
     private void HandleGridCellOnHoverChanged(UIGridCell cell, bool isHovered)
@@ -143,11 +175,28 @@ public class Grid2D : MonoBehaviour
         if (isHovered)
         {
             _hoveredCell = cell;
+            SetCurrentlyHoveredGrid(this);
         }
-        else
+        else if (_hoveredCell == cell)
         {
             _hoveredCell = null;
+
+            if (CurrentlyHoveredGrid == this)
+            {
+                SetCurrentlyHoveredGrid(null);
+            }
         }
+    }
+
+    private static void SetCurrentlyHoveredGrid(Grid2D grid)
+    {
+        if (CurrentlyHoveredGrid == grid)
+        {
+            return;
+        }
+
+        CurrentlyHoveredGrid = grid;
+        OnHoveredGridChanged?.Invoke(grid);
     }
 
     public Quaternion GetPlacedItemRotation()
@@ -168,6 +217,22 @@ public class Grid2D : MonoBehaviour
         }
 
         return Vector2.zero;
+    }
+
+    public bool TryGetHoveredItemWorldPosition(out Vector3 worldPosition)
+    {
+        worldPosition = Vector3.zero;
+        if (!TryGetSelectedCellPos(out Vector2Int selectedCellPos))
+        {
+            return false;
+        }
+
+        Vector2Int itemGridSize = GetSelectedItemGridSize();
+        RectTransform cellRect = _uiCells[selectedCellPos.x, selectedCellPos.y].GetComponent<RectTransform>();
+        Vector3 itemCenterFromCellTopLeft = new Vector3(cellRect.rect.xMin + _cellSize.x * itemGridSize.x * 0.5f, cellRect.rect.yMax - _cellSize.y * itemGridSize.y * 0.5f, 0f);
+
+        worldPosition = cellRect.TransformPoint(itemCenterFromCellTopLeft);
+        return true;
     }
 
     private Vector2Int GetSelectedItemGridSize()
@@ -204,8 +269,11 @@ public class Grid2D : MonoBehaviour
         return true;
     }
 
-    private void OnLeftClick()
+    private void OnLeftClick(UIGridCell cell)
     {
+        _hoveredCell = cell;
+        SetCurrentlyHoveredGrid(this);
+
         if (!TryGetSelectedCellPos(out Vector2Int selectedCellPos))
         {
             return;
@@ -224,7 +292,7 @@ public class Grid2D : MonoBehaviour
         }
         if (canBuild)
         {
-            InventoryItem newItem = InventoryItem.Create(this, _gridContainerSection.transform, selectedCellPos, _currentDir, _selectedGridItemObj);
+            InventoryItem newItem = InventoryItem.Create(this, _gridItemContainer.transform, selectedCellPos, _currentDir, _selectedGridItemObj);
             foreach (Vector2Int vec in posList)
             {
                 _gridArray[vec.x, vec.y].SetItem(newItem);
@@ -238,7 +306,7 @@ public class Grid2D : MonoBehaviour
 
     private void OnRightClick(InputAction.CallbackContext context)
     {
-        if (_hoveredCell)
+        if (CurrentlyHoveredGrid == this && _hoveredCell)
         {
             GridObject obj = _gridArray[_hoveredCell.GetXY().x, _hoveredCell.GetXY().y];
             InventoryItem item = obj.GetItem();
@@ -261,7 +329,7 @@ public class Grid2D : MonoBehaviour
 
     private void OnRotateItem(InputAction.CallbackContext context)
     {
-        if (context.ReadValueAsButton())
+        if (CurrentlyHoveredGrid == this && context.ReadValueAsButton())
         {
             _currentDir = GridItemData.GetNextDir(_currentDir);
         }
@@ -269,6 +337,11 @@ public class Grid2D : MonoBehaviour
 
     private void OnSwapItem(InputAction.CallbackContext context)
     {
+        if (CurrentlyHoveredGrid != this)
+        {
+            return;
+        }
+
         _selectedGridItemObjIndex++;
         if (_selectedGridItemObjIndex >= _gridItemObjList.Count)
         {
@@ -278,7 +351,7 @@ public class Grid2D : MonoBehaviour
         OnSelectedGridItemChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public GridItemData GetGridItemDataType()
+    public GridItemData GetSelectedGridItemData()
     {
         return _selectedGridItemObj;
     }

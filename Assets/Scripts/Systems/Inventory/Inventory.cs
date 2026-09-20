@@ -20,6 +20,15 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
+        Canvas inventoryCanvas = _inventoryUI.GetComponent<Canvas>();
+        Player player = FindAnyObjectByType<Player>();
+
+        inventoryCanvas.transform.position = player.transform.position + Vector3.up * 10f;
+        inventoryCanvas.transform.localScale = Vector3.one * 0.01f;
+
+        Vector3 direction = inventoryCanvas.transform.position - Camera.main.transform.position;
+        inventoryCanvas.transform.rotation = Quaternion.LookRotation(direction);
+        
         _inventoryUI.SetActive(_isInventoryOpen);
     }
 
