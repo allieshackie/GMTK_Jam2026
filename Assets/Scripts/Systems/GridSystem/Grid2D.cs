@@ -57,6 +57,7 @@ public class Grid2D : MonoBehaviour
     }
 
     private GridObject[,] _gridArray;
+    private UIGridCell[,] _uiCells;
 
 
     private void Awake()
@@ -118,15 +119,17 @@ public class Grid2D : MonoBehaviour
             _cellSize = gridLayout.cellSize;
         }
 
-        for (int x = 0; x < _rows; x++)
+        _uiCells = new UIGridCell[_rows, _columns];
+        for (int y = 0; y < _columns; y++)
         {
-            for (int y = 0; y < _columns; y++)
+            for (int x = 0; x < _rows; x++)
             {
                 GameObject cellObj = Instantiate(_gridItemUI, _mainGridSection.transform);
                 UIGridCell uiCell = cellObj.GetComponent<UIGridCell>();
                 if (uiCell)
                 {
-                    uiCell.Initialize(y, x);
+                    uiCell.Initialize(x, y);
+                    _uiCells[x,y] = uiCell;
                 }
             }
         }
@@ -154,21 +157,60 @@ public class Grid2D : MonoBehaviour
 
     public Vector2 GetHoveredGridCellPosition()
     {
-        if (_hoveredCell)
+        if (TryGetSelectedCellPos(out Vector2Int selectedCellPos))
         {
-            Vector2 pos = _hoveredCell.GetComponent<RectTransform>().anchoredPosition;
-            pos.x += _cellSize.x * (_selectedGridItemObj.Width * 0.5f);
-            pos.y -= _cellSize.y * (_selectedGridItemObj.Height * 0.5f);
+            Vector2Int itemGridSize = GetSelectedItemGridSize();
+            UIGridCell cell = _uiCells[selectedCellPos.x, selectedCellPos.y];
+            Vector2 pos = cell.GetComponent<RectTransform>().anchoredPosition;
+            pos.x += _cellSize.x * (itemGridSize.x * 0.5f);
+            pos.y -= _cellSize.y * (itemGridSize.y * 0.5f);
             return pos;
         }
 
         return Vector2.zero;
     }
 
+    private Vector2Int GetSelectedItemGridSize()
+    {
+        bool isSideways = _currentDir == GridItemData.Dir.Left || _currentDir == GridItemData.Dir.Right;
+        if (isSideways)
+        {
+            return new Vector2Int(_selectedGridItemObj.Height, _selectedGridItemObj.Width);
+        }
+
+        return new Vector2Int(_selectedGridItemObj.Width, _selectedGridItemObj.Height);
+    }
+
+    private bool TryGetSelectedCellPos(out Vector2Int selectedCellPos)
+    {
+        selectedCellPos = _hoveredCell.GetXY();
+        if (!_hoveredCell || _selectedGridItemObj == null)
+        {
+            return false;
+        }
+
+        Vector2Int itemGridSize = GetSelectedItemGridSize();
+        int gridWidth = _gridArray.GetLength(0);
+        int gridHeight = _gridArray.GetLength(1);
+
+        if (itemGridSize.x > gridWidth || itemGridSize.y > gridHeight)
+        {
+            return false;
+        }
+
+        Vector2Int hoveredCellPos = _hoveredCell.GetXY();
+        selectedCellPos = new Vector2Int(Mathf.Clamp(hoveredCellPos.x, 0, gridWidth - itemGridSize.x), Mathf.Clamp(hoveredCellPos.y, 0, gridHeight - itemGridSize.y));
+
+        return true;
+    }
+
     private void OnLeftClick()
-    {     
-        Debug.Log("Left Click");
-        Vector2Int selectedCellPos = _hoveredCell.GetXY();
+    {
+        if (!TryGetSelectedCellPos(out Vector2Int selectedCellPos))
+        {
+            return;
+        }
+
         bool canBuild = true;
         List<Vector2Int> posList = _selectedGridItemObj.GetGridPositionList(selectedCellPos, _currentDir);
         foreach(Vector2Int vec in posList)

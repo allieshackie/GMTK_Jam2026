@@ -23,6 +23,7 @@ public class InventoryItem : MonoBehaviour
         RectTransform rectTransform = obj.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = gridParent.GetHoveredGridCellPosition();
         rectTransform.sizeDelta = gridParent.GetItemSize(data.Width, data.Height);
+        rectTransform.localRotation = gridParent.GetPlacedItemRotation();
 
         InventoryItem item = obj.GetComponent<InventoryItem>();
         item._gridItemData = data;
