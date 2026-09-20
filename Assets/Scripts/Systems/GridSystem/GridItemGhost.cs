@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 ///
 /// Credits:
@@ -14,8 +15,10 @@ public class GridItemGhost : MonoBehaviour
     private GameObject _currentVisual;
     void Start()
     {
+        // Note: this is mainly for testing, where you can swap item types
+        // Normally you'll be selecting one item at a time and placing them
+        // Uncomment for testing
         RefreshVisual();
-
         _gridParent.OnSelectedGridItemChanged += OnSelectedChanged;
     }
 
@@ -53,13 +56,22 @@ public class GridItemGhost : MonoBehaviour
 
     private void LateUpdate()
     {
+        RectTransform rectTransform = GetComponent<RectTransform>();
         Vector2 targetPosition = _gridParent.GetHoveredGridCellPosition();
+
         if (targetPosition != Vector2.zero)
         {
-            RectTransform rectTransform = GetComponent<RectTransform>();
-
             rectTransform.anchoredPosition = Vector2.Lerp(rectTransform.anchoredPosition, targetPosition, Time.deltaTime * 15f);
-            rectTransform.localRotation = Quaternion.Lerp(rectTransform.localRotation, _gridParent.GetPlacedItemRotation(), Time.deltaTime * 15f);
         }
+        else
+        {
+            RectTransform parentRect = rectTransform.parent as RectTransform;
+            if (Mouse.current != null && RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRect, Mouse.current.position.ReadValue(), Camera.main, out Vector2 localMousePos))
+            {
+                rectTransform.localPosition = Vector3.Lerp(rectTransform.localPosition, localMousePos, Time.deltaTime * 25f);
+            }
+        }
+
+        rectTransform.localRotation = Quaternion.Lerp(rectTransform.localRotation, _gridParent.GetPlacedItemRotation(), Time.deltaTime * 15f);
     }
 }

@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa458aa64ed0bf0469e8b7ffa78c5acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridItemGhost
+  _gridParent: {fileID: 0}
 --- !u!1 &3411773670014580816
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,5 +477,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d3cbdd38e7ae83541a8194077b14642d, type: 2}
   - {fileID: 11400000, guid: 354758bebfcb6774eae4e29da9ce38a4, type: 2}
   _gridItemUI: {fileID: 4045829506695384529, guid: c4613604f3822f94397b797c787d39c7, type: 3}
-  _mainGridSection: {fileID: 1423793509773616098}
-  _mainGridContainerSection: {fileID: 3411773670014580816}
+  _gridContent: {fileID: 1423793509773616098}
+  _gridContainerSection: {fileID: 3411773670014580816}
+  _rows: 5
+  _columns: 5

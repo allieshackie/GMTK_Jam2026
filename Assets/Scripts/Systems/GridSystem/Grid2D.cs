@@ -8,8 +8,8 @@ public class Grid2D : MonoBehaviour
 {
     [SerializeField] private List<GridItemData> _gridItemObjList;
     [SerializeField] private GameObject _gridItemUI;
-    [SerializeField] private GameObject _mainGridSection;
-    [SerializeField] private GameObject _mainGridContainerSection;
+    [SerializeField] private GameObject _gridContent;
+    [SerializeField] private GameObject _gridContainerSection;
 
     [SerializeField] private int _rows = 5;
     [SerializeField] private int _columns = 5;
@@ -92,11 +92,11 @@ public class Grid2D : MonoBehaviour
         {
             for (int y = 0; y < _gridArray.GetLength(1); y++)
             {
-                _gridArray[x,y] = new GridObject( x, y);
+                _gridArray[x,y] = new GridObject(x, y);
             }
         }
 
-        GridLayoutGroup gridLayout = _mainGridSection.GetComponent<GridLayoutGroup>();
+        GridLayoutGroup gridLayout = _gridContent.GetComponent<GridLayoutGroup>();
         if (gridLayout)
         {
             // This constraint count is specifically "column count", 
@@ -104,7 +104,7 @@ public class Grid2D : MonoBehaviour
             gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             gridLayout.constraintCount = _rows;
 
-            RectTransform rect = _mainGridSection.GetComponent<RectTransform>();
+            RectTransform rect = _gridContent.GetComponent<RectTransform>();
             float menuContentWidth = rect.rect.width;
             float menuContentHeight = rect.rect.height;
 
@@ -124,7 +124,7 @@ public class Grid2D : MonoBehaviour
         {
             for (int x = 0; x < _rows; x++)
             {
-                GameObject cellObj = Instantiate(_gridItemUI, _mainGridSection.transform);
+                GameObject cellObj = Instantiate(_gridItemUI, _gridContent.transform);
                 UIGridCell uiCell = cellObj.GetComponent<UIGridCell>();
                 if (uiCell)
                 {
@@ -183,7 +183,7 @@ public class Grid2D : MonoBehaviour
 
     private bool TryGetSelectedCellPos(out Vector2Int selectedCellPos)
     {
-        selectedCellPos = _hoveredCell.GetXY();
+        selectedCellPos = Vector2Int.zero;
         if (!_hoveredCell || _selectedGridItemObj == null)
         {
             return false;
@@ -224,7 +224,7 @@ public class Grid2D : MonoBehaviour
         }
         if (canBuild)
         {
-            InventoryItem newItem = InventoryItem.Create(this, _mainGridContainerSection.transform, selectedCellPos, _currentDir, _selectedGridItemObj);
+            InventoryItem newItem = InventoryItem.Create(this, _gridContainerSection.transform, selectedCellPos, _currentDir, _selectedGridItemObj);
             foreach (Vector2Int vec in posList)
             {
                 _gridArray[vec.x, vec.y].SetItem(newItem);

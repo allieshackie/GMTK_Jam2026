@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
 
     private bool _isInventoryOpen = false;
 
-     private void Awake()
+    private void Awake()
     {
         _playerControls = new Player_Controls();
         _playerControls.UI.ToggleInventory.performed += ToggleInventory;
