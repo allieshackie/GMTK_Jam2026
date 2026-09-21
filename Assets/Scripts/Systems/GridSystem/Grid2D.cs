@@ -8,11 +8,16 @@ public class Grid2D : MonoBehaviour
 {
     public static Grid2D CurrentlyHoveredGrid { get; private set; }
     public static event Action<Grid2D> OnHoveredGridChanged;
+    public event Action<InventoryItem> ItemAddedToGrid;
+    public event Action<InventoryItem> ItemMovedWithinGrid;
+    public event Action<InventoryItem> ItemRemovedFromGrid;
+    public GridItemData SelectedGridItemData => _selectedGridItemObj;
 
     [SerializeField] private List<GridItemData> _gridItemObjList;
     [SerializeField] private GameObject _gridItemUI;
     [SerializeField] private GameObject _gridCellContainer;
     [SerializeField] private GameObject _gridItemContainer;
+    [SerializeField] private GridDragController _dragController;
 
     [SerializeField] private int _rows = 5;
     [SerializeField] private int _columns = 5;
@@ -29,14 +34,7 @@ public class Grid2D : MonoBehaviour
 
     public class GridObject
     {
-        private int _x, _y;
         private InventoryItem _item;
-
-        public GridObject(int x, int y)
-        {
-            _x = x;
-            _y = y;
-        }
 
         public void SetItem(InventoryItem item)
         {
@@ -71,7 +69,13 @@ public class Grid2D : MonoBehaviour
         _playerControls.UI.RotateItem.performed += OnRotateItem;
 
         Init();
-        _selectedGridItemObj = _gridItemObjList[_selectedGridItemObjIndex];
+        // This was just grabbing an object for testing, but normally you'll need to select an item first
+        // if (_gridItemObjList.Count > 0)
+        // {
+        //     _selectedGridItemObj = _gridItemObjList[_selectedGridItemObjIndex];
+        // }
+
+        _dragController = FindAnyObjectByType<GridDragController>();
     }
 
     private void OnEnable()
@@ -126,7 +130,7 @@ public class Grid2D : MonoBehaviour
         {
             for (int y = 0; y < _gridArray.GetLength(1); y++)
             {
-                _gridArray[x,y] = new GridObject(x, y);
+                _gridArray[x,y] = new GridObject();
             }
         }
 
@@ -146,9 +150,9 @@ public class Grid2D : MonoBehaviour
             float cellWidth = (menuContentWidth - gridLayout.padding.left - gridLayout.padding.right - gridLayout.spacing.x * (_rows - 1)) / _rows;
             float cellHeight = (menuContentHeight - gridLayout.padding.top - gridLayout.padding.bottom - gridLayout.spacing.y * (_columns - 1)) / _columns;
 
-            // Ideally, keep content area a perfect square so that the cells will perfectly fit, but if the content area is a rectangle, 
-            // need to calc based on the shortest size
-            gridLayout.cellSize = new Vector2(cellWidth, cellHeight);
+            // Keep cells square and fit the entire grid inside the available content area.
+            float cellSize = Mathf.Min(cellWidth, cellHeight);
+            gridLayout.cellSize = Vector2.one * cellSize;
             _cellSize = gridLayout.cellSize;
         }
 
@@ -204,6 +208,15 @@ public class Grid2D : MonoBehaviour
         return Quaternion.Euler(0, 0, _selectedGridItemObj.GetRotationAngle(_currentDir));
     }
 
+    public Vector3 GetItemWorldPosition(Vector2Int origin, GridItemData data, GridItemData.Dir direction)
+    {
+        RectTransform rect = _uiCells[origin.x, origin.y].GetComponent<RectTransform>();
+        Vector2Int itemGridSize = GetItemGridSize(data, direction);
+        Vector3 itemCenterFromCellTopLeft = new Vector3(rect.rect.xMin + _cellSize.x * itemGridSize.x * 0.5f, rect.rect.yMax - _cellSize.y * itemGridSize.y * 0.5f, 0f);
+
+        return rect.TransformPoint(itemCenterFromCellTopLeft);
+    }
+
     public Vector2 GetHoveredGridCellPosition()
     {
         if (TryGetSelectedCellPos(out Vector2Int selectedCellPos))
@@ -235,15 +248,32 @@ public class Grid2D : MonoBehaviour
         return true;
     }
 
-    private Vector2Int GetSelectedItemGridSize()
+    public bool TryGetItemWorldPosition(GridItemData data, GridItemData.Dir direction, out Vector3 worldPosition)
     {
-        bool isSideways = _currentDir == GridItemData.Dir.Left || _currentDir == GridItemData.Dir.Right;
-        if (isSideways)
+        worldPosition = Vector3.zero;
+        if (!TryGetHoveredPlacement(data, direction, out Vector2Int origin))
         {
-            return new Vector2Int(_selectedGridItemObj.Height, _selectedGridItemObj.Width);
+            return false;
         }
 
-        return new Vector2Int(_selectedGridItemObj.Width, _selectedGridItemObj.Height);
+        worldPosition = GetItemWorldPosition(origin, data, direction);
+        return true;
+    }
+
+    private Vector2Int GetSelectedItemGridSize()
+    {
+        return GetItemGridSize(_selectedGridItemObj, _currentDir);
+    }
+
+    private Vector2Int GetItemGridSize(GridItemData data, GridItemData.Dir direction)
+    {
+        bool isSideways = direction == GridItemData.Dir.Left || direction == GridItemData.Dir.Right;
+        if (isSideways)
+        {
+            return new Vector2Int(data.Height, data.Width);
+        }
+
+        return new Vector2Int(data.Width, data.Height);
     }
 
     private bool TryGetSelectedCellPos(out Vector2Int selectedCellPos)
@@ -269,34 +299,157 @@ public class Grid2D : MonoBehaviour
         return true;
     }
 
+    public bool TryGetHoveredPlacement(GridItemData data, GridItemData.Dir direction, out Vector2Int origin)
+    {
+        origin = Vector2Int.zero;
+        if (!_hoveredCell || data == null)
+        {
+            return false;
+        }
+
+        Vector2Int itemGridSize = GetItemGridSize(data, direction);
+        int gridWidth = _gridArray.GetLength(0);
+        int gridHeight = _gridArray.GetLength(1);
+        if (itemGridSize.x > gridWidth || itemGridSize.y > gridHeight)
+        {
+            return false;
+        }
+
+        Vector2Int hoveredPosition = _hoveredCell.GetXY();
+        origin = new Vector2Int(Mathf.Clamp(hoveredPosition.x, 0, gridWidth - itemGridSize.x), Mathf.Clamp(hoveredPosition.y, 0, gridHeight - itemGridSize.y));
+        return true;
+    }
+
+    public InventoryItem GetItemAt(Vector2Int position)
+    {
+        if (!IsInBounds(position))
+        {
+            return null;
+        }
+
+        return _gridArray[position.x, position.y].GetItem();
+    }
+
+    public bool CanPlace(InventoryItem draggedItem, GridItemData data, Vector2Int origin, GridItemData.Dir direction)
+    {
+        if (data == null)
+        {
+            return false;
+        }
+
+        foreach (Vector2Int position in data.GetGridPositionList(origin, direction))
+        {
+            if (!IsInBounds(position))
+            {
+                return false;
+            }
+
+            InventoryItem item = _gridArray[position.x, position.y].GetItem();
+            if (item != null && item != draggedItem)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void PlaceExisting(InventoryItem item, Vector2Int origin, GridItemData.Dir direction, bool notify = true)
+    {
+        foreach (Vector2Int position in item.Data.GetGridPositionList(origin, direction))
+        {
+            _gridArray[position.x, position.y].SetItem(item);
+        }
+
+        item.SetPlacement(this, _gridItemContainer.transform, origin, direction);
+        if (notify)
+        {
+            NotifyItemAdded(item);
+        }
+    }
+
+    public void ClearItemFromGrid(InventoryItem item, bool notify = true)
+    {
+        foreach (Vector2Int position in item.GetGridPositionList())
+        {
+            if (IsInBounds(position) && _gridArray[position.x, position.y].GetItem() == item)
+            {
+                _gridArray[position.x, position.y].ClearItem();
+            }
+        }
+
+        if (notify)
+        {
+            NotifyItemRemoved(item);
+        }
+    }
+
+    public void ResetItemPosition(InventoryItem item, Vector2Int origin, GridItemData.Dir direction)
+    {
+        item.SetPlacement(this, _gridItemContainer.transform, origin, direction);
+    }
+
+    public void NotifyItemAdded(InventoryItem item)
+    {
+        ItemAddedToGrid?.Invoke(item);
+    }
+
+    public void NotifyItemMoved(InventoryItem item)
+    {
+        ItemMovedWithinGrid?.Invoke(item);
+    } 
+    public void NotifyItemRemoved(InventoryItem item)
+    {
+        ItemRemovedFromGrid?.Invoke(item);
+    } 
+
+    private bool IsInBounds(Vector2Int position)
+    {
+        return position.x >= 0 && position.y >= 0 && position.x < _gridArray.GetLength(0) && position.y < _gridArray.GetLength(1);
+    }
+
     private void OnLeftClick(UIGridCell cell)
     {
         _hoveredCell = cell;
         SetCurrentlyHoveredGrid(this);
+
+        if (_dragController != null && _dragController.IsDragging())
+        {
+            _dragController.TryDrop(this);
+            return;
+        }
+
+        InventoryItem clickedItem = GetItemAt(cell.GetXY());
+        if (clickedItem != null && _dragController != null)
+        {
+            _dragController.BeginDrag(clickedItem);
+            return;
+        }
 
         if (!TryGetSelectedCellPos(out Vector2Int selectedCellPos))
         {
             return;
         }
 
-        bool canBuild = true;
+        bool canPlace = true;
         List<Vector2Int> posList = _selectedGridItemObj.GetGridPositionList(selectedCellPos, _currentDir);
         foreach(Vector2Int vec in posList)
         {
             GridObject obj = _gridArray[vec.x, vec.y];
             if (obj == null || !obj.CanPlace())
             {
-                canBuild = false;
+                canPlace = false;
                 break;
             }
         }
-        if (canBuild)
+        if (canPlace)
         {
             InventoryItem newItem = InventoryItem.Create(this, _gridItemContainer.transform, selectedCellPos, _currentDir, _selectedGridItemObj);
             foreach (Vector2Int vec in posList)
             {
                 _gridArray[vec.x, vec.y].SetItem(newItem);
             }
+            NotifyItemAdded(newItem);
         }
         else
         {
@@ -306,6 +459,12 @@ public class Grid2D : MonoBehaviour
 
     private void OnRightClick(InputAction.CallbackContext context)
     {
+        if (CurrentlyHoveredGrid == this && _dragController != null && _dragController.IsDragging())
+        {
+            _dragController.CancelDrag();
+            return;
+        }
+
         if (CurrentlyHoveredGrid == this && _hoveredCell)
         {
             GridObject obj = _gridArray[_hoveredCell.GetXY().x, _hoveredCell.GetXY().y];
@@ -323,6 +482,7 @@ public class Grid2D : MonoBehaviour
                 }
                 
                 item.DestroySelf();
+                NotifyItemRemoved(item);
             }
         }
     }
@@ -331,6 +491,12 @@ public class Grid2D : MonoBehaviour
     {
         if (CurrentlyHoveredGrid == this && context.ReadValueAsButton())
         {
+            if (_dragController != null && _dragController.IsDragging())
+            {
+                _dragController.RotateDraggedItem();
+                return;
+            }
+
             _currentDir = GridItemData.GetNextDir(_currentDir);
         }
     }
@@ -338,6 +504,11 @@ public class Grid2D : MonoBehaviour
     private void OnSwapItem(InputAction.CallbackContext context)
     {
         if (CurrentlyHoveredGrid != this)
+        {
+            return;
+        }
+
+        if (_gridItemObjList.Count == 0)
         {
             return;
         }
@@ -351,16 +522,47 @@ public class Grid2D : MonoBehaviour
         OnSelectedGridItemChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public GridItemData GetSelectedGridItemData()
-    {
-        return _selectedGridItemObj;
-    }
-
     public Vector2 GetItemSize(int width, int height)
     {
         float calcWidth = width * _cellSize.x;
         float calcHeight = height * _cellSize.y;
 
         return new Vector2(calcWidth, calcHeight);
+    }
+
+    public void InitWithItems(List<PendingItem> pendingItems)
+    {
+        RectTransform cellContainerRect = _gridCellContainer.transform as RectTransform;
+        if (cellContainerRect != null)
+        {
+            // Note: The placed items were weirdly offset and it was apparently a timing issue of the 
+            // grid adding the cells and the item placing itself.  
+            // Force the canvas to rebuild if it's not ready
+            LayoutRebuilder.ForceRebuildLayoutImmediate(cellContainerRect);
+        }
+
+        foreach(PendingItem item in pendingItems)
+        {
+            bool canPlace = true;
+            List<Vector2Int> posList = item.Data.GetGridPositionList(item.Position, item.Dir);
+            foreach(Vector2Int vec in posList)
+            {
+                GridObject obj = _gridArray[vec.x, vec.y];
+                if (obj == null || !obj.CanPlace())
+                {
+                    canPlace = false;
+                    break;
+                }
+            }
+            if (canPlace)
+            {
+                InventoryItem newItem = InventoryItem.Create(this, _gridItemContainer.transform, item.Position, item.Dir, item.Data);
+                foreach (Vector2Int vec in posList)
+                {
+                    _gridArray[vec.x, vec.y].SetItem(newItem);
+                }
+                NotifyItemAdded(newItem);
+            }
+        }
     }
 }

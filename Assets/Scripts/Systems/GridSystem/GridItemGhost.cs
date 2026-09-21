@@ -15,9 +15,16 @@ public class GridItemGhost : MonoBehaviour
     private Grid2D _currentlyHoveredGrid;
     private Grid2D _displayGrid;
     private GameObject _currentVisual;
+    private GridDragController _dragController;
 
     void Start()
     {
+        Canvas parentCanvas = GetComponentInParent<Canvas>();
+        if (parentCanvas != null)
+        {
+            _dragController = parentCanvas.GetComponentInChildren<GridDragController>(true);
+        }
+
         Graphic ghostLayerGraphic = transform.parent.GetComponent<Graphic>();
         if (ghostLayerGraphic != null)
         {
@@ -72,7 +79,7 @@ public class GridItemGhost : MonoBehaviour
             return;
         }
 
-        GridItemData data = _displayGrid.GetSelectedGridItemData();
+        GridItemData data = _displayGrid.SelectedGridItemData;
         if (data != null)
         {
             _currentVisual = Instantiate(data.Obj, transform);
@@ -98,6 +105,11 @@ public class GridItemGhost : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (_currentVisual != null)
+        {
+            _currentVisual.SetActive(!_dragController.IsDragging());
+        }
+
         RectTransform rectTransform = GetComponent<RectTransform>();
         RectTransform parentRect = rectTransform.parent as RectTransform;
 
@@ -116,7 +128,7 @@ public class GridItemGhost : MonoBehaviour
 
         if (_displayGrid != null)
         {
-            rectTransform.localRotation = Quaternion.Lerp(rectTransform.localRotation, _displayGrid.GetPlacedItemRotation(), Time.deltaTime * 15f);
+            //rectTransform.localRotation = Quaternion.Lerp(rectTransform.localRotation, _displayGrid.GetPlacedItemRotation(), Time.deltaTime * 15f);
         }
     }
 }

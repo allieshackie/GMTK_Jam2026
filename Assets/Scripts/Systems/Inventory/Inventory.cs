@@ -5,7 +5,10 @@ using UnityEngine.InputSystem;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private GameObject _inventoryUI;
-    private Dictionary<InventoryItem, int> _items = new();
+    [SerializeField] private GameObject _pendingUI;
+    [SerializeField] private Grid2D _inventoryGrid;
+    [SerializeField] private Grid2D _pendingGrid;
+    private Dictionary<GridItemData, int> _items = new();
 
     private Player_Controls _playerControls;
 
@@ -14,8 +17,20 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         _playerControls = new Player_Controls();
-        _playerControls.UI.ToggleInventory.performed += ToggleInventory;
+        _playerControls.UI.ToggleInventory.performed += ToggleInventoryButton;
         _playerControls.UI.Enable();
+    }
+
+    private void OnEnable()
+    {
+        _inventoryGrid.ItemAddedToGrid += HandleItemAdded;
+        _inventoryGrid.ItemRemovedFromGrid += HandleItemRemoved;
+    }
+
+    private void OnDisable()
+    {
+        _inventoryGrid.ItemAddedToGrid -= HandleItemAdded;
+        _inventoryGrid.ItemRemovedFromGrid -= HandleItemRemoved;
     }
 
     private void Start()
@@ -30,15 +45,35 @@ public class Inventory : MonoBehaviour
         inventoryCanvas.transform.rotation = Quaternion.LookRotation(direction);
         
         _inventoryUI.SetActive(_isInventoryOpen);
+        _pendingUI.SetActive(false);
     }
 
-    private void ToggleInventory(InputAction.CallbackContext context)
+    private void ToggleInventoryButton(InputAction.CallbackContext context)
+    {
+        ToggleInventory();
+    }
+
+    private void ToggleInventory()
     {
         _isInventoryOpen = !_isInventoryOpen;
         _inventoryUI.SetActive(_isInventoryOpen);
+        if (!_isInventoryOpen)
+        {
+            _pendingUI.SetActive(false);
+        }
     }
 
-    public void Add(InventoryItem item, int amount)
+    private void HandleItemAdded(InventoryItem item)
+    {
+        Add(item.Data, 1);
+    }
+
+    private void HandleItemRemoved(InventoryItem item)
+    {
+        Remove(item.Data, 1);
+    }
+
+    public void Add(GridItemData item, int amount)
     {
         if (!_items.ContainsKey(item))
         {   
@@ -48,7 +83,7 @@ public class Inventory : MonoBehaviour
         _items[item] += amount;
     }
 
-    public void Remove(InventoryItem ingredient, int amount)
+    public void Remove(GridItemData ingredient, int amount)
     {
         if (_items.ContainsKey(ingredient))
         {   
@@ -56,7 +91,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool Has(InventoryItem ingredient, int amount)
+    public bool Has(GridItemData ingredient, int amount)
     {
         if (_items.ContainsKey(ingredient))
         {
@@ -66,4 +101,13 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public void OpenPendingGrid(List<PendingItem> pendingItems)
+    {
+        if (!_isInventoryOpen)
+        {
+            ToggleInventory();
+        }
+        _pendingUI.SetActive(true);
+        _pendingGrid.InitWithItems(pendingItems);
+    }
 }
