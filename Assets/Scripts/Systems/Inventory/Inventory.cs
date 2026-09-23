@@ -21,6 +21,7 @@ public class Inventory : MonoBehaviour
     {
         _playerControls = new Player_Controls();
         _playerControls.UI.ToggleInventory.performed += ToggleInventoryButton;
+        _playerControls.UI.CloseInventory.performed += CloseInventoryButton;
         _playerControls.UI.Enable();
 
         _dragController = _inventoryUI.GetComponentInChildren<GridDragController>(true);
@@ -56,6 +57,14 @@ public class Inventory : MonoBehaviour
     private void ToggleInventoryButton(InputAction.CallbackContext context)
     {
         ToggleInventory();
+    }
+
+    private void CloseInventoryButton(InputAction.CallbackContext context)
+    {
+        if (_isInventoryOpen)
+        {
+            ToggleInventory();
+        }
     }
 
     private void ToggleInventory()
