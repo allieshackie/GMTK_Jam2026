@@ -69,12 +69,6 @@ public class Grid2D : MonoBehaviour
         _playerControls.UI.RotateItem.performed += OnRotateItem;
 
         Init();
-        // This was just grabbing an object for testing, but normally you'll need to select an item first
-        // if (_gridItemObjList.Count > 0)
-        // {
-        //     _selectedGridItemObj = _gridItemObjList[_selectedGridItemObjIndex];
-        // }
-
         _dragController = FindAnyObjectByType<GridDragController>();
     }
 
@@ -86,6 +80,10 @@ public class Grid2D : MonoBehaviour
     private void OnDisable()
     {
         _playerControls?.UI.Disable();
+
+        // Note: had a crash if dragging an item -> then closing the inventory, this will make 
+        // sure that dragged item is returned to the original grid
+        _dragController?.CancelDragFromGrid(this);
 
         if (CurrentlyHoveredGrid == this)
         {

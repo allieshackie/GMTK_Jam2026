@@ -49,6 +49,7 @@ public class InventoryItem : MonoBehaviour
         _dir = dir;
 
         transform.SetParent(parentTransform, false);
+        SetItemSelectable(false);
 
         RectTransform rectTransform = GetComponent<RectTransform>();
         if (rectTransform == null || _gridItemData == null)
@@ -64,13 +65,10 @@ public class InventoryItem : MonoBehaviour
 
     public void SetItemSelectable(bool enabled)
     {
-        // foreach (Graphic graphic in GetComponentsInChildren<Graphic>())
-        // {
-        //     graphic.raycastTarget = enabled;
-        // }
-
-        Graphic graphic = GetComponent<Graphic>();
-        graphic.raycastTarget = enabled;
+        foreach (Graphic graphic in GetComponentsInChildren<Graphic>(true))
+        {
+            graphic.raycastTarget = enabled;
+        }
     }
 
     public List<Vector2Int> GetGridPositionList()

@@ -11,6 +11,7 @@ public class Inventory : MonoBehaviour
     private Dictionary<GridItemData, int> _items = new();
 
     private Player_Controls _playerControls;
+    private GridDragController _dragController;
 
     private bool _isInventoryOpen = false;
 
@@ -19,6 +20,8 @@ public class Inventory : MonoBehaviour
         _playerControls = new Player_Controls();
         _playerControls.UI.ToggleInventory.performed += ToggleInventoryButton;
         _playerControls.UI.Enable();
+
+        _dragController = _inventoryUI.GetComponentInChildren<GridDragController>(true);
     }
 
     private void OnEnable()
@@ -56,11 +59,16 @@ public class Inventory : MonoBehaviour
     private void ToggleInventory()
     {
         _isInventoryOpen = !_isInventoryOpen;
-        _inventoryUI.SetActive(_isInventoryOpen);
+
         if (!_isInventoryOpen)
         {
+            // Note: Need to cancel before inventoryUI is closed, can't change item parenting 
+            // while canvas is inactive
+            _dragController?.CancelDrag();
             _pendingUI.SetActive(false);
         }
+
+        _inventoryUI.SetActive(_isInventoryOpen);
     }
 
     private void HandleItemAdded(InventoryItem item)

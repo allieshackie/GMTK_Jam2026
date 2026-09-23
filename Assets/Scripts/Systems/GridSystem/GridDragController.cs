@@ -9,11 +9,6 @@ public class GridDragController : MonoBehaviour
     private GridItemData.Dir _itemDirection;
     private GridItemData.Dir _draggedDirection;
 
-    private void OnDisable()
-    {
-        CancelDrag();
-    }
-
     private void LateUpdate()
     {
         if (_draggedItem == null)
@@ -121,13 +116,29 @@ public class GridDragController : MonoBehaviour
             return;
         }
 
-        _sourceGrid.ResetItemPosition(_draggedItem, _itemOrigin, _itemDirection);
+        if (_sourceGrid != null)
+        {
+            _sourceGrid.ResetItemPosition(_draggedItem, _itemOrigin, _itemDirection);
+        }
+
         FinishDrag();
+    }
+
+    public void CancelDragFromGrid(Grid2D sourceGrid)
+    {
+        if (_draggedItem != null && _sourceGrid == sourceGrid)
+        {
+            CancelDrag();
+        }
     }
 
     private void FinishDrag()
     {
-        _draggedItem.SetItemSelectable(true);
+        if (_draggedItem != null)
+        {
+            _draggedItem.SetItemSelectable(false);
+        }
+
         _draggedItem = null;
         _sourceGrid = null;
     }
