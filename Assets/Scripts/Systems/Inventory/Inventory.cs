@@ -13,6 +13,8 @@ public class Inventory : MonoBehaviour
     private Player_Controls _playerControls;
     private GridDragController _dragController;
 
+    private Chest _activeChest;
+
     private bool _isInventoryOpen = false;
 
     private void Awake()
@@ -65,7 +67,10 @@ public class Inventory : MonoBehaviour
             // Note: Need to cancel before inventoryUI is closed, can't change item parenting 
             // while canvas is inactive
             _dragController?.CancelDrag();
-            _pendingUI.SetActive(false);
+            if (_pendingUI.activeSelf)
+            {
+                ClosePendingGrid();
+            }
         }
 
         _inventoryUI.SetActive(_isInventoryOpen);
@@ -109,13 +114,25 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public void OpenPendingGrid(List<PendingItem> pendingItems)
+    public void OpenPendingGrid(Chest chest)
     {
         if (!_isInventoryOpen)
         {
             ToggleInventory();
         }
+        _activeChest = chest;
         _pendingUI.SetActive(true);
-        _pendingGrid.InitWithItems(pendingItems);
+        _pendingGrid.InitWithItems(chest.GetPendingItems());
+    }
+
+    private void ClosePendingGrid()
+    {
+        _dragController?.CancelDrag();
+
+        _activeChest.SavePendingItems(_pendingGrid.GetCurrentPendingItems());
+        _pendingGrid.ClearGrid();
+
+        _activeChest = null;
+        _pendingUI.SetActive(false);
     }
 }

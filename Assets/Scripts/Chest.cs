@@ -10,7 +10,17 @@ public class Chest : MonoBehaviour
         if (other.GetComponent<Player>())
         {
             Inventory inventory = FindAnyObjectByType<Inventory>();
-            inventory.OpenPendingGrid(_items);
+            inventory.OpenPendingGrid(this);
         }
+    }
+
+    public List<PendingItem> GetPendingItems()
+    {
+        return _items;
+    }
+
+    public void SavePendingItems(List<PendingItem> items)
+    {
+        _items = items;
     }
 }

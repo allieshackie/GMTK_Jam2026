@@ -563,4 +563,38 @@ public class Grid2D : MonoBehaviour
             }
         }
     }
+
+    public List<PendingItem> GetCurrentPendingItems()
+    {
+        // Since items can take up multiple cells, don't want to
+        // double up and count the same item
+        HashSet<InventoryItem> foundItems = new();
+        List<PendingItem> items = new();
+
+        foreach (GridObject cell in _gridArray)
+        {
+            InventoryItem item = cell.GetItem();
+            if (item == null || !foundItems.Add(item))
+            {
+                continue;
+            }
+
+            items.Add(new PendingItem{ Data = item.Data, Position = item.Origin, Dir = item.Direction});
+        }
+
+        return items;
+    }
+
+    public void ClearGrid()
+    {
+        _gridArray = new GridObject[_rows, _columns];
+
+        for (int x = 0; x < _gridArray.GetLength(0); x++)
+        {
+            for (int y = 0; y < _gridArray.GetLength(1); y++)
+            {
+                _gridArray[x,y] = new GridObject();
+            }
+        }
+    }
 }
